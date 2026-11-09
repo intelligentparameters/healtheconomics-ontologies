@@ -1,0 +1,202 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_> .
+@prefix oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://healtheconomics.wiki/ontologies/heao/bridge> a owl:Ontology ;
+    dcterms:created "2026-10-18"^^xsd:date ;
+    dcterms:creator <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    dcterms:description "Bridge axioms that classify existing OHEO 0.3.0 and RHEO 0.4.0 terms under HEAO classes, so that value sets, utility estimates, unit costs, tariffs, discounting specifications and the other valuation terms the two ontologies already hold are found as HEAO kinds without being copied or moved. The OHEO and RHEO release files are not edited. Each axiom is annotated with its linking kind and the reason for it. The bridge entails no disjointness between OHEO or RHEO classes that their own ontologies do not state. HEAO's disjointness axioms are arranged so that in each group at most one member has bridged subclasses, and run_demo.py counts any such entailment, which must be none."@en ;
+    dcterms:issued "2026-10-18"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:modified "2026-10-18"^^xsd:date ;
+    dcterms:publisher "Intelligent Parameters Ltd" ;
+    dcterms:title "HEAO bridge to OHEO and RHEO"@en ;
+    owl:imports <https://healtheconomics.wiki/ontologies/heao/0.2.0/heao.owl> ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/heao/0.2.0/heao-bridge.owl> ;
+    owl:versionInfo "0.2.0 (alpha)" .
+
+oheo:0000102 rdfs:subClassOf heao:0000055 .
+
+oheo:0000106 rdfs:subClassOf heao:0000035 .
+
+oheo:0000198 rdfs:subClassOf heao:0000003 .
+
+oheo:0000268 rdfs:subClassOf heao:0000037 .
+
+oheo:0000283 rdfs:subClassOf heao:0000045 .
+
+oheo:0000284 rdfs:subClassOf heao:0000045 .
+
+oheo:0000285 rdfs:subClassOf heao:0000002 .
+
+rheo:0000014 rdfs:subClassOf heao:0000039 .
+
+rheo:0000072 owl:disjointWith heao:0000062 .
+
+rheo:0000075 rdfs:subClassOf heao:0000016 .
+
+rheo:0000078 rdfs:subClassOf heao:0000016 .
+
+rheo:0000082 rdfs:subClassOf heao:0000040 .
+
+rheo:0000091 rdfs:subClassOf heao:0000002 .
+
+rheo:0000093 rdfs:subClassOf heao:0000016 .
+
+rheo:0000095 rdfs:subClassOf heao:0000038 .
+
+rheo:0000117 rdfs:subClassOf heao:0000016 .
+
+rheo:0000120 rdfs:subClassOf heao:0000016 .
+
+rheo:0000150 rdfs:subClassOf heao:0000004 .
+
+rheo:0000152 rdfs:subClassOf heao:0000001 .
+
+rheo:0000154 rdfs:subClassOf heao:0000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "Indirect health state valuation applies an existing value set to a person's responses without eliciting new preferences, so it applies a weight function and is preference-based index scoring. OHEO also places it under preference elicitation, and moving it out is proposed for OHEO 0.2.1."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource oheo:0000198 ;
+    owl:annotatedTarget heao:0000003 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A discounting specification states the discount rates and base year, the judgement a time valuation applies."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000093 ;
+    owl:annotatedTarget heao:0000016 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A currency conversion estimate is the rate at which amounts convert between currencies or price years, a monetary adjustment factor."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000082 ;
+    owl:annotatedTarget heao:0000040 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "An international reference pricing rule states how a payer values a technology from prices elsewhere."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000120 ;
+    owl:annotatedTarget heao:0000016 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "RHEO's perspective specification is the analytic perspective, whose costs and outcomes a study counts. The valuation perspective is whose values supply the weights. Darrin Baines asked for the two to be kept apart."@en ;
+    owl:annotatedProperty owl:disjointWith ;
+    owl:annotatedSource rheo:0000072 ;
+    owl:annotatedTarget heao:0000062 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A QALY calculation turns time in health states into QALYs by utility weights, which is health-adjusted time valuation."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000091 ;
+    owl:annotatedTarget heao:0000002 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A value of a statistical life year estimate is an amount of money per statistical life year, a monetary value per unit of health."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource oheo:0000284 ;
+    owl:annotatedTarget heao:0000045 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A decision threshold specification states the value of health in money against which results are judged, a decision maker's valuation judgement."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000117 ;
+    owl:annotatedTarget heao:0000016 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A preference weight is a number in a value set giving the change in utility for one level of one dimension or for an interaction, a coefficient the value set combines into a utility, so it is a valuation weight. It is not bridged under utility decrement, because not every coefficient is subtracted from a baseline, and OHEO already names it value set coefficient as a synonym, so HEAO adds no class of its own."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource oheo:0000106 ;
+    owl:annotatedTarget heao:0000035 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A tariff states the amount a payer pays for a kind of care, a payer's valuation of that care, which may differ from its cost."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000075 ;
+    owl:annotatedTarget heao:0000016 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A utility function assigns a number to each health state or outcome, and a value set assigns a utility to every state of a classification system, so both are weight functions. OHEO keeps the identifiers and says how they were obtained."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource oheo:0000102 ;
+    owl:annotatedTarget heao:0000055 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A unit cost estimate is money per unit of a resource or care process, the weight a resource valuation applies to a quantity."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000014 ;
+    owl:annotatedTarget heao:0000039 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A cost estimation process estimates a cost by a statistical or accounting method. It may start from amounts already in money, as a regression of costs does, so it is bridged to valuation only, as cost adjustment is."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000154 ;
+    owl:annotatedTarget heao:0000001 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A disability weight estimate rates health loss in a state on the scale on which full health is 0 and death is 1, the weight a DALY calculation applies."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000095 ;
+    owl:annotatedTarget heao:0000038 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A value of a statistical life estimate is an amount of money per expected death prevented, a monetary value per unit of risk reduction."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource oheo:0000283 ;
+    owl:annotatedTarget heao:0000045 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A cost adjustment converts, inflates, deflates or discounts a cost record by a stated factor, so it is a valuation. Its kind decides whether it is a monetary revaluation or a time valuation, so it is bridged to valuation only."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000152 ;
+    owl:annotatedTarget heao:0000001 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A utility decrement estimate is a loss of utility for an event, a treatment or a state relative to a baseline, applied by subtraction."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource oheo:0000268 ;
+    owl:annotatedTarget heao:0000037 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A DALY calculation turns time lived with disability and life lost into DALYs by disability weights and a standard life expectancy, which is health-adjusted time valuation."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource oheo:0000285 ;
+    owl:annotatedTarget heao:0000002 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A price agreement states the price a payer pays for a technology, a payer's valuation of it."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000078 ;
+    owl:annotatedTarget heao:0000016 ;
+    heao:9000001 heao:4000001 .
+
+[] a owl:Axiom ;
+    rdfs:comment "A unit cost valuation multiplies a resource use quantity by a unit cost, the canonical resource valuation."@en ;
+    owl:annotatedProperty rdfs:subClassOf ;
+    owl:annotatedSource rheo:0000150 ;
+    owl:annotatedTarget heao:0000004 ;
+    heao:9000001 heao:4000001 .
+

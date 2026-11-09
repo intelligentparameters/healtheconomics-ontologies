@@ -1,0 +1,325 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix hshape: <https://healtheconomics.wiki/ontologies/heao/shapes#> .
+
+# HEAO record rules (SHACL), version 0.1.0. The ontology says what a valuation MEANS; these rules say whether a record
+# of a valuation is complete, consistent and appropriate to its context. Severity. Violation means the valuation cannot
+# be used; Warning means it can be used but must be reviewed.
+#
+# The rules apply only to records that use HEAO, the subjects of has valued quantity, applies weight, applies weight
+# function or has valuation result and the weights a valuation applies, so loading HEAO and its bridge never turns valid
+# RHEO or OHEO records invalid. run_demo.py checks this on the valid examples of RHEO 0.4.0 and OHEO 0.3.0.
+#
+# Use them with the RHEO 0.4.0 rules (imports/rheo-0.3.0-shapes.ttl) and the OHEO 0.3.0 rules (imports/oheo-0.2.0-shapes.ttl).
+# Validate WITHOUT inference, with heao.ttl, heao-bridge.ttl, OHEO 0.3.0 and RHEO 0.4.0 added to the data graph, so that
+# the rules can follow rdfs:subClassOf through the bridge (run_demo.py does this with pyshacl inference="none"). Each query
+# binds the focus node first, in its own group, because rdflib reorders the patterns of a group before the focus is bound.
+# Identifiers used below (prefix heao is https://healtheconomics.wiki/ontologies/heao/HEAO_).
+#   Classes 0000001 valuation, 0000002 health-adjusted time valuation, 0000011 health-money exchange, 0000014 severity
+#   weighting, 0000015 value of information analysis, 0000016 valuation specification, 0000018 severity weighting rule,
+#   0000019 valuation method, 0000035 valuation weight, 0000036 preference-based utility weight, 0000039 unit cost or
+#   price weight, 0000044 discount factor, 0000045 monetary value of health, 0000046 money value of a QALY, 0000049 equity
+#   weight, 0000050 severity weight, 0000052 discount rate, 0000057 functional form, 0000060 monetary value scale, 0000062
+#   valuation perspective, 0000066 valuation context, 0000067 valuation provenance record, 0000069 valuation change record,
+#   0000073 equity-weighted value record, 0000074 value of information estimate, 0000075 EVPI estimate, 0000078 population
+#   EVPI estimate, 0000088 decision modifier weighting, 0000110 valuation component.
+#   Object properties 1000001 has valued quantity, 1000003 applies weight, 1000005 applies weight function, 1000008
+#   follows valuation specification, 1000009 uses valuation method, 1000010 from valuation perspective, 1000011 in
+#   valuation context, 1000012 has valuation result, 1000014 has valuation provenance, 1000015 on value scale, 1000017 has
+#   functional form, 1000018 has valuation function, 1000019 revaluation of, 1000020 replaced valuation, 1000021 replacing
+#   valuation, 1000022 derived from valuation parameter, 1000026 supersedes valuation specification, 1000031 has price
+#   basis, 1000032 has cost increment basis, 1000033 has changed component.
+#   Datatype properties 2000001 has discounting time, 2000006 has source citation, 2000007 has adoption date, 2000010 has
+#   effective population, 2000011 has minimum proportional QALY shortfall, 2000012 has minimum absolute QALY shortfall.
+#   Individuals 4000006 multiplicative form, 4000008 division form, 4000012 rule-based form, 4000014 QALY scale, 4000015
+#   DALY scale, 4000016 equity-weighted QALY scale, 4000017 utility scale, 4000019 capability index scale, 4000023 to
+#   4000026 price bases, 4000027 and 4000028 cost increment bases.
+
+<https://healtheconomics.wiki/ontologies/heao/shapes> a owl:Ontology ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/heao/0.2.0/heao-shapes.ttl> ;
+    owl:versionInfo "0.2.0" ;
+    dcterms:title "HEAO record rules"@en ;
+    dcterms:issued "2026-10-18"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/heao/0.2.0/heao.owl> ;
+    rdfs:comment "First release of the HEAO record rules."@en .
+
+# ------------------------------------------------------------------ every valuation
+hshape:ValuationShape a sh:NodeShape ;
+    sh:targetSubjectsOf heao:1000001, heao:1000003, heao:1000005, heao:1000012 ;
+    sh:property [ sh:path heao:1000012 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "A valuation produces exactly one valuation result (has valuation result). Record a second result as a second valuation." ] ;
+    sh:property [ sh:path heao:1000001 ; sh:minCount 1 ;
+        sh:message "A valuation must name the quantity it values (has valued quantity), so that the quantity and its valuation stay apart." ] ;
+    sh:property [ sh:path heao:1000008 ; sh:minCount 1 ; sh:class heao:0000016 ;
+        sh:message "A valuation must name the valuation specification whose judgement it applies (follows valuation specification)." ] ;
+    sh:property [ sh:path heao:1000009 ; sh:minCount 1 ; sh:class heao:0000019 ;
+        sh:message "A valuation must name its valuation method (uses valuation method)." ] ;
+    sh:property [ sh:path heao:1000010 ; sh:minCount 1 ;
+        sh:message "A valuation must name whose values supply its weight (from valuation perspective)." ] ;
+    sh:property [ sh:path heao:1000011 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class heao:0000066 ;
+        sh:message "A valuation is made for exactly one valuation context (in valuation context)." ] ;
+    sh:property [ sh:path heao:1000014 ; sh:minCount 1 ; sh:class heao:0000067 ;
+        sh:message "Missing provenance. A valuation must say who made or adopted it, from which source and when (has valuation provenance)." ] ;
+    sh:property [ sh:path heao:1000017 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class heao:0000057 ;
+        sh:message "A valuation must state its one functional form, because the canonical form q x w is not universal." ] ;
+    sh:sparql [ sh:message "A valuation must apply a valuation weight, a weight function or a named valuation function." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this heao:1000003|heao:1000005|heao:1000018 ?w } }""" ] .
+
+hshape:ResultScaleShape a sh:NodeShape ;
+    sh:targetObjectsOf heao:1000012 ;
+    sh:property [ sh:path heao:1000015 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "A valuation result must state the one value scale it is expressed on (on value scale)." ] .
+
+hshape:WeightScaleShape a sh:NodeShape ;
+    sh:targetObjectsOf heao:1000003 ;
+    sh:property [ sh:path heao:1000015 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "A valuation weight must state the one value scale it is expressed on (on value scale)." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "A valuation weight needs exactly one numeric value." ] .
+
+hshape:UnitCostWeightShape a sh:NodeShape ;
+    sh:targetObjectsOf heao:1000003 ;
+    sh:sparql [ sh:message "A unit cost or price weight applied in a valuation states its one price basis (market price, administered price, accounting cost or opportunity cost), because the same quantity valued on another basis gives another value." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this a/rdfs:subClassOf* heao:0000039 . }
+                FILTER NOT EXISTS { $this heao:1000031 ?b . FILTER (?b IN (heao:4000023, heao:4000024, heao:4000025, heao:4000026)) } }""" ] ;
+    sh:sparql [ sh:message "A unit cost or price weight applied in a valuation states whether it is an average or a marginal cost." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this a/rdfs:subClassOf* heao:0000039 . }
+                FILTER NOT EXISTS { $this heao:1000032 ?b . FILTER (?b IN (heao:4000027, heao:4000028)) } }""" ] ;
+    sh:sparql [ sh:message "A unit cost or price weight applied in a valuation needs its one ISO 4217 currency and its price year." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this a/rdfs:subClassOf* heao:0000039 . }
+                FILTER (NOT EXISTS { $this rheo:2000003 ?c } || NOT EXISTS { $this rheo:2000004 ?y }) }""" ] .
+
+hshape:JudgementNotNumberShape a sh:NodeShape ;
+    sh:targetClass heao:0000035 ;
+    sh:not [ sh:class heao:0000016 ] ;
+    sh:message "A valuation weight is a number and a valuation specification is the judgement behind it; one thing cannot be both. Record the number as a weight that the specification states." .
+
+# ------------------------------------------------------------------ arithmetic and units of the canonical form
+hshape:ArithmeticShape a sh:NodeShape ;
+    sh:targetClass heao:0000001 ;
+    sh:sparql [ sh:message "The result {?v} is not the valued quantity {?q} multiplied by the weight {?w}, as the multiplicative and rule-based forms require." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?q ?w ?v WHERE {
+                { $this heao:1000017 ?f ; heao:1000001 ?qn ; heao:1000003 ?wn ; heao:1000012 ?rn . } FILTER (?f IN (heao:4000006, heao:4000012))
+                { ?qn rheo:2000043|rheo:2000001 ?q . } { ?wn rheo:2000001 ?w . } { ?rn rheo:2000001 ?v . }
+                FILTER (ABS(?v - ?q * ?w) > 0.01 + 0.000001 * ABS(?v))
+            }""" ] ;
+    sh:sparql [ sh:message "The result {?v} is not the valued quantity {?q} divided by the weight {?w}, as the division form requires." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?q ?w ?v WHERE {
+                { $this heao:1000017 heao:4000008 ; heao:1000001 ?qn ; heao:1000003 ?wn ; heao:1000012 ?rn . }
+                { ?qn rheo:2000043|rheo:2000001 ?q . } { ?wn rheo:2000001 ?w . } { ?rn rheo:2000001 ?v . }
+                FILTER (?w = 0 || ABS(?v - ?q / ?w) > 0.0001 + 0.000001 * ABS(?v))
+            }""" ] ;
+    sh:sparql [ sh:message "The multiplicative and division forms take exactly one valued quantity and one weight; record a sum over a time profile as one valuation for each term." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            SELECT $this WHERE {
+                { $this heao:1000017 ?f . } FILTER (?f IN (heao:4000006, heao:4000008, heao:4000012))
+                { SELECT $this (COUNT(DISTINCT ?q) AS ?nq) (COUNT(DISTINCT ?w) AS ?nw) WHERE { $this heao:1000001 ?q . OPTIONAL { $this heao:1000003 ?w } } GROUP BY $this }
+                FILTER (?nq != 1 || ?nw != 1)
+            }""" ] .
+
+hshape:UnitShape a sh:NodeShape ;
+    sh:targetClass heao:0000001 ;
+    sh:sparql [ sh:message "The weight is per {?wu} but the quantity is in {?qu}. A weight per unit must be per the unit the quantity is counted in." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?wu ?qu WHERE {
+                { $this heao:1000017 heao:4000006 ; heao:1000001 ?qn ; heao:1000003 ?wn . }
+                { ?qn rheo:2000092 ?qu . } { ?wn rheo:2000092 ?wu . }
+                FILTER (STRSTARTS(STR(?wu), "/") && STR(?wu) != CONCAT("/", STR(?qu)))
+            }""" ] .
+
+hshape:MonetaryResultShape a sh:NodeShape ;
+    sh:targetSubjectsOf heao:1000015 ;
+    sh:sparql [ sh:message "A value on a monetary value scale needs the currency code and price year of that scale ({?c}, {?y})." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?c ?y WHERE {
+                { $this heao:1000015 ?s . } { ?s a/rdfs:subClassOf* heao:0000060 ; rheo:2000003 ?c ; rheo:2000004 ?y . }
+                FILTER (NOT EXISTS { $this rheo:2000003 ?c } || NOT EXISTS { $this rheo:2000004 ?y2 . FILTER (STR(?y2) = STR(?y)) })
+            }""" ] .
+
+# ------------------------------------------------------------------ preference weights, equity weights and health scales
+hshape:EquityWeightNotUtilityShape a sh:NodeShape ;
+    sh:targetClass heao:0000049 ;
+    sh:not [ sh:class heao:0000036 ] ;
+    sh:message "An equity weight is a social value judgement, not a preference for a health state; it cannot also be a preference-based utility weight." .
+
+hshape:HealthScaleShape a sh:NodeShape ;
+    sh:targetClass heao:0000002 ;
+    sh:sparql [ sh:message "A result on the QALY scale needs weights on the utility scale; {?w} is on {?sl}, which cannot weight time in QALYs." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?w ?sl WHERE {
+                { $this heao:1000012 ?r . } { ?r heao:1000015 heao:4000014 . }
+                { $this heao:1000003 ?w . } { ?w heao:1000015 ?s . } { ?s rdfs:label ?sl . }
+                FILTER (?s != heao:4000017)
+            }""" ] ;
+    sh:sparql [ sh:message "A utility weight applied to time gives QALYs, but the result {?r} is recorded on {?sl}." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?r ?sl WHERE {
+                { $this heao:1000003 ?w . } { ?w heao:1000015 heao:4000017 . }
+                { $this heao:1000012 ?r . } { ?r heao:1000015 ?s . } { ?s rdfs:label ?sl . }
+                FILTER (?s != heao:4000014)
+            }""" ] .
+
+hshape:EquityResultShape a sh:NodeShape ;
+    sh:targetClass heao:0000088 ;
+    sh:property [ sh:path heao:1000012 ; sh:class heao:0000073 ;
+        sh:message "The result of an equity, severity or size of benefit weighting is an equity-weighted value record, never a plain QALY or cost record, so weighted and unweighted values are not added together." ] .
+
+# ------------------------------------------------------------------ appropriateness to context and perspective
+hshape:PreferenceSourceFitsContextShape a sh:NodeShape ;
+    sh:targetClass heao:0000001 ;
+    sh:sparql [ sh:message "Inappropriate valuation. The weight function's preferences come from {?pj}, but the valuation is made for a decision in {?cj}." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?pj ?cj WHERE {
+                { $this heao:1000005 ?wf ; heao:1000011 ?ctx . }
+                { ?wf heao:1000010 ?ps . } { ?ps rheo:2000005 ?pj . } { ?ctx rheo:2000005 ?cj . }
+                FILTER (!STRSTARTS(STR(?cj), STR(?pj)) && !STRSTARTS(STR(?pj), STR(?cj)))
+            }""" ] .
+
+hshape:ValuationPerspectiveShape a sh:NodeShape ;
+    sh:targetObjectsOf heao:1000010 ;
+    sh:not [ sh:class rheo:0000072 ] ;
+    sh:class heao:0000062 ;
+    sh:message "From valuation perspective must point to a valuation perspective (whose values supply the weight). A RHEO perspective specification is the analytic perspective (whose costs and outcomes are counted); link it with RHEO under perspective." .
+
+hshape:ThresholdUseShape a sh:NodeShape ;
+    sh:targetClass heao:0000011 ;
+    sh:property [ sh:path heao:1000003 ; sh:minCount 1 ; sh:class heao:0000045 ;
+        sh:message "A health-money exchange applies a monetary value of health." ] ;
+    sh:sparql [ sh:message "Using a money value of health needs a decision threshold specification that states it (follows valuation specification a RHEO decision threshold specification)." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this heao:1000008 ?s . ?s a/rdfs:subClassOf* rheo:0000117 } }""" ] .
+
+hshape:SupersededSpecificationShape a sh:NodeShape ;
+    sh:targetClass heao:0000001 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "Review needed. This valuation follows {?old}, which {?new} supersedes; its result and anything using it should be re-reviewed." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            SELECT $this ?old ?new WHERE { { $this heao:1000008 ?old . } { ?new heao:1000026 ?old . } }""" ] .
+
+# ------------------------------------------------------------------ discounting, severity, change records, value of information
+hshape:DiscountFactorShape a sh:NodeShape ;
+    sh:targetClass heao:0000044 ;
+    sh:property [ sh:path heao:2000001 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "A discount factor must state the time from the base year it discounts over (has discounting time)." ] ;
+    sh:property [ sh:path heao:1000022 ; sh:minCount 1 ; sh:class heao:0000052 ;
+        sh:message "A discount factor must name the discount rate it is derived from." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minExclusive 0 ;
+        sh:message "A discount factor is greater than 0." ] .
+
+hshape:SeverityWeightingShape a sh:NodeShape ;
+    sh:targetClass heao:0000014 ;
+    sh:property [ sh:path oheo:1000030 ; sh:minCount 1 ; sh:class oheo:0000269 ;
+        sh:message "A severity weighting must name the QALY shortfall estimates that decide its weight (uses estimate)." ] ;
+    sh:sparql [ sh:message "The severity weight applied ({?wv}) is not the weight the rule gives for these shortfalls ({?best}). The rule applies whichever of absolute and proportional shortfall implies the greater severity." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            SELECT $this ?wv ?best WHERE {
+                { $this heao:1000003 ?w ; heao:1000008 ?rule ; oheo:1000030 ?ae , ?pe . }
+                { ?ae a oheo:0000270 ; rheo:2000001 ?abs . } { ?pe a oheo:0000271 ; rheo:2000001 ?prop . }
+                { ?w rheo:2000001 ?wv . }
+                { SELECT ?rule ?abs ?prop (MAX(?v2) AS ?best) WHERE {
+                    ?w2 obo:BFO_0000050 ?rule ; rheo:2000001 ?v2 ; heao:2000011 ?mp ; heao:2000012 ?ma .
+                    ?ae2 a oheo:0000270 ; rheo:2000001 ?abs . ?pe2 a oheo:0000271 ; rheo:2000001 ?prop .
+                    FILTER (?prop >= ?mp || ?abs >= ?ma) } GROUP BY ?rule ?abs ?prop }
+                FILTER (?wv != ?best)
+            }""" ] .
+
+hshape:SeverityWeightShape a sh:NodeShape ;
+    sh:targetClass heao:0000050 ;
+    sh:property [ sh:path obo:BFO_0000050 ; sh:minCount 1 ; sh:class heao:0000018 ;
+        sh:message "A severity weight is part of the severity weighting rule that sets it." ] ;
+    sh:property [ sh:path heao:2000011 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A severity weight needs the lowest proportional QALY shortfall at which it applies." ] ;
+    sh:property [ sh:path heao:2000012 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A severity weight needs the lowest absolute QALY shortfall at which it applies." ] .
+
+hshape:ValuationChangeShape a sh:NodeShape ;
+    sh:targetClass heao:0000069 ;
+    sh:property [ sh:path heao:1000020 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A valuation change record names the one valuation replaced." ] ;
+    sh:property [ sh:path heao:1000021 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A valuation change record names the one valuation that replaced it." ] ;
+    sh:property [ sh:path heao:1000033 ; sh:minCount 1 ; sh:class heao:0000110 ;
+        sh:message "The changed component is a valuation component, the weight, weight function, specification, method, perspective or context." ] ;
+    sh:sparql [ sh:message "A change of valuation keeps the valued quantity. The replacing valuation must value the same quantity and be a revaluation of the replaced one; otherwise this is a change of reality, recorded in RHEO." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            SELECT $this WHERE {
+                { $this heao:1000020 ?old ; heao:1000021 ?new . }
+                FILTER (NOT EXISTS { ?new heao:1000019 ?old } || NOT EXISTS { ?old heao:1000001 ?q . ?new heao:1000001 ?q })
+            }""" ] .
+
+hshape:ValueOfInformationShape a sh:NodeShape ;
+    sh:targetClass heao:0000015 ;
+    sh:property [ sh:path heao:1000012 ; sh:class heao:0000074 ; sh:message "A value of information analysis produces a value of information estimate." ] ;
+    sh:property [ sh:path heao:1000003 ; sh:minCount 1 ; sh:class heao:0000046 ;
+        sh:message "A value of information analysis applies a money value of a QALY, because net benefit depends on it." ] ;
+    sh:property [ sh:path heao:1000001 ; sh:minCount 1 ; sh:class rheo:0000143 ;
+        sh:message "The quantity a value of information analysis values is the uncertainty in net benefit, held as a RHEO draw set." ] .
+
+hshape:ValueOfInformationEstimateShape a sh:NodeShape ;
+    sh:targetClass heao:0000074 ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 0 ;
+        sh:message "A value of information estimate has one value, and it cannot be negative." ] .
+
+hshape:PopulationEVPIShape a sh:NodeShape ;
+    sh:targetClass heao:0000078 ;
+    sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:class heao:0000075 ; sh:message "A population EVPI is derived from an EVPI per person." ] ;
+    sh:sparql [ sh:message "A population EVPI ({?v}) is the EVPI per person ({?e}) times the effective population ({?n})." ;
+        sh:select """
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX prov: <http://www.w3.org/ns/prov#>
+            SELECT $this ?v ?e ?n WHERE {
+                { $this rheo:2000001 ?v ; heao:2000010 ?n ; prov:wasDerivedFrom ?pe . } { ?pe rheo:2000001 ?e . }
+                FILTER (ABS(?v - ?e * ?n) > 0.01 + 0.000001 * ABS(?v))
+            }""" ] .
+
+hshape:ProvenanceShape a sh:NodeShape ;
+    sh:targetClass heao:0000067 ;
+    sh:property [ sh:path heao:2000006 ; sh:minCount 1 ; sh:message "A provenance record needs the source citation." ] ;
+    sh:property [ sh:path heao:2000007 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+        sh:message "A provenance record needs the date the valuation was made or adopted, as YYYY-MM-DD." ] ;
+    sh:property [ sh:path prov:wasAttributedTo ; sh:minCount 1 ; sh:message "A provenance record must name who made or adopted the valuation (was attributed to)." ] .

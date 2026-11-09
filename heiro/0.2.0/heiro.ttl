@@ -1,0 +1,1441 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_> .
+@prefix heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_> .
+@prefix heto: <https://healtheconomics.wiki/ontologies/heto/HETO_> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+obo:OBI_0001933 a owl:Class .
+
+heao:9000001 a owl:AnnotationProperty .
+
+heiro:0000004 a owl:Class ;
+    rdfs:label "health technology assessment body"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An organization that bears a health technology assessment role, such as the National Institute for Health and Care Excellence in England."@en ;
+    obo:IAO_0000116 "A defined class and a query class for the register. An organization is classified here only when HEIRO records that it bears the role, and each such record carries the text it rests on."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "HTA body"@en ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "RHEO 0.4.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0000245 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( obo:OBI_0000245 [ a owl:Restriction ;
+                        owl:onProperty obo:RO_0000087 ;
+                        owl:someValuesFrom heiro:0000002 ] ) ] .
+
+heiro:0000005 a owl:Class ;
+    rdfs:label "methods guidance body"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An organization that bears a methods guidance role, such as a health technology assessment body that issues a methods manual for the evaluations it considers."@en ;
+    obo:IAO_0000116 "A defined class and a query class for the register, like health technology assessment body."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0000245 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( obo:OBI_0000245 [ a owl:Restriction ;
+                        owl:onProperty obo:RO_0000087 ;
+                        owl:someValuesFrom heiro:0000003 ] ) ] .
+
+heiro:0000019 a owl:Class ;
+    rdfs:label "price benchmark rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity stating the money value per unit of health at which a body judges the price of a health technology to give fair value, used to set a price benchmark rather than to make a funding decision, such as ICER's range of 100,000 to 150,000 US dollars per evLY and per QALY gained."@en ;
+    obo:IAO_0000116 "Kept apart from RHEO's decision threshold specification, because the body that states it makes no funding decision against it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+heiro:1000001 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "is version of guidance document"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance version to the guidance document whose lineage it belongs to."@en ;
+    obo:IAO_0000116 "A sub-property of PROV-O specialization of, which links a more specific entity, such as a page on one day, to a more general one. PROV-O is not imported (see build-report.md)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Davis and Newman 2005 (Expression of Core FRBR Concepts in RDF, vocab.org/frbr/core, 10 August 2005)",
+        "Lebo et al. 2013 (W3C PROV-O, W3C Recommendation 30 April 2013)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000007 ;
+    rdfs:subPropertyOf prov:specializationOf .
+
+heiro:1000003 a owl:ObjectProperty ;
+    rdfs:label "is superseded by guidance version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance version to the later version of the same guidance document that replaces it for new decisions."@en ;
+    obo:IAO_0000116 "The inverse of supersedes guidance version, for queries. HEIRO's records assert only supersedes."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000009 ;
+    owl:inverseOf heiro:1000002 .
+
+heiro:1000004 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "is provision of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance provision to the guidance version it is part of."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "IAO, Information Artifact Ontology, release of 30 March 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000010 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000009 ;
+    rdfs:subPropertyOf obo:BFO_0000050 .
+
+heiro:1000006 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "reports version status"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance version check record to what it found about its guidance version on its check date."@en ;
+    obo:IAO_0000116 "One check record reports one status. A version's status at another date is found from the check records of that date."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000015 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000014 .
+
+heiro:1000008 a owl:ObjectProperty ;
+    rdfs:label "amends provision"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance provision to a provision of another guidance version whose wording it replaces, deletes, inserts before or renumbers, such as appendix A of NICE PMG51 replacing the wording of section 4.3.6 of PMG36."@en ;
+    obo:IAO_0000116 "The kind of each amendment is an axiom annotation, has amendment kind. The amended provision keeps its own wording, because the amended document may not yet show the change. On 19 October 2026 section 4.3.16 of PMG36 still asked for the EQ-5D-3L value set, which PMG51 replaces for new topics."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Publications Office 2026 (ELI ontology 1.5)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000010 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000010 .
+
+heiro:1000009 a owl:ObjectProperty ;
+    rdfs:label "has jurisdiction"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a body, a guidance document or a rule to the jurisdiction in which the rules or decisions apply because the body acts for its government."@en ;
+    obo:IAO_0000116 "Each assertion carries, as an axiom annotation, the text of the source that names the area. Not used for independent bodies."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000006 .
+
+heiro:1000010 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "checks guidance document"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance version check record to the guidance document whose page was read."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000015 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000007 .
+
+heiro:1000011 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "found guidance version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance version check record to the guidance version it reports on."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000015 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000009 .
+
+heiro:1000012 a owl:ObjectProperty ;
+    rdfs:label "is perspective of body"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates an institutional perspective record to a body whose position it records. A row of the tab that names several bodies acting together relates to each of them."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "healtheconomics.wiki Institutional Perspectives tab, read from the live concept pages on 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000016 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range obo:OBI_0000245 .
+
+heiro:1000013 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "cites guidance document"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance citation record to the guidance document it cites."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000007 .
+
+heiro:1000014 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "resolves to guidance version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance citation record to the guidance version that the version date it cites identifies, or that the other dated citation in the same record identifies, when exactly one version is identified."@en ;
+    obo:IAO_0000116 "A citation that gives only a year in which several versions were issued, or gives no version date and has no dated citation beside it, resolves to none, and its verdict says why."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000009 .
+
+heiro:1000015 a owl:ObjectProperty ;
+    rdfs:label "is issued by"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance document or a rule to the organization that issued it."@en ;
+    obo:IAO_0000116 "Minted by HEIRO because RHEO's issued by (RHEO_1000057) is defined for tariffs, price agreements and recommendations only. rheo-0.4-proposals-from-heiro.md asks RHEO to widen it, and HEIRO will then map to it. It is deliberately not a sub-property of RHEO's."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range obo:OBI_0000245 .
+
+heiro:1000016 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has binding force"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance document to whether the decisions or guidance made under it bind those they address."@en ;
+    obo:IAO_0000116 "Each assertion carries, as an axiom annotation, the text it rests on."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000007 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000020 .
+
+heiro:1000017 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "is amendment of version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a listed amendment to the guidance version in force when the body made the change."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000018 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000009 .
+
+heiro:1000018 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has check method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance version check record to how its page was read."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000015 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000021 .
+
+heiro:1000019 a owl:ObjectProperty ;
+    rdfs:label "names guidance document"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates an institutional perspective record whose Institution field names a rule, not a body, to the guidance document that holds it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000016 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000007 .
+
+heiro:1000020 a owl:ObjectProperty ;
+    rdfs:label "is part of organization"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a body to the organization it is a unit of, such as a regional office or an inspector general's office."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain obo:OBI_0000245 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range obo:OBI_0000245 .
+
+heiro:1000021 a owl:ObjectProperty ;
+    rdfs:label "carries out work commissioned by"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a body to an organization that commissions its work, such as the NICE Decision Support Unit and NICE."@en ;
+    obo:IAO_0000116 "Not part of. The NICE Decision Support Unit's technical support documents are not NICE guidance."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain obo:OBI_0000245 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range obo:OBI_0000245 .
+
+heiro:1000022 a owl:ObjectProperty ;
+    rdfs:label "is established by"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a body to the guidance document or legal act that establishes it, such as the Member State Coordination Group on Health Technology Assessment and Regulation (EU) 2021/2282."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain obo:OBI_0000245 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000007 .
+
+heiro:1000023 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has deontic modality"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a rule to whether it requires, permits or forbids the act it covers."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000023 .
+
+heiro:1000024 a owl:ObjectProperty ;
+    rdfs:label "has comparator selection basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a comparator rule to the basis on which it selects comparators."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000012 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000024 .
+
+heiro:1000025 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has staleness verdict"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance citation record to whether the version it names had been superseded on its verdict date."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000022 .
+
+heiro:2000001 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has version date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The date that identifies a guidance version, written YYYY-MM-DD where the body gives a full date, and YYYY-MM or YYYY where the body gives only a month or a year."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000002 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has last updated date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The last updated date a body's page shows for a guidance version, written YYYY-MM-DD."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "DCMI Usage Board 2020 (DCMI Metadata Terms, 20 January 2020)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000003 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has version label"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The number or name a body gives a guidance version, such as Version 8.0."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000004 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has document reference"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The reference number or code a body gives a guidance document, such as PMG36."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "DCMI Usage Board 2020 (DCMI Metadata Terms, 20 January 2020)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000007 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000005 a owl:DatatypeProperty ;
+    rdfs:label "has page URL"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The address of the web page or file that holds a guidance version, a provision or a recorded statement, and the archive address where an archived copy was read."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:anyURI .
+
+heiro:2000006 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has section number"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The section, paragraph, table or figure number by which a guidance version identifies a provision, as the version writes it, such as 4.5.1 or table 6.1."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000010 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000007 a owl:DatatypeProperty ;
+    rdfs:label "has quoted text"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A verbatim excerpt of the source a record rests on, kept so that the record can be checked against it. It is exempt from HEIRO's own style rules."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000008 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has check date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The date, written YYYY-MM-DD, on which the page of a guidance document was read for a check record."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000015 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000010 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has evidence SHA-256"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The SHA-256 of the copy of the page that was read for a check record, kept in src/sources."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000015 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000011 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has threshold lower value"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The lower end of a range of values that a rule states, such as 25000 for a threshold range of 25,000 to 35,000 pounds per QALY."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:decimal .
+
+heiro:2000012 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has threshold upper value"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The upper end of a range of values that a rule states, such as 35000 for a threshold range of 25,000 to 35,000 pounds per QALY."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:decimal .
+
+heiro:2000013 a owl:DatatypeProperty ;
+    rdfs:label "has applicability condition"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The circumstances in which a rule applies, as the provision states them, such as only for highly specialised technologies."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000014 a owl:DatatypeProperty ;
+    rdfs:label "has change summary"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "What a body says changed in a guidance version or a listed amendment, kept verbatim from its own list."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000015 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has institution label as shown"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The Institution field of a row of the Institutional Perspectives tab, exactly as the wiki shows it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "healtheconomics.wiki Institutional Perspectives tab, read from the live concept pages on 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000016 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000016 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has perspective title"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The title of a row of the Institutional Perspectives tab, as the wiki shows it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "healtheconomics.wiki Institutional Perspectives tab, read from the live concept pages on 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000016 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000017 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has perspective summary"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The summary of a row of the Institutional Perspectives tab, as the wiki shows it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "healtheconomics.wiki Institutional Perspectives tab, read from the live concept pages on 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000016 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000018 a owl:DatatypeProperty ;
+    rdfs:label "has primary source label"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The primary source named by a recorded statement, as the record shows it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "healtheconomics.wiki Institutional Perspectives tab, read from the live concept pages on 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000019 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has display order"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The position of a row on the Institutional Perspectives tab of its concept page, from 1."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "healtheconomics.wiki Institutional Perspectives tab, read from the live concept pages on 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000016 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:integer .
+
+heiro:2000020 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has wiki record identifier"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The slug of the wiki concept, or the Record ID of the formula module record, that a record is about."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000021 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has citation field"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The field of the concept export or of the formula module in which a citation was found, such as Concept Architecture or Content."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000022 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has cited version text"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The words of a citation that state which version is cited, exactly as written, such as last updated 31 March 2026."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000023 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has cited version date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The version date a citation states, written YYYY-MM-DD, YYYY-MM or YYYY to the precision the citation gives."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000024 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has cited sections"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The sections of the guidance document a citation names, as written."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000026 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has staleness reason"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Why a citation received its staleness verdict."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000027 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has title as shown"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The title the body's page shows for a guidance version, which may differ between versions, as NICE health technology evaluations, the manual was the title of PMG36 until its version of 17 December 2025."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000028 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "is in force from"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The first day, or the month, from which a guidance version or a rule applies to a body's decisions, as the body states it or as its dated versions show it, written YYYY-MM-DD or YYYY-MM."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026",
+        "Publications Office 2026 (ELI ontology 1.5)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000029 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "is in force until"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The last day, or the month, on which a rule applies to a body's decisions, as the body states it or as its dated versions show it, written YYYY-MM-DD or YYYY-MM."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026",
+        "Publications Office 2026 (ELI ontology 1.5)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000030 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has first-read version date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The version date of the earliest guidance version HEIRO read that states a rule, which is not the date the rule came into force."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000031 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "applies to topics started after"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The date after which an appraisal or guideline topic must have started for a rule to apply to it, written YYYY-MM-DD, such as 27 August 2026 for NICE's EQ-5D-5L rule."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026",
+        "NICE PMG51 (Interim methods statement, implementing the EQ-5D-5L value set, published 27 August 2026), paragraphs 1.17 and 1.18, read 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000032 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "applies to topics started before"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The date before which an appraisal or guideline topic must have started for a rule to apply to it, written YYYY-MM-DD, such as 27 August 2026 for NICE's rule that ongoing topics map EQ-5D-5L data to the 3L value set."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026",
+        "NICE PMG51 (Interim methods statement, implementing the EQ-5D-5L value set, published 27 August 2026), paragraphs 1.17 and 1.18, read 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000033 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has capture date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The date, written YYYY-MM-DD, on which the archived copy read for a check record was captured."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000015 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000034 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has amendment month"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The month, or the day where the body gives it, of a listed amendment, written YYYY-MM or YYYY-MM-DD."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000018 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000035 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has amended sections"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The sections a listed amendment names, as the body writes them."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000018 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000036 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has mention count"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The number of mentions of the guidance document in the text of the same record that are counted with this citation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:integer .
+
+heiro:2000037 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has verdict date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The date, written YYYY-MM-DD, of the check on which a citation's verdict rests."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:string .
+
+heiro:2000038 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "cited text changed since the version cited"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Whether any section a citation names was changed by a later version, true or false, absent when that cannot be told."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000017 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range xsd:boolean .
+
+heiro:9000001 a owl:AnnotationProperty ;
+    rdfs:label "concerns wiki concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a HEIRO record to the HEO concept, a page of the healtheconomics.wiki, that it is about."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    heao:9000001 heao:4000002 .
+
+heiro:9000002 a owl:AnnotationProperty ;
+    rdfs:label "concerns HEMO record"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance citation record to the HEMO formula catalogue record whose module source carries the citation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    heao:9000001 heao:4000002 .
+
+heiro:9000003 a owl:AnnotationProperty ;
+    rdfs:label "sets out reference case profile"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance version to an OHEO reference case profile whose methods it states, alone or together with another version."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "OHEO 0.3.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    heao:9000001 heao:4000002 .
+
+heiro:9000004 a owl:AnnotationProperty ;
+    rdfs:label "supplies policy input to"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a stated decision rule to a HEMO formula that takes the figures of the rule as inputs, such as a discounting rule and the present value formula."@en ;
+    obo:IAO_0000116 "0.1.0 links the discounting, threshold, price benchmark and modifier rules of the documents it holds."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    heao:9000001 heao:4000003 .
+
+heiro:9000005 a owl:AnnotationProperty ;
+    rdfs:label "states value of type"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a stated decision rule to the HEAO class of the figure it states, such as a threshold rule and adopted threshold value."@en ;
+    obo:IAO_0000116 "Definitional, because the HEAO class classifies the figure the rule states."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "HEAO 0.2.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    heao:9000001 heao:4000001 .
+
+heiro:9000007 a owl:AnnotationProperty ;
+    rdfs:label "has amendment kind"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates an amends provision assertion, as an axiom annotation, to the kind of amendment it is."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+rheo:2000005 a owl:DatatypeProperty .
+
+rheo:2000035 a owl:DatatypeProperty .
+
+obo:BFO_0000023 a owl:Class .
+
+obo:BFO_0000050 a owl:ObjectProperty .
+
+obo:IAO_0000030 a owl:Class .
+
+obo:IAO_0000310 a owl:Class .
+
+obo:IAO_0000314 a owl:Class .
+
+prov:specializationOf a owl:ObjectProperty .
+
+prov:wasDerivedFrom a owl:ObjectProperty .
+
+prov:wasRevisionOf a owl:ObjectProperty .
+
+heiro:0000002 a owl:Class ;
+    rdfs:label "health technology assessment role"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An institutional role that is realised in assessing evidence on a health technology, including economic evaluations, to inform or make a decision on whether and on what terms the technology is funded."@en ;
+    obo:IAO_0000116 "Realised in processes that make or inform funding decisions. RHEO's health technology assessment decision process (RHEO_0000062) covers those that decide, and a process that only informs, such as an IQWiG assessment for the G-BA, is proposed for RHEO 0.4."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "HTA role"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015",
+        "RHEO 0.4.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf heiro:0000001 .
+
+heiro:0000003 a owl:Class ;
+    rdfs:label "methods guidance role"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An institutional role that is realised in issuing guidance documents stating the methods by which evidence, including economic evaluations, is to be produced or assessed, such as a reference case with its discount rate, perspective and outcome measure."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "OHEO 0.3.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf heiro:0000001 .
+
+heiro:0000006 a owl:Class ;
+    rdfs:label "jurisdiction"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A geographic area whose boundaries are drawn by a government with power to make binding rules within it, such as a country, a nation of the United Kingdom or a federal state, so that the rules of bodies acting for that government apply there."@en ;
+    obo:IAO_0000116 "Coded with RHEO's has jurisdiction code (ISO 3166). Only a body that acts for such a government, or a document it issues, has a jurisdiction. An independent body, such as ICER, has none, and its guidance has the binding force advisory. Arrangements that carry one body's guidance into another area, such as the service-level agreements that disseminate NICE technology evaluation guidance in Wales and Northern Ireland, are not modelled in 0.1.0."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "RHEO 0.4.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf rheo:0000116 .
+
+heiro:0000008 a owl:Class ;
+    rdfs:label "methods guidance document"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A guidance document stating the methods by which evidence, including economic evaluations, is to be produced or assessed for a body's decisions, such as a technology appraisal manual or national guidelines for economic evaluation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "methods guide"@en,
+        "pharmacoeconomic guidelines"@en ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf heiro:0000007 ;
+    heiro:9000006 heto:4200301 .
+
+heiro:0000011 a owl:Class ;
+    rdfs:label "stated decision rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity that is stated in a guidance provision."@en ;
+    obo:IAO_0000116 "A defined class and a query class. The text definition matches the logical one. HEIRO adds a kind of rule only where no other ontology of the family has one. A threshold is a RHEO decision threshold specification, a discount rate a RHEO discounting specification, a perspective a RHEO perspective specification, a funding condition a RHEO funding rule, a severity or size of benefit modifier a HEAO decision modifier rule, and an outcome requirement an OHEO outcome reference case requirement. HEIRO adds the comparator rule and the price benchmark rule, and records for every rule its provision, version and issuer, when it is in force and which appraisals it applies to."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "decision rule"@en ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "HEAO 0.2.0 (Baines and Ashley 2026)",
+        "OHEO 0.3.0 (Baines and Ashley 2026)",
+        "RHEO 0.4.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( obo:IAO_0000033 [ a owl:Restriction ;
+                        owl:onProperty heiro:1000005 ;
+                        owl:someValuesFrom heiro:0000010 ] ) ] ;
+    heiro:9000006 heto:4200203 .
+
+heiro:0000012 a owl:Class ;
+    rdfs:label "comparator rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity stating which options an evaluation or appraisal must, may or must not compare a health technology with, such as technologies that are established practice in the NHS."@en ;
+    obo:IAO_0000116 "No other ontology of the family holds this kind of rule. RHEO's has comparator records the comparator an analysis used, not the rule that chose it. A comparator rule states its deontic modality and its selection basis."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015",
+        "NICE PMG36 (NICE technology appraisal and highly specialised technologies guidance, the manual, last updated 13 October 2026), read 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+heiro:1000002 a owl:AsymmetricProperty,
+        owl:ObjectProperty ;
+    rdfs:label "supersedes guidance version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a guidance version to the earlier version of the same guidance document that it replaces for new decisions."@en ;
+    obo:IAO_0000116 "Asserted on the newer version only, so no older record is edited. Holds between consecutive versions. Asymmetric, so it cannot also be transitive, and any later version is a property path in SPARQL."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Lebo et al. 2013 (W3C PROV-O, W3C Recommendation 30 April 2013)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heiro:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000009 ;
+    rdfs:subPropertyOf prov:wasRevisionOf .
+
+heiro:1000005 a owl:ObjectProperty ;
+    rdfs:label "is stated in provision"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a rule to the guidance provision that states it, so that the source version and section of the rule can be found."@en ;
+    obo:IAO_0000116 "A sub-property of PROV-O was derived from, as RHEO's taken from source is. It has no domain, because the rules are typed with the classes of RHEO, HEAO and OHEO."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Lebo et al. 2013 (W3C PROV-O, W3C Recommendation 30 April 2013)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:range heiro:0000010 ;
+    rdfs:subPropertyOf prov:wasDerivedFrom ;
+    heao:9000001 heao:4000002 .
+
+heiro:4000001 a owl:NamedIndividual,
+        heiro:0000014 ;
+    rdfs:label "current version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A guidance version status stating that the page read on the check date showed the version as the latest version of its guidance document."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000002 a owl:NamedIndividual,
+        heiro:0000014 ;
+    rdfs:label "superseded version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A guidance version status stating that on the check date a later version of the same guidance document had replaced the version."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000003 a owl:NamedIndividual,
+        heiro:0000014 ;
+    rdfs:label "withdrawn version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A guidance version status stating that on the check date the body had withdrawn the version and no version of the guidance document replaced it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000004 a owl:NamedIndividual,
+        heiro:0000014 ;
+    rdfs:label "latest version when captured"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A guidance version status stating that an archived copy showed the version as the latest version of its guidance document on the day the copy was captured."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000005 a owl:NamedIndividual,
+        heiro:0000020 ;
+    rdfs:label "binding"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A binding force stating that those the decisions or guidance address are required by law or regulation to follow them."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000006 a owl:NamedIndividual,
+        heiro:0000020 ;
+    rdfs:label "advisory"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A binding force stating that the decisions or guidance inform those they address, who are not required to follow them."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000007 a owl:NamedIndividual,
+        heiro:0000021 ;
+    rdfs:label "live page read"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A check method in which the body's live page was read."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000008 a owl:NamedIndividual,
+        heiro:0000021 ;
+    rdfs:label "archived copy read"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A check method in which an archived copy of the body's page, captured on a stated date, was read."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000009 a owl:NamedIndividual,
+        heiro:0000022 ;
+    rdfs:label "stale citation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A staleness verdict stating that the version a citation names, by its date or its title, had been superseded on the verdict date."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000010 a owl:NamedIndividual,
+        heiro:0000022 ;
+    rdfs:label "current citation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A staleness verdict stating that the version a citation names was the current version on the verdict date."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000011 a owl:NamedIndividual,
+        heiro:0000022 ;
+    rdfs:label "imprecise citation, add the full date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A staleness verdict stating that a citation gives only a year in which the guidance document had more than one version, so it should give the full date."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000012 a owl:NamedIndividual,
+        heiro:0000022 ;
+    rdfs:label "cannot tell"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A staleness verdict stating that a citation names no version, by date or by title, and no dated citation in the same record names one."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000013 a owl:NamedIndividual,
+        heiro:0000022 ;
+    rdfs:label "historical on purpose"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A staleness verdict stating that a citation names an earlier version deliberately, saying that the version was replaced."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000014 a owl:NamedIndividual,
+        heiro:0000023 ;
+    rdfs:label "required"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A deontic modality stating that the rule requires the act it covers."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000015 a owl:NamedIndividual,
+        heiro:0000023 ;
+    rdfs:label "permitted"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A deontic modality stating that the rule permits the act it covers."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000016 a owl:NamedIndividual,
+        heiro:0000023 ;
+    rdfs:label "forbidden"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A deontic modality stating that the rule forbids the act it covers."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000017 a owl:NamedIndividual,
+        heiro:0000024 ;
+    rdfs:label "established practice"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A comparator selection basis stating that comparators are the options in established use in the health system."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000018 a owl:NamedIndividual,
+        heiro:0000024 ;
+    rdfs:label "most likely to be replaced"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A comparator selection basis stating that the comparator is the option the technology is most likely to replace."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000019 a owl:NamedIndividual,
+        heiro:0000024 ;
+    rdfs:label "designated by another body"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A comparator selection basis stating that another body names the comparator, as the G-BA names the appropriate comparator therapy for IQWiG."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000020 a owl:NamedIndividual,
+        heiro:0000024 ;
+    rdfs:label "all relevant options"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A comparator selection basis stating that every relevant option is compared."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000021 a owl:NamedIndividual,
+        heiro:0000025 ;
+    rdfs:label "replaces the wording of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An amendment kind stating that the amending provision gives new wording for the amended one."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000022 a owl:NamedIndividual,
+        heiro:0000025 ;
+    rdfs:label "deletes"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An amendment kind stating that the amending provision removes the amended one."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000023 a owl:NamedIndividual,
+        heiro:0000025 ;
+    rdfs:label "inserts a new provision before"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An amendment kind stating that the amending provision adds a new provision that takes the number of the amended one."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+heiro:4000024 a owl:NamedIndividual,
+        heiro:0000025 ;
+    rdfs:label "renumbers"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An amendment kind stating that the amended provision keeps its wording but takes a new number."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> .
+
+rheo:0000116 a owl:Class .
+
+obo:RO_0000087 a owl:ObjectProperty .
+
+heiro:0000001 a owl:Class ;
+    rdfs:label "institutional role"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A role borne by an organization that is realised in issuing, adopting or applying rules that set or limit the options other actors in a health system have, such as which technologies are funded, at what price, or by which methods they are evaluated."@en ;
+    obo:IAO_0000116 "Institutions in North's sense are the rules, and organizations are the players. HEIRO keeps the two apart. A body is an organization that bears an institutional role, and the rules it issues are directive information entities. It is a role and not a kind of organization, so that one organization can hold several roles, as with RHEO's payer role. HEIRO holds formal written rules only. Norms and conventions, which are also institutions in North's sense, are out of its scope."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Institutional layer of the healtheconomics.wiki, unpublished notes of 3 and 4 October 2026 (institutions shape the options actors have)",
+        "North 1990",
+        "RHEO 0.4.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:BFO_0000023 .
+
+heiro:9000006 a owl:AnnotationProperty ;
+    rdfs:label "is identified in task step"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a HEIRO class to a HETO task step whose work finds or applies instances of it, such as identifying the methods guidance that applies to an evaluation."@en ;
+    obo:IAO_0000116 "Representational, the nearest of the five kinds, because the step records the work that finds instances of the class. heao-proposals-from-heiro.md asks HEAO to consider this case."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    heao:9000001 heao:4000002 .
+
+obo:IAO_0000027 a owl:Class .
+
+obo:IAO_0000033 a owl:Class .
+
+heiro:0000018 a owl:Class ;
+    rdfs:label "listed amendment"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording a change that a body lists for a guidance version without giving the version a new date, with the month, the sections it names and the body's own summary, such as NICE's change of June 2025 to the budget impact test in sections 5.10.4 to 5.10.22 of PMG36."@en ;
+    obo:IAO_0000116 "Taken from the body's own list, such as the minor changes since publication in NICE's update information or the summary of changes in ICER's framework. Changes a body does not list are not recorded, but a later check record with a different SHA-256 shows that the text changed."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+heiro:0000020 a owl:Class ;
+    rdfs:label "binding force"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification stating whether the decisions or guidance made under a guidance document bind those they address, or only advise them."@en ;
+    obo:IAO_0000116 "binding for NICE technology appraisal guidance, which the regulations require the NHS to fund, and advisory for an IQWiG report to the G-BA or an ICER evidence report. Recorded only with the text it rests on."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heiro:0000021 a owl:Class ;
+    rdfs:label "check method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification stating how the page of a guidance document was read for a check record, live or as an archived copy."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heiro:0000023 a owl:Class ;
+    rdfs:label "deontic modality"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification stating whether a rule requires, permits or forbids the act it covers."@en ;
+    obo:IAO_0000116 "Recorded for comparator rules in 0.1.0. The deontic content of rules is what a later option space layer would read."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heiro:0000025 a owl:Class ;
+    rdfs:label "amendment kind"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification stating what one provision does to another that it amends, replacing, deleting, inserting before or renumbering it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heiro:0000014 a owl:Class ;
+    rdfs:label "guidance version status"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification stating what a check record found about a guidance version on its check date, that it was the current version, that a later version had superseded it, that it had been withdrawn, or that it was the latest version when an archived copy was captured."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Bandrowski et al. 2016 (OBI)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heiro:0000024 a owl:Class ;
+    rdfs:label "comparator selection basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification stating the basis on which a comparator rule selects the options an evaluation compares a technology with."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+obo:OBI_0001930 a owl:Class .
+
+heiro:0000010 a owl:Class ;
+    rdfs:label "guidance provision"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A document part of a guidance version, identified by its section, paragraph, table or figure number, that states one or more rules, such as section 4.5.1 of NICE PMG36 as last updated on 13 October 2026."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "guidance section"@en ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "IAO, Information Artifact Ontology, release of 30 March 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000314 .
+
+heiro:0000016 a owl:Class ;
+    rdfs:label "institutional perspective record"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording a body's stated position on, or use of, a health economics concept, with a title, a summary and the primary source it rests on, as published on the Institutional Perspectives tab of the concept's wiki page."@en ;
+    obo:IAO_0000116 "Generated by script from the live tab. Its identifier is keyed on the site's own key, concept slug and institution, so a relabelled row gets a new record and the old one is retired. HEO's concept Institutional Perspective means the analytic viewpoint of a single institution, such as a hospital, which is a different thing and is not mapped."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "healtheconomics.wiki Institutional Perspectives tab, read from the live concept pages on 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+heiro:0000022 a owl:Class ;
+    rdfs:label "staleness verdict"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification stating whether the guidance version a citation names had been superseded on the verdict date."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heiro:0000015 a owl:Class ;
+    rdfs:label "guidance version check record"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording that on a stated date the page of a guidance document was read, live or as an archived copy, and what it showed about a stated guidance version, so that a claim that a version is current or superseded can be dated and repeated."@en ;
+    obo:IAO_0000116 "Each check record names the copy that was read and its SHA-256, kept in src/sources. The status it reports holds on its check date only."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Lebo et al. 2013 (W3C PROV-O, W3C Recommendation 30 April 2013)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+heiro:0000007 a owl:Class ;
+    rdfs:label "guidance document"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity that is the lineage of successive guidance versions a body issues under one title or reference number, stating rules or recommended methods that others are to follow, such as NICE's manual PMG36 across all its updates."@en ;
+    obo:IAO_0000116 "The work in the FRBR sense, with its versions as the expressions, following the pattern of RHEO's classification scheme and classification scheme version. Its content is what all its versions share, its title or reference and its scope. HEO's concept Guidance Document means the written output of one appraisal, which is a different thing, so the two are related, not matched."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Davis and Newman 2005 (Expression of Core FRBR Concepts in RDF, vocab.org/frbr/core, 10 August 2005)",
+        "RHEO 0.4.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+obo:OBI_0000245 a owl:Class .
+
+heiro:0000017 a owl:Class ;
+    rdfs:label "guidance citation record"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording that a wiki concept page or a formula module record cites a guidance document, with the version date, sections and wording of the citation as written and the mentions of the document in the same record, so that citations of a superseded version can be found."@en ;
+    obo:IAO_0000116 "Generated by script. One record is one reference with the mentions that go with it. Its verdict holds on its verdict date. A corrected page gets a new record and the old one is retired."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Ashley M. HEIRO 0.2.0 fix pass after reviews A, B and C and the curators' decisions, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+heiro:0000009 a owl:Class ;
+    rdfs:label "guidance version"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A document that is one issued state of a guidance document, fixed by the date the body gives as its publication or last updated date, or by its version number, such as NICE PMG36 as last updated on 13 October 2026."@en ;
+    obo:IAO_0000116 "A version record is never edited once made. It holds the document, the version date, the date in force, the label and title shown, the page, the change summary and, on the newer version, the version it supersedes. Whether a version is current is not stated on the version but on dated check records, so that two releases of HEIRO can be loaded together. A change the body makes without showing a new date is a listed amendment of the version in force, not a version."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "guidance edition"@en ;
+    obo:IAO_0000119 "Ashley M. HEIRO 0.2.0 design decisions (best practice), 19 October 2026",
+        "Davis and Newman 2005 (Expression of Core FRBR Concepts in RDF, vocab.org/frbr/core, 10 August 2005)",
+        "RHEO 0.4.0 (Baines and Ashley 2026)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heiro> ;
+    rdfs:subClassOf obo:IAO_0000310 .
+
+<https://healtheconomics.wiki/ontologies/heiro> a owl:Ontology ;
+    dcterms:bibliographicCitation "Baines D, Ashley M. Health Economics Institutions and Rules Ontology (HEIRO), version 0.1.0. Intelligent Parameters Ltd; 2026. https://healtheconomics.wiki/ontologies/heiro/0.2.0/heiro.owl. Licence CC BY 4.0." ;
+    dcterms:created "2026-10-19"^^xsd:date ;
+    dcterms:creator <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    dcterms:description "HEIRO, the Health Economics Institutions and Rules Ontology, holds the institutions of health economics and health technology assessment in Darrin Baines's sense, the rules that set the options actors have, and keeps them apart from the organizations that issue and apply them. A body is an organization that bears an institutional role, such as a health technology assessment role. Its rules are stated in guidance documents, each a lineage of dated guidance versions, and every rule HEIRO records names its provision, version and issuer, when it is in force and which appraisals it applies to. Versions are never edited. Dated check records say what each page showed on the day it was read, live or as an archived copy, so that any page, formula or rule that cites a guidance version can be found and flagged when a newer version exists. HEIRO reuses RHEO for organizations, geographic areas, decision threshold, discounting and perspective specifications, HEAO for decision modifier rules, value types and its five linking kinds, OHEO for reference case requirements and profiles, IAO for documents and their parts, and PROV-O for revision and derivation."@en ;
+    dcterms:issued "2026-10-19"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:publisher "Intelligent Parameters Ltd" ;
+    dcterms:title "Health Economics Institutions and Rules Ontology (HEIRO)"@en ;
+    vann:preferredNamespacePrefix "heiro" ;
+    vann:preferredNamespaceUri "https://healtheconomics.wiki/ontologies/heiro/HEIRO_" ;
+    rdfs:comment "First release, status alpha, revised in place after three independent reviews on 19 October 2026. HEIRO imports RHEO 0.4.0 (which imports BFO 2020), HEAO 0.2.0 as published (which imports OHEO 0.3.0 and the RHEO uncertainty module, and holds the five linking kinds), and an extract of IAO for document part. Load heiro-register.owl for the bodies, guidance documents, versions and rules, and heiro-wiki.owl for the records generated from the healtheconomics.wiki. Term IRIs are https://healtheconomics.wiki/ontologies/heiro/HEIRO_ and seven digits."@en ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/heo> ;
+    owl:imports <https://healtheconomics.wiki/ontologies/heao/0.2.0/heao.owl>,
+        <https://healtheconomics.wiki/ontologies/heiro/0.2.0/imports/iao-extract.owl>,
+        <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl> ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/heiro/0.2.0/heiro.owl> ;
+    owl:versionInfo "0.2.0 (alpha)" ;
+    foaf:homepage <https://healtheconomics.wiki/ontologies/heiro> .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( heiro:4000007 heiro:4000008 ) .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( heiro:4000005 heiro:4000006 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heiro:0000007 heiro:0000009 heiro:0000010 heiro:0000015 heiro:0000016 heiro:0000017 heiro:0000018 heiro:0000014 heiro:0000020 heiro:0000021 heiro:0000022 heiro:0000023 heiro:0000024 heiro:0000025 ) .
+
+[] a owl:Axiom ;
+    rdfs:comment "HETO's step Identify the decision maker and any methods guidance that applies finds the methods guidance documents of HEIRO for an evaluation."@en ;
+    owl:annotatedProperty heiro:9000006 ;
+    owl:annotatedSource heiro:0000008 ;
+    owl:annotatedTarget heto:4200301 ;
+    heao:9000001 heao:4000002 .
+
+[] a owl:Axiom ;
+    rdfs:comment "HETO's step Align the evaluation methods with the methods guidance of the decision maker or assessment body applies the stated decision rules that HEIRO records for that body."@en ;
+    owl:annotatedProperty heiro:9000006 ;
+    owl:annotatedSource heiro:0000011 ;
+    owl:annotatedTarget heto:4200203 ;
+    heao:9000001 heao:4000002 .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( heiro:4000021 heiro:4000022 heiro:4000023 heiro:4000024 ) .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( heiro:4000014 heiro:4000015 heiro:4000016 ) .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( heiro:4000001 heiro:4000002 heiro:4000003 heiro:4000004 ) .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( heiro:4000017 heiro:4000018 heiro:4000019 heiro:4000020 ) .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( heiro:4000009 heiro:4000010 heiro:4000011 heiro:4000012 heiro:4000013 ) .
+
+
+<https://healtheconomics.wiki/ontologies/heiro> <http://www.w3.org/2002/07/owl#priorVersion> <https://healtheconomics.wiki/ontology/heiro/0.1.0/heiro.owl> ;
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Version 0.2.0 moves every HEIRO address from https://healtheconomics.wiki/ontology/heiro to https://healtheconomics.wiki/ontologies/heiro, so the ontology identifier, its version identifier and its terms match the ontology page on the site. Every class, property, definition and axiom is the same as in 0.1.0, and the imports now point to the family releases made at the same time (HEO 2.0.0, RHEO 0.4.0, OHEO 0.3.0, HETO 0.3.0, HEAO 0.2.0, HEMO 0.2.0, HELO 0.2.0, HEIRO 0.2.0). The old /ontology/ addresses are retired and are not redirected."@en .

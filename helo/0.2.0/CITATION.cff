@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Health Economics Learning Ontology (HELO)"
+version: "0.2.0"
+date-released: "2026-11-08"
+license: CC-BY-4.0
+url: "https://healtheconomics.wiki/knowledge-map"
+repository: "https://bioportal.bioontology.org/ontologies/HELO"
+abstract: "The Health Economics Learning Ontology (HELO) describes the learning pathways of HealthEconomics.wiki, which are ordered steps that build understanding of health economics concepts from foundational to advanced. It records pathway frameworks, intended learners, learning goals and proposed prerequisite relationships between concepts, and gives courses a shared structure of curricula and modules. Learning pathways build understanding and prepare learners for the work described in the Health Economics Task Ontology (HETO). This HELO is the Health Economics Learning Ontology of HealthEconomics.wiki. It is not the HypothEsis and Law Ontology, also called HELO, and is unrelated to it."
+keywords:
+  - "health economics"
+  - "learning pathways"
+  - "education"
+  - "curriculum"
+  - "prerequisites"
+  - "ontology"
+  - "OWL"
+authors:
+  - family-names: "Baines"
+    given-names: "Darrin"
+    orcid: "https://orcid.org/0000-0001-9502-4678"
+  - family-names: "Ashley"
+    given-names: "Michelle"
+    orcid: "https://orcid.org/0009-0006-0231-3731"
+# After Zenodo publishes the record, add its DOI on a new line below in this form
+# doi: 10.5281/zenodo.0000000

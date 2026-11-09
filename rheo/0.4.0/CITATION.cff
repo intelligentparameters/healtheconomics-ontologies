@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Real Health Economics Ontology (RHEO)"
+version: "0.4.0"
+date-released: "2026-11-08"
+license: CC-BY-4.0
+url: "https://healtheconomics.wiki/ontologies/rheo"
+repository: "https://bioportal.bioontology.org/ontologies/RHEO"
+abstract: "The Real Health Economics Ontology (RHEO) describes the real things that health economics works with, such as patients, households, care settings, resources, payments and costs, and the records made about them. It also describes the evidence built from these records, from estimates and assumptions to model parameters and results, so that a model result can be traced back to its sources. RHEO is written in the Web Ontology Language (OWL) and is aligned to the Basic Formal Ontology (BFO) 2020. Its relationships to the concepts of the Health Economics Ontology (HEO) are published as a separate mapping file. This is an alpha release for review, and terms may still change before version 1.0."
+keywords:
+  - "health economics"
+  - "ontology"
+  - "Basic Formal Ontology"
+  - "OWL"
+  - "economic evaluation"
+  - "costing"
+  - "evidence provenance"
+  - "health care resources"
+authors:
+  - family-names: "Baines"
+    given-names: "Darrin"
+    orcid: "https://orcid.org/0000-0001-9502-4678"
+  - family-names: "Ashley"
+    given-names: "Michelle"
+    orcid: "https://orcid.org/0009-0006-0231-3731"
+# After Zenodo publishes the record, add its DOI on a new line below in this form
+# doi: 10.5281/zenodo.0000000

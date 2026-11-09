@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Health Economics Institutions and Rules Ontology (HEIRO)"
+version: "0.2.0"
+date-released: "2026-11-08"
+license: CC-BY-4.0
+url: "https://healtheconomics.wiki"
+repository: "https://bioportal.bioontology.org/ontologies/HEIRO"
+abstract: "The Health Economics Institutions and Rules Ontology (HEIRO) describes the institutions of health economics and health technology assessment (HTA), meaning the rules that shape the options open to decision makers, and keeps them apart from the organisations that issue and apply them. Each rule names its provision, the dated version of the guidance that states it, the body that issued it and the period when it is in force. Guidance versions are never edited, and dated check records show what a source page said on the day it was read. This lets any page, formula or rule that cites an older guidance version be flagged when a newer one appears. This is an alpha release for review."
+keywords:
+  - "health technology assessment"
+  - "institutions"
+  - "guidance"
+  - "decision rules"
+  - "health policy"
+  - "provenance"
+  - "ontology"
+  - "OWL"
+authors:
+  - family-names: "Baines"
+    given-names: "Darrin"
+    orcid: "https://orcid.org/0000-0001-9502-4678"
+  - family-names: "Ashley"
+    given-names: "Michelle"
+    orcid: "https://orcid.org/0009-0006-0231-3731"
+# After Zenodo publishes the record, add its DOI on a new line below in this form
+# doi: 10.5281/zenodo.0000000

@@ -1,0 +1,31 @@
+#curie_map:
+#  rheo: https://healtheconomics.wiki/ontologies/rheo/RHEO_
+#  heo: https://healtheconomics.wiki/concept/
+#  heop: https://healtheconomics.wiki/ontologies/heo#
+#  heont: https://healtheconomics.wiki/ontologies/
+#  obo: http://purl.obolibrary.org/obo/
+#  BFO: http://purl.obolibrary.org/obo/BFO_
+#  COB: http://purl.obolibrary.org/obo/COB_
+#  OGMS: http://purl.obolibrary.org/obo/OGMS_
+#  RO: http://purl.obolibrary.org/obo/RO_
+#  STATO: http://purl.obolibrary.org/obo/STATO_
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  orcid: https://orcid.org/
+#mapping_set_id: https://healtheconomics.wiki/ontologies/rheo/mappings/obo/0.3.0
+#mapping_set_version: 0.3.0
+#mapping_set_title: RHEO to OBO library terms
+#mapping_set_description: Obsolete RHEO terms and the OBO library terms that replace them (also recorded in the ontology with IAO_0100001 term replaced by), and RHEO terms close to an OBO library term that RHEO does not reuse. Not yet reviewed.
+#subject_source_version: https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl
+#creator_id:
+#  - orcid:0000-0001-9502-4678
+#  - orcid:0009-0006-0231-3731
+#creator_label:
+#  - Darrin Baines
+#  - Michelle Ashley
+#license: https://creativecommons.org/licenses/by/4.0/
+#mapping_date: 2026-10-16
+subject_id	subject_label	subject_category	subject_source	predicate_id	object_id	object_source	mapping_justification	author_id	author_label	reviewer_id	reviewer_label	mapping_date	comment
+rheo:0000029	model parameter	model representation	heont:rheo	skos:closeMatch	STATO:0000034	obo:stato.owl	semapv:ManualMappingCuration	orcid:0000-0001-9502-4678|orcid:0009-0006-0231-3731	Darrin Baines|Michelle Ashley			2026-10-16	STATO model parameter is defined for statistical models; an economic model parameter is the same kind of input slot.
+rheo:0000001	obsolete health care process	real-world process	heont:rheo	skos:exactMatch	OGMS:0000096	obo:ogms.owl	semapv:ManualMappingCuration	orcid:0000-0001-9502-4678|orcid:0009-0006-0231-3731	Darrin Baines|Michelle Ashley			2026-10-16	Obsolete RHEO term; the OBO library term replaces it (IAO_0100001).
+rheo:0000045	obsolete medical device	real-world entity	heont:rheo	skos:exactMatch	COB:0001300	obo:cob.owl	semapv:ManualMappingCuration	orcid:0000-0001-9502-4678|orcid:0009-0006-0231-3731	Darrin Baines|Michelle Ashley			2026-10-16	Obsolete RHEO term; the OBO library term replaces it (IAO_0100001).

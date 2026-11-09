@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Health Economics Task Ontology (HETO)"
+version: "0.3.0"
+date-released: "2026-11-08"
+license: CC-BY-4.0
+url: "https://healtheconomics.wiki/ontologies/heto"
+repository: "https://bioportal.bioontology.org/ontologies/HETO"
+abstract: "The Health Economics Task Ontology (HETO) describes recognisable units of health economics work, such as adding discounting to an economic model or running a probabilistic sensitivity analysis. Each task states its intended result, its main actions, the role of the person who does it and the real things it uses and produces, as the Real Health Economics Ontology (RHEO) and the Outcomes Health Economics Ontology (OHEO) define them. Larger tasks are broken into smaller ones, and the usual order of work is recorded apart from that breakdown. Task specifications follow the Information Artifact Ontology (IAO). This pilot release is an alpha version for review before the task list grows."
+keywords:
+  - "health economics"
+  - "task ontology"
+  - "economic modelling"
+  - "Information Artifact Ontology"
+  - "work specification"
+  - "health technology assessment"
+  - "ontology"
+  - "OWL"
+authors:
+  - family-names: "Baines"
+    given-names: "Darrin"
+    orcid: "https://orcid.org/0000-0001-9502-4678"
+  - family-names: "Ashley"
+    given-names: "Michelle"
+    orcid: "https://orcid.org/0009-0006-0231-3731"
+# After Zenodo publishes the record, add its DOI on a new line below in this form
+# doi: 10.5281/zenodo.0000000

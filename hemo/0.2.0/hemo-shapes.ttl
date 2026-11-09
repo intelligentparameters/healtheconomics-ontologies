@@ -1,0 +1,323 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix mshape: <https://healtheconomics.wiki/ontologies/hemo/shapes#> .
+
+# HEMO record rules (SHACL), version 0.1.0, revised after the three reviews of 19 October 2026. The ontology says what a formula IS. These rules say whether a record of a
+# formula, of a test or of a binding to a real value is complete and consistent. Violation means the record cannot be
+# used. Warning means it can be used but must be reviewed. Written by src/write_shapes.py.
+#
+# The rules apply only to HEMO records (formulas, functions, variables, tests, implementations and their run records)
+# and to RHEO records that a HEMO variable is bound to, so loading HEMO never turns valid RHEO, OHEO, HEAO or HETO
+# records invalid. run_demo.py checks this on their valid examples.
+#
+# The strict rules apply to fully formalised records, those with has formalisation level fully formalised. Catalogue
+# records generated from the Functions and Formulae module are checked for structure only. Arithmetic that SHACL cannot
+# do (evaluating a formula on its test values, the MathML round trip, dimensions and model runs) is done by the HEMO
+# test runner in run_demo.py, whose rules are named in examples/expected.json beside these shapes.
+#
+# Validate WITHOUT inference, with hemo.ttl, hemo-formulae.ttl and the imports in the data graph. Every shape uses core
+# SHACL targets (sh:targetClass, sh:targetSubjectsOf, sh:targetObjectsOf) and SHACL-SPARQL constraints, both in the W3C
+# Recommendation, so plain pyshacl (without -a) and other conforming engines apply every rule. run_demo.py checks this
+# with a sentinel, a probability of 5.0 that plain pyshacl must reject.
+
+<https://healtheconomics.wiki/ontologies/hemo/shapes> a owl:Ontology ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/hemo/0.2.0/hemo-shapes.ttl> ;
+    owl:versionInfo "0.2.0" ;
+    dcterms:title "HEMO record rules"@en ;
+    dcterms:issued "2026-10-18"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/hemo/0.2.0/hemo.owl> ;
+    rdfs:comment "First release of the HEMO record rules."@en .
+
+# ------------------------------------------------------------------ every record of the catalogue
+mshape:CatalogueRecordShape a sh:NodeShape ;
+    sh:targetClass hemo:0000010, hemo:0000013, hemo:0000012, hemo:0000023 ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A HEMO record has exactly one label." ] ;
+    sh:property [ sh:path hemo:9000014 ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:message "A HEMO record keeps exactly one calculator text, the authoring form of its expression (decision 3)." ] ;
+    sh:property [ sh:path hemo:1000035 ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( hemo:4000017 hemo:4000018 ) ;
+        sh:message "A HEMO record states one formalisation level, fully formalised or catalogue record." ] ;
+    sh:property [ sh:path hemo:2000019 ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
+        sh:message "A HEMO record states whether its calculator text parses in the HEMO grammar." ] .
+
+mshape:TitleKeyShape a sh:NodeShape ;
+    sh:targetObjectsOf hemo:9000023 ;
+    sh:property [ sh:path [ sh:inversePath hemo:9000023 ] ; sh:maxCount 1 ;
+        sh:message "Two HEMO records carry module titles with this key. The site importer keys on a slug of the title, so one row would overwrite the other, or a retitled row would leave its old record live." ] .
+
+mshape:VariableRoleShape a sh:NodeShape ;
+    sh:targetClass hemo:0000018 ;
+    sh:property [ sh:path hemo:1000016 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A variable has exactly one variable role in its record." ] ;
+    sh:property [ sh:path hemo:9000017 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A variable has exactly one symbol." ] ;
+    sh:property [ sh:path hemo:1000013 ; sh:maxCount 1 ; sh:message "A variable has at most one quantity kind." ] ;
+    sh:property [ sh:path hemo:1000014 ; sh:maxCount 1 ; sh:message "A variable has at most one unit of measure." ] .
+
+mshape:CFUsesFormulaShape a sh:NodeShape ;
+    sh:targetClass hemo:0000013 ;
+    sh:property [ sh:path hemo:1000002 ; sh:minCount 1 ;
+        sh:message "A computational function uses at least one formula (Darrin Baines's definition). A procedure that states no formula has no mathematics HEMO can check." ] .
+
+mshape:TestValueShape a sh:NodeShape ;
+    sh:targetClass hemo:0000016 ;
+    sh:property [ sh:path hemo:1000039 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A test value gives a value to exactly one variable." ] ;
+    sh:sparql [ sh:message "A test value states one number (RHEO has numeric value) or one list in calculator text." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:2000001|hemo:9000014 ?v } }""" ] .
+
+# ------------------------------------------------------------------ fully formalised records
+mshape:FullRecordShape a sh:NodeShape ;
+    sh:targetSubjectsOf hemo:1000035 ;
+    sh:sparql [ sh:message "{?problem}" ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?problem WHERE { $this hemo:1000035 hemo:4000017 .
+                { FILTER NOT EXISTS { $this hemo:1000008 ?o1 } BIND ("A fully formalised formula returns at least one output variable." AS ?problem) }
+                UNION { FILTER NOT EXISTS { $this hemo:1000018 ?o2 } BIND ("A fully formalised record has its expression parsed into at least one computational step." AS ?problem) }
+                UNION { FILTER NOT EXISTS { $this hemo:9000015 ?o3 } BIND ("A fully formalised record carries its Content MathML (decision 3)." AS ?problem) }
+                UNION { $this hemo:9000015 ?m1 . $this hemo:9000015 ?m2 . FILTER (STR(?m1) < STR(?m2)) BIND ("A fully formalised record carries one Content MathML only, the conjunction of its steps (decision 3)." AS ?problem) }
+                UNION { FILTER NOT EXISTS { $this hemo:1000010 ?o4 } BIND ("A fully formalised record has at least one test case, the evidence that it is stated and implemented correctly (decision 8)." AS ?problem) }
+                UNION { FILTER NOT EXISTS { $this hemo:2000019 true } BIND ("A fully formalised record parses in the HEMO grammar." AS ?problem) } }""" ] .
+
+mshape:FullFormulaDomainShape a sh:NodeShape ;
+    sh:targetClass hemo:0000010 ;
+    sh:sparql [ sh:message "A fully formalised formula states its domain of validity (decision 2)." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this WHERE { $this hemo:1000035 hemo:4000017 . FILTER NOT EXISTS { $this hemo:1000011 ?d } }""" ] ;
+    sh:sparql [ sh:message "A fully formalised formula states one domain of validity only (decision 2)." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this WHERE { $this hemo:1000035 hemo:4000017 . $this hemo:1000011 ?d1 . $this hemo:1000011 ?d2 . FILTER (?d1 != ?d2) }""" ] .
+
+mshape:FullVariableShape a sh:NodeShape ;
+    sh:targetSubjectsOf hemo:1000035 ;
+    sh:sparql [ sh:message "The variable {?value} of this fully formalised record has no quantity kind." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?value WHERE { $this hemo:1000035 hemo:4000017 . $this hemo:1000006 ?value . FILTER NOT EXISTS { ?value hemo:1000013 ?k } }""" ] .
+
+mshape:VariableUnitShape a sh:NodeShape ;
+    sh:targetSubjectsOf hemo:1000013 ;
+    sh:sparql [ sh:message "A variable with a quantity kind has a unit of measure, unless its quantity kind takes the unit of what it stands for." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this WHERE { $this hemo:1000013 ?k . ?k hemo:1000015 ?d . FILTER NOT EXISTS { $this hemo:1000014 ?u } }""" ] .
+
+mshape:UnitKindShape a sh:NodeShape ;
+    sh:targetSubjectsOf hemo:1000014 ;
+    sh:sparql [ sh:message "The unit {?u} is not a unit that the quantity kind {?k} of this variable allows, such as QALYs written in years." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?u ?k WHERE { $this hemo:1000014 ?u . $this hemo:1000013 ?k . FILTER EXISTS { ?k hemo:1000056 ?any }
+                FILTER NOT EXISTS { ?k hemo:1000056 ?u } }""" ] .
+
+mshape:OccurrenceScopeShape a sh:NodeShape ;
+    sh:targetClass hemo:0000004 ;
+    sh:sparql [ sh:message "This variable occurrence refers to {?v}, which is not a variable of the record {?r} whose expression contains it. A variable is scoped to one record." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?v ?r WHERE { $this hemo:1000021 ?vv .
+                $this ^(hemo:1000020|hemo:1000023|hemo:1000024|hemo:1000025)* ?root .
+                ?s hemo:1000017 ?root . ?r hemo:1000018|hemo:1000011/hemo:1000012 ?s .
+                FILTER NOT EXISTS { ?r hemo:1000006 ?vv } BIND (?vv AS ?v) }""" ] .
+
+mshape:IntervalRatioShape a sh:NodeShape ;
+    sh:targetSubjectsOf hemo:1000019 ;
+    sh:sparql [ sh:message "This division divides {?a} by {?b}, both on an interval scale, such as one MCDA value score by another. A ratio of interval-scale values has no meaning, because the zero of the scale is a convention." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?a ?b WHERE { $this hemo:1000019 hemo:4000052 . $this hemo:1000020 ?x . ?x hemo:2000006 ?px . FILTER (?px = 1)
+                ?x hemo:1000021 ?vx . ?vx hemo:1000013 ?kx . ?kx hemo:9000007 ?sx . FILTER (?sx = oheo:0000112)
+                $this hemo:1000020 ?y . ?y hemo:2000006 ?py . FILTER (?py = 2)
+                ?y hemo:1000021 ?vy . ?vy hemo:1000013 ?ky . ?ky hemo:9000007 ?sy . FILTER (?sy = oheo:0000112)
+                ?vx hemo:9000017 ?a . ?vy hemo:9000017 ?b . }""" ] .
+
+# ------------------------------------------------------------------ test values against domains
+mshape:QuantityKindBoundsShape a sh:NodeShape ;
+    sh:targetClass hemo:0000016 ;
+    sh:sparql [ sh:message "The test value {?x} of {?s} lies outside the bounds of its quantity kind {?k}, such as a probability above 1." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?x ?s ?k WHERE { $this rheo:2000001 ?x . $this hemo:1000039 ?v . ?v hemo:1000013 ?kk . ?v hemo:9000017 ?s . BIND (?kk AS ?k)
+                OPTIONAL { ?kk hemo:2000010 ?a } OPTIONAL { ?kk hemo:2000011 ?b } OPTIONAL { ?kk hemo:2000012 ?c } OPTIONAL { ?kk hemo:2000013 ?d }
+                FILTER ((BOUND(?a) && ?x < ?a) || (BOUND(?b) && ?x <= ?b) || (BOUND(?c) && ?x > ?c) || (BOUND(?d) && ?x >= ?d)) }""" ] .
+
+mshape:VariableBoundsShape a sh:NodeShape ;
+    sh:targetClass hemo:0000016 ;
+    sh:sparql [ sh:message "The test value {?x} of {?s} lies outside the domain of validity the formula states for that variable." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?x ?s WHERE { $this rheo:2000001 ?x . $this hemo:1000039 ?v . ?v hemo:9000017 ?s .
+                OPTIONAL { ?v hemo:2000010 ?a } OPTIONAL { ?v hemo:2000011 ?b } OPTIONAL { ?v hemo:2000012 ?c } OPTIONAL { ?v hemo:2000013 ?d }
+                FILTER ((BOUND(?a) && ?x < ?a) || (BOUND(?b) && ?x <= ?b) || (BOUND(?c) && ?x > ?c) || (BOUND(?d) && ?x >= ?d)) }""" ] .
+
+mshape:RateAsPercentShape a sh:NodeShape ;
+    sh:targetClass hemo:0000016 ;
+    sh:sparql [ sh:severity sh:Warning ;
+        sh:message "The test value {?x} of {?s} is above the plausible maximum {?m} of its quantity kind {?k}. A discount rate of 3.5 is a percentage written where the decimal 0.035 belongs." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?x ?s ?m ?k WHERE { $this rheo:2000001 ?x . $this hemo:1000039 ?v . ?v hemo:1000013 ?kk . ?kk hemo:2000014 ?m .
+                FILTER (?x > ?m) ?v hemo:9000017 ?s . BIND (?kk AS ?k) }""" ] .
+
+# ------------------------------------------------------------------ timing conventions (decision on timing)
+mshape:TimingConventionShape a sh:NodeShape ;
+    sh:targetSubjectsOf hemo:1000002 ;
+    sh:sparql [ sh:message "This record uses {?a}, counted under {?ta}, and {?b}, counted under {?tb}, without a named timing input. Costs and QALYs compared in one analysis must be counted under the same convention (module common error HE-ER-DISC-004)." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?a ?ta ?b ?tb WHERE { $this hemo:1000002 ?fa . $this hemo:1000002 ?fb . FILTER (STR(?fa) < STR(?fb))
+                ?fa hemo:1000034 ?xa . ?fb hemo:1000034 ?xb . FILTER (?xa != ?xb)
+                FILTER NOT EXISTS { ?fa hemo:1000034 ?xb } FILTER NOT EXISTS { ?fb hemo:1000034 ?xa }
+                FILTER NOT EXISTS { $this hemo:1000006 ?flag . ?flag hemo:1000034 ?any }
+                BIND (?fa AS ?a) BIND (?fb AS ?b) BIND (?xa AS ?ta) BIND (?xb AS ?tb) }""" ] .
+
+mshape:DiscountTimingShape a sh:NodeShape ;
+    sh:targetSubjectsOf hemo:1000035 ;
+    sh:sparql [ sh:message "{?problem}" ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?problem WHERE { $this hemo:1000035 hemo:4000017 .
+                { $this hemo:1000006 ?r . ?r hemo:1000013 hemo:4000121 .
+                  FILTER EXISTS { $this hemo:1000006 ?x . ?x hemo:1000016|hemo:1000013 ?y . FILTER (?y = hemo:4000004 || ?y = hemo:4000122) }
+                  FILTER NOT EXISTS { $this hemo:1000034 ?t }
+                  BIND ("This fully formalised record discounts a stream, with a discount rate and a sum over periods or a duration, but states no discount timing convention and has no named timing input." AS ?problem) }
+                UNION { $this hemo:1000034 ?t1 . $this hemo:1000034 ?t2 . FILTER (STR(?t1) < STR(?t2))
+                  FILTER NOT EXISTS { $this hemo:1000006 ?flag . ?flag hemo:1000034 ?any }
+                  BIND ("This record states more than one discount timing convention without a named timing input, so its costs and its QALYs could be counted under different conventions." AS ?problem) } }""" ] .
+
+# ------------------------------------------------------------------ bindings to real values (RHEO)
+mshape:BoundParameterShape a sh:NodeShape ;
+    sh:targetSubjectsOf hemo:1000050 ;
+    sh:sparql [ sh:message "The variable {?s} is in {?vu} but the RHEO estimate {?e} its parameter takes is in {?eu}, such as months entered where years are expected." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?s ?vu ?e ?eu WHERE { $this hemo:1000050 ?p . $this hemo:1000014 ?unit . $this hemo:9000017 ?s . ?unit hemo:9000019 ?vu .
+                ?asg rheo:1000012 ?p . ?asg rheo:1000010|rheo:1000011 ?est . ?est rheo:2000092 ?eu .
+                FILTER NOT EXISTS { ?unit hemo:9000019|hemo:9000029 ?code . FILTER (STR(?code) = STR(?eu)) } BIND (?est AS ?e) }""" ] ;
+    sh:sparql [ sh:message "The variable {?s} is money, so the RHEO estimate {?e} its parameter takes needs an ISO 4217 currency code and a price year." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?s ?e WHERE { $this hemo:1000050 ?p . $this hemo:1000013 ?k . ?k a hemo:0000020 . $this hemo:9000017 ?s .
+                ?asg rheo:1000012 ?p . ?asg rheo:1000010|rheo:1000011 ?est . FILTER (NOT EXISTS { ?est rheo:2000003 ?c } || NOT EXISTS { ?est rheo:2000004 ?y }) BIND (?est AS ?e) }""" ] .
+
+mshape:ParameterBindingShape a sh:NodeShape ;
+    sh:targetClass hemo:0000039 ;
+    sh:property [ sh:path hemo:1000060 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A parameter binding is the binding of exactly one HEMO variable." ] ;
+    sh:property [ sh:path hemo:1000061 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A parameter binding binds to exactly one RHEO model parameter." ] ;
+    sh:property [ sh:path hemo:1000062 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A parameter binding belongs to exactly one RHEO economic model version." ] ;
+    sh:property [ sh:path hemo:1000063 ; sh:maxCount 1 ; sh:message "A parameter binding is for at most one RHEO option." ] ;
+    sh:sparql [ sh:message "The RHEO parameter {?p} of this binding is not a parameter of the model version {?mv} it belongs to." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?p ?mv WHERE { $this hemo:1000061 ?p . $this hemo:1000062 ?mv . FILTER NOT EXISTS { ?mv rheo:1000016 ?p } }""" ] ;
+    sh:sparql [ sh:message "The model version {?mv} has a second binding of the variable {?s} for the same option, or a second binding for no option, so the variable would take two values. A binding for an option overrides the binding for no option." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?mv ?s WHERE { $this hemo:1000060 ?v . $this hemo:1000062 ?mv . ?other hemo:1000060 ?v . ?other hemo:1000062 ?mv . FILTER (?other != $this)
+                OPTIONAL { $this hemo:1000063 ?o1 } OPTIONAL { ?other hemo:1000063 ?o2 } FILTER ((!BOUND(?o1) && !BOUND(?o2)) || ?o1 = ?o2) ?v hemo:9000017 ?s . }""" ] ;
+    sh:sparql [ sh:message "The variable {?s} is in {?vu} but the RHEO estimate {?e} its bound parameter takes in this model version is in {?eu}, such as months entered where years are expected." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?s ?vu ?e ?eu WHERE { $this hemo:1000060 ?v . $this hemo:1000061 ?p . $this hemo:1000062 ?mv . ?v hemo:1000014 ?unit . ?v hemo:9000017 ?s . ?unit hemo:9000019 ?vu .
+                ?asg rheo:1000012 ?p . ?asg rheo:1000013 ?mv . ?asg rheo:1000010|rheo:1000011 ?est . ?est rheo:2000092 ?eu .
+                FILTER NOT EXISTS { ?unit hemo:9000019|hemo:9000029 ?code . FILTER (STR(?code) = STR(?eu)) } BIND (?est AS ?e) }""" ] ;
+    sh:sparql [ sh:message "The variable {?s} is money, so the RHEO estimate {?e} its bound parameter takes in this model version needs an ISO 4217 currency code and a price year." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?s ?e WHERE { $this hemo:1000060 ?v . $this hemo:1000061 ?p . $this hemo:1000062 ?mv . ?v hemo:1000013 ?k . ?k a hemo:0000020 . ?v hemo:9000017 ?s .
+                ?asg rheo:1000012 ?p . ?asg rheo:1000013 ?mv . ?asg rheo:1000010|rheo:1000011 ?est . FILTER (NOT EXISTS { ?est rheo:2000003 ?c } || NOT EXISTS { ?est rheo:2000004 ?y }) BIND (?est AS ?e) }""" ] .
+
+# ------------------------------------------------------------------ expression trees (reviewer A nice 6)
+mshape:ExpressionTreeShape a sh:NodeShape ;
+    sh:targetObjectsOf hemo:1000020 , hemo:1000023 , hemo:1000024 , hemo:1000025 ;
+    sh:sparql [ sh:message "This expression node has more than one parent, so its argument position is not well defined." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this WHERE { ?a hemo:1000020|hemo:1000023|hemo:1000024|hemo:1000025 $this . ?b hemo:1000020|hemo:1000023|hemo:1000024|hemo:1000025 $this . FILTER (?a != ?b) }""" ] .
+
+# ------------------------------------------------------------------ implementations agree
+mshape:ImplementationAgreementShape a sh:NodeShape ;
+    sh:targetClass hemo:0000027 ;
+    sh:property [ sh:path hemo:1000047 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A run record names the one implementation that was run." ] ;
+    sh:property [ sh:path hemo:1000048 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A run record names the one test case it was run on." ] ;
+    sh:sparql [ sh:message "Two implementations of {?r} return {?x} and {?y} on the same test case, which differ by more than its tolerance. One of them is wrong." ;
+        sh:select """PREFIX hemo: <https://healtheconomics.wiki/ontologies/hemo/HEMO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?r ?x ?y WHERE { $this hemo:1000047 ?i . $this hemo:1000048 ?t . $this rheo:2000001 ?x .
+                ?o hemo:1000048 ?t . ?o hemo:1000047 ?j . ?o rheo:2000001 ?y . FILTER (?j != ?i && STR($this) < STR(?o))
+                ?i hemo:1000004 ?rec . ?j hemo:1000004 ?rec2 . FILTER (?rec = ?rec2) OPTIONAL { ?t hemo:2000008 ?tol }
+                FILTER (ABS(?x - ?y) > COALESCE(?tol, 0.000001)) BIND (?rec AS ?r) }""" ] .

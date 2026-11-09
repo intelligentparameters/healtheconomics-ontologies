@@ -1,0 +1,1365 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix heto: <https://healtheconomics.wiki/ontologies/heto/HETO_> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> .
+@prefix oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+obo:IAO_0000112 a owl:AnnotationProperty ;
+    rdfs:label "example of usage"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000115 a owl:AnnotationProperty ;
+    rdfs:label "definition"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000116 a owl:AnnotationProperty ;
+    rdfs:label "editor note"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000117 a owl:AnnotationProperty ;
+    rdfs:label "term editor"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000118 a owl:AnnotationProperty ;
+    rdfs:label "alternative label"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000119 a owl:AnnotationProperty ;
+    rdfs:label "definition source"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000231 a owl:AnnotationProperty ;
+    rdfs:label "has obsolescence reason"@en .
+
+obo:IAO_0000412 a owl:AnnotationProperty ;
+    rdfs:label "imported from"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:OBI_0000417 a owl:ObjectProperty ;
+    rdfs:label "achieves_planned_objective"@en ;
+    obo:IAO_0000115 "This relation obtains between a planned process and a objective specification when the criteria specified in the objective specification are met at the end of the planned process."@en ;
+    obo:IAO_0000116 "OBI's label is kept as served. The relation links a task performance to the objective specification of its task when the objective was met."@en ;
+    obo:IAO_0000412 obo:obi.owl .
+
+obo:RO_0017002 a owl:ObjectProperty ;
+    rdfs:label "information specifies"@en ;
+    obo:IAO_0000115 "A relation between information and an entity such that the information serves as a rule or guide if the entity is an occurrent, or the information serves as a model if the entity is a continuant."@en ;
+    obo:IAO_0000116 "RO records this relation as an exact match of the Common Core Ontologies relation 'prescribes', the relation Duncan et al. 2024 recommend for linking a plan specification to the process it guides."@en ;
+    obo:IAO_0000412 obo:ro.owl ;
+    owl:inverseOf obo:RO_0017010 .
+
+dcterms:bibliographicCitation a owl:AnnotationProperty ;
+    rdfs:label "bibliographic citation"@en .
+
+dcterms:contributor a owl:AnnotationProperty ;
+    rdfs:label "contributor"@en .
+
+dcterms:created a owl:AnnotationProperty ;
+    rdfs:label "date created"@en .
+
+dcterms:creator a owl:AnnotationProperty ;
+    rdfs:label "creator"@en .
+
+dcterms:description a owl:AnnotationProperty ;
+    rdfs:label "description"@en .
+
+dcterms:issued a owl:AnnotationProperty ;
+    rdfs:label "date issued"@en .
+
+dcterms:license a owl:AnnotationProperty ;
+    rdfs:label "license"@en .
+
+dcterms:modified a owl:AnnotationProperty ;
+    rdfs:label "date modified"@en .
+
+dcterms:publisher a owl:AnnotationProperty ;
+    rdfs:label "publisher"@en .
+
+dcterms:title a owl:AnnotationProperty ;
+    rdfs:label "title"@en .
+
+vann:preferredNamespacePrefix a owl:AnnotationProperty ;
+    rdfs:label "preferred namespace prefix"@en .
+
+vann:preferredNamespaceUri a owl:AnnotationProperty ;
+    rdfs:label "preferred namespace URI"@en .
+
+oboInOwl:consider a owl:AnnotationProperty ;
+    rdfs:label "consider"@en .
+
+foaf:homepage a owl:AnnotationProperty ;
+    rdfs:label "homepage"@en .
+
+heto:0000002 a owl:Class ;
+    rdfs:label "composite task specification"@en ;
+    obo:IAO_0000115 "A task specification that has one or more other task specifications as subtasks, so that it describes a larger undertaking made up of smaller units of work."@en ;
+    obo:IAO_0000116 "Defined class. Do not assert it. A reasoner places a task specification here when it has a subtask, so the level of a task is worked out from the decomposition and no fixed depth is imposed."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026 (levels of work)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( heto:0000001 [ a owl:Restriction ;
+                        owl:onProperty heto:1000001 ;
+                        owl:someValuesFrom heto:0000001 ] ) ] .
+
+heto:0000030 a owl:Class ;
+    rdfs:label "health economics task performance"@en ;
+    obo:IAO_0000115 "A planned process in which one or more people carry out health economics work as a task specification in the HETO catalogue prescribes, whether or not the work achieves its objective."@en ;
+    obo:IAO_0000116 "A performance is linked to the task specification that prescribes it by 'specified by information' (RO_0017010). That link holds even when the work fails or departs from the specification, which is why HETO uses it rather than requiring a plan that concretizes the specification (Duncan et al. 2024). The kinds of process involved, such as a RHEO model run, are recorded on the task specification with 'has process type'."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "COB planned process (COB_0000082); Duncan et al. 2024" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty obo:RO_0017010 ;
+            owl:someValuesFrom heto:0000001 ],
+        obo:COB_0000082 .
+
+heto:1000003 a owl:ObjectProperty ;
+    rdfs:label "normally precedes"@en ;
+    obo:IAO_0000115 "Relates two task specifications when the work the first describes is usually done, at least in a first version, before the work the second describes begins. This is ordering. It states usual practice, not a rule, and work is often revisited."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0); Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026 (classification, decomposition and ordering)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heto:0000001 ;
+    rdfs:range heto:0000001 ;
+    owl:inverseOf heto:1000004 .
+
+heto:3000001 a owl:AnnotationProperty ;
+    rdfs:label "obsolete requires concept"@en ;
+    obo:IAO_0000115 "Obsolete. In HETO 0.1.0 this related a task specification to a HEO concept a person needs to understand to do the work."@en ;
+    obo:IAO_0000116 "Made obsolete in 0.2.0. HEO concepts are not real things, so HETO's logical links now go to RHEO and OHEO types (involves type and its sub-properties). The task-to-concept links are kept, for learning and navigation only, as skos:relatedMatch rows in heto-mappings.sssom.tsv, their one home."@en ;
+    obo:IAO_0000119 "Darrin Baines, decision of 17 October 2026, approved by Michelle Ashley" ;
+    obo:IAO_0000231 obo:OMO_0001000 ;
+    oboInOwl:consider heto:3000002 ;
+    owl:deprecated true .
+
+heto:3000003 a owl:AnnotationProperty ;
+    rdfs:label "has input type"@en ;
+    obo:IAO_0000115 "Relates a task specification to a class whose instances are usual inputs to the work."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subPropertyOf heto:3000002 .
+
+heto:3000004 a owl:AnnotationProperty ;
+    rdfs:label "has output type"@en ;
+    obo:IAO_0000115 "Relates a task specification to a class whose instances are usual outputs of the work."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subPropertyOf heto:3000002 .
+
+heto:3000005 a owl:AnnotationProperty ;
+    rdfs:label "has process type"@en ;
+    obo:IAO_0000115 "Relates a task specification to a class of process in which the work, or a main part of it, is carried out. The value is a subclass of BFO process. It names a process type; a particular performance is recorded separately."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subPropertyOf heto:3000002 .
+
+heto:3000006 a owl:AnnotationProperty ;
+    rdfs:label "has practitioner role"@en ;
+    obo:IAO_0000115 "Relates a task specification to the role class whose bearers usually carry out the work. The value is a subclass of health economics practitioner role."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:3000007 a owl:AnnotationProperty ;
+    rdfs:label "inputs description"@en ;
+    obo:IAO_0000115 "A plain-language statement of the usual inputs to the work a task specification describes."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:3000008 a owl:AnnotationProperty ;
+    rdfs:label "expected output description"@en ;
+    obo:IAO_0000115 "A plain-language statement of the usual result the work a task specification describes produces."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:3000009 a owl:AnnotationProperty ;
+    rdfs:label "has guidance resource"@en ;
+    obo:IAO_0000115 "Relates a task specification to a separate resource, such as a methods guide or a teaching page, that gives detailed guidance on doing the work. The value is the resource's URL, labelled with its name, its version or date, and the date the link was checked. HETO does not take any figure or rule from the resource."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4000017 a owl:NamedIndividual,
+        heto:0000017 ;
+    rdfs:label "Prepare the economic evidence for a health technology assessment submission"@en ;
+    obo:IAO_0000115 "A task specification for assembling the economic evidence for a technology, including the economic evaluation, its model and supporting documents, in the form set by the health technology assessment body that will appraise it."@en ;
+    obo:IAO_0000116 "Definition is HealthEconomics.wiki editorial wording, for Darrin Baines to confirm. The evaluation it contains can also be part of other undertakings, such as an assessment group's own evaluation or a publication."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000001 heto:4000001 ;
+    heto:1000005 heto:4101701 ;
+    heto:1000006 heto:4201701,
+        heto:4201702 ;
+    heto:3000002 rheo:0000062,
+        rheo:0000083 ;
+    heto:3000003 obo:IAO_0000310,
+        rheo:0000028,
+        rheo:0000032 ;
+    heto:3000004 obo:IAO_0000310 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The economic evaluation, its model, and the methods guidance and templates of the assessment body."@en ;
+    heto:3000008 "The economic sections of a submission dossier and the accompanying model."@en .
+
+obo:OMO_0001000 a owl:NamedIndividual ;
+    rdfs:label "out of scope"@en .
+
+<https://healtheconomics.wiki/ontologies/heto> a owl:Ontology ;
+    dcterms:bibliographicCitation "Baines D, Ashley M. Health Economics Task Ontology (HETO), version 0.2.0. Intelligent Parameters Ltd; 2026. https://healtheconomics.wiki/ontologies/heto/0.3.0/heto.owl. Licence CC BY 4.0." ;
+    dcterms:created "2026-10-17"^^xsd:date ;
+    dcterms:creator <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    dcterms:description "HETO, the Health Economics Task Ontology, describes recognisable units of health economics work, such as adding discounting to an economic model or running a probabilistic sensitivity analysis, and connects each one to the real things it works on, as RHEO and OHEO define them. A HETO task is a reusable specification of a defined unit of work. It states an intended result and the main actions directed towards it, independently of any particular practitioner, project or software. Following the Information Artifact Ontology, a task specification is a plan specification (IAO_0000104) with an objective specification and action specifications as parts. Each named task in the pilot catalogue is an individual with its own URI; subclasses of task specification classify kinds of task. A particular performance of the work is a separate planned process (health economics task performance), linked to the specification it follows by 'specified by information' (RO_0017010), as Duncan et al. 2024 recommend. Three relations are kept apart. Classification (rdf:type) says what kind of task something is; decomposition (has subtask specification) says which smaller tasks make up a larger one; ordering (normally precedes) says which work is usually done first. Policy (decided by Darrin Baines, 17 October 2026). HEO is a thesaurus of concepts, which are not real things; RHEO and OHEO define the real things of health economics within BFO 2020; HETO describes work on those real things, so its logical links go to RHEO and OHEO only. Each task names the RHEO or OHEO types of its inputs, outputs and processes, and the HETO role of the person who does it. HEO concepts are not linked from heto.ttl. They appear only in heto-mappings.sssom.tsv, as secondary skos:relatedMatch rows for learning and navigation, which state no requirement and no identity. No HETO class uses a HEO concept URI. Requirements on the catalogue and on records of task performances are SHACL shapes in heto-shapes.ttl."@en ;
+    dcterms:issued "2026-10-17"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:modified "2026-10-20"^^xsd:date ;
+    dcterms:publisher "Intelligent Parameters Ltd" ;
+    dcterms:title "Health Economics Task Ontology (HETO)"@en ;
+    vann:preferredNamespacePrefix "heto" ;
+    vann:preferredNamespaceUri "https://healtheconomics.wiki/ontologies/heto/HETO_" ;
+    rdfs:comment "Pilot release (status alpha) for review by its creators and invited reviewers before the task list is expanded. HETO imports RHEO 0.4.0 with its uncertainty module and OHEO 0.3.0, and through them BFO 2020 (ISO/IEC 21838-2); the BFO, IAO, COB, OBI and RO terms RHEO declares are not declared again. The other reused terms (IAO objective specification and action specification, RO has part, information specifies and specified by information, OBI achieves planned objective) are declared with their official label and definition as served by the EBI Ontology Lookup Service on 2026-10-16 (IAO 2026-03-30, RO 2026-09-04, OBI 2026-07-27), with one parent the source asserts where it asserts one. Consult the source ontologies for their full axioms."@en ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/heo>,
+        <https://healtheconomics.wiki/ontologies/oheo>,
+        <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:imports <https://healtheconomics.wiki/ontologies/oheo/0.3.0/oheo.owl>,
+        <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo-uncertainty.owl>,
+        <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl> ;
+
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/heto/0.3.0/heto.owl> ;
+    owl:versionInfo "0.3.0 (alpha)" ;
+    foaf:homepage <https://healtheconomics.wiki/ontologies/heto> .
+
+heto:0000013 a owl:Class ;
+    rdfs:label "health outcome valuation task specification"@en ;
+    obo:IAO_0000115 "A task specification whose intended result is a value placed on health outcomes or health states, such as the utility values given to the states of an economic model."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 .
+
+heto:0000015 a owl:Class ;
+    rdfs:label "model validation task specification"@en ;
+    obo:IAO_0000115 "A task specification whose intended result is evidence on whether an economic model is technically correct, credible and fit for its decision purpose."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Eddy et al. 2012; Vemer et al. 2016" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 .
+
+heto:0000016 a owl:Class ;
+    rdfs:label "results analysis task specification"@en ;
+    obo:IAO_0000115 "A task specification whose intended result is a comparison of the costs and health outcomes of the options in an economic evaluation, such as incremental cost-effectiveness ratios or net benefit."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 .
+
+heto:1000001 a owl:ObjectProperty ;
+    rdfs:label "has subtask specification"@en ;
+    obo:IAO_0000115 "Relates a task specification to another task specification that describes a smaller unit of the work it describes. This is decomposition. A subtask is a part of the larger task, not a kind of it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0); Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026 (classification, decomposition and ordering)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heto:0000001 ;
+    rdfs:range heto:0000001 ;
+    rdfs:subPropertyOf obo:BFO_0000051 ;
+    owl:inverseOf heto:1000002 .
+
+heto:1000002 a owl:ObjectProperty ;
+    rdfs:label "subtask specification of"@en ;
+    obo:IAO_0000115 "Relates a task specification to a larger task specification of which it describes a part of the work."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0); Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026 (classification, decomposition and ordering)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heto:0000001 ;
+    rdfs:range heto:0000001 ;
+    rdfs:subPropertyOf obo:BFO_0000050 .
+
+heto:1000004 a owl:ObjectProperty ;
+    rdfs:label "normally preceded by"@en ;
+    obo:IAO_0000115 "Relates two task specifications when the work the second describes is usually done, at least in a first version, before the work the first describes begins."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0); Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026 (classification, decomposition and ordering)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heto:0000001 ;
+    rdfs:range heto:0000001 .
+
+heto:1000005 a owl:ObjectProperty ;
+    rdfs:label "has objective specification"@en ;
+    obo:IAO_0000115 "Relates a plan specification to an objective specification that is part of it and states the intended result of the work."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0); Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026 (classification, decomposition and ordering)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain obo:IAO_0000104 ;
+    rdfs:range obo:IAO_0000005 ;
+    rdfs:subPropertyOf obo:BFO_0000051 .
+
+heto:1000006 a owl:ObjectProperty ;
+    rdfs:label "has action specification"@en ;
+    obo:IAO_0000115 "Relates a plan specification to an action specification that is part of it and states one of the main actions of the work."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0); Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026 (classification, decomposition and ordering)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain obo:IAO_0000104 ;
+    rdfs:range obo:IAO_0000007 ;
+    rdfs:subPropertyOf obo:BFO_0000051 .
+
+heto:4000001 a owl:NamedIndividual,
+        heto:0000001 ;
+    rdfs:label "Conduct a model-based economic evaluation"@en ;
+    obo:IAO_0000115 "A task specification for comparing the costs and health outcomes of two or more options for a stated decision problem by means of an economic model, so that a decision maker can judge which option offers better value."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000001 heto:4000002,
+        heto:4000005,
+        heto:4000011,
+        heto:4000012,
+        heto:4000013,
+        heto:4000016 ;
+    heto:1000005 heto:4100101 ;
+    heto:1000006 heto:4200101,
+        heto:4200102,
+        heto:4200103,
+        heto:4200104 ;
+    heto:3000002 rheo:0000027 ;
+    heto:3000003 rheo:0000022,
+        rheo:0000025,
+        rheo:0000035 ;
+    heto:3000004 obo:IAO_0000310,
+        rheo:0000032 ;
+    heto:3000005 rheo:0000031 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The decision question, the options to be compared, and the clinical, cost and outcome evidence available."@en ;
+    heto:3000008 "The results of the evaluation with their uncertainty, and a report of its methods and results."@en .
+
+heto:4000002 a owl:NamedIndividual,
+        heto:0000010 ;
+    rdfs:label "Define the decision problem"@en ;
+    obo:IAO_0000115 "A task specification for stating the decision an economic evaluation is to inform, including the population, the options compared, the outcomes, the perspective and the time horizon, before any analysis begins."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000001 heto:4000003,
+        heto:4000004 ;
+    heto:1000003 heto:4000005 ;
+    heto:1000005 heto:4100201 ;
+    heto:1000006 heto:4200201,
+        heto:4200202,
+        heto:4200203,
+        heto:4200204 ;
+    heto:3000003 obo:IAO_0000310 ;
+    heto:3000004 rheo:0000004,
+        rheo:0000025,
+        rheo:0000026 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The policy or clinical question, the technologies of interest and any scope issued by the decision maker."@en ;
+    heto:3000008 "A decision problem specification."@en .
+
+heto:4000003 a owl:NamedIndividual,
+        heto:0000010 ;
+    rdfs:label "Define the evaluation perspective"@en ;
+    obo:IAO_0000115 "A task specification for stating whose costs and health outcomes an economic evaluation counts, such as those falling on the health system or on society as a whole, so that resources and outcomes are included consistently."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000007 ;
+    heto:1000005 heto:4100301 ;
+    heto:1000006 heto:4200301,
+        heto:4200302 ;
+    heto:3000002 rheo:0000123 ;
+    heto:3000003 rheo:0000025 ;
+    heto:3000004 rheo:0000072 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The decision problem and any methods guidance from the decision maker."@en ;
+    heto:3000008 "A perspective specification."@en .
+
+heto:4000004 a owl:NamedIndividual,
+        heto:0000010 ;
+    rdfs:label "Set the time horizon"@en ;
+    obo:IAO_0000115 "A task specification for choosing the period over which an economic evaluation counts costs and health outcomes, long enough to capture the differences between the options compared."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000006 ;
+    heto:1000005 heto:4100401 ;
+    heto:1000006 heto:4200401,
+        heto:4200402 ;
+    heto:3000003 rheo:0000025 ;
+    heto:3000004 rheo:0000025 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The decision problem and the evidence on how long the effects of the options last."@en ;
+    heto:3000008 "The time horizon, recorded in the decision problem specification."@en .
+
+heto:4000014 a owl:NamedIndividual,
+        heto:0000014 ;
+    rdfs:label "Run a deterministic sensitivity analysis"@en ;
+    obo:IAO_0000115 "A task specification for re-running an economic model with chosen inputs set to alternative fixed values, one or a few at a time, to see which inputs drive the results."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "Run a DSA"@en ;
+    obo:IAO_0000119 "Briggs, Claxton and Sculpher 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000005 heto:4101401 ;
+    heto:1000006 heto:4201401,
+        heto:4201402 ;
+    heto:3000003 rheo:0000019,
+        rheo:0000028 ;
+    heto:3000004 rheo:0000032 ;
+    heto:3000005 rheo:0000031 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "The economic model version and plausible ranges for its inputs."@en ;
+    heto:3000008 "Deterministic sensitivity analysis results, such as a table or a tornado diagram."@en .
+
+heto:4000015 a owl:NamedIndividual,
+        heto:0000014 ;
+    rdfs:label "Run a probabilistic sensitivity analysis"@en ;
+    obo:IAO_0000115 "A task specification for running an economic model many times with all uncertain inputs drawn jointly from probability distributions, to estimate expected costs and outcomes and the probability that each option is cost-effective across a range of threshold values."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "Run a PSA"@en ;
+    obo:IAO_0000119 "Briggs, Claxton and Sculpher 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000005 heto:4101501 ;
+    heto:1000006 heto:4201501,
+        heto:4201502,
+        heto:4201503 ;
+    heto:3000003 rheo:0000019,
+        rheo:0000028,
+        rheo:0000141,
+        rheo:0000142 ;
+    heto:3000004 rheo:0000032,
+        rheo:0000143 ;
+    heto:3000005 rheo:0000031 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "The economic model version and the evidence on the uncertainty of each parameter."@en ;
+    heto:3000008 "The set of simulated results and their summaries."@en .
+
+heto:4000019 a owl:NamedIndividual,
+        heto:0000014 ;
+    rdfs:label "Run scenario analyses"@en ;
+    obo:IAO_0000115 "A task specification for re-running an economic model under alternative assumptions or structural choices, such as another survival extrapolation or another source of evidence, to see whether the results or the decision change."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Briggs, Claxton and Sculpher 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000005 heto:4101901 ;
+    heto:1000006 heto:4201901,
+        heto:4201902 ;
+    heto:3000003 rheo:0000020,
+        rheo:0000028,
+        rheo:0000030 ;
+    heto:3000004 rheo:0000032 ;
+    heto:3000005 rheo:0000031 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "The economic model version and the alternative assumptions or structures to test."@en ;
+    heto:3000008 "Scenario analysis results."@en .
+
+heto:4100101 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Estimate and compare the expected costs and health outcomes of the options in the decision problem, with the uncertainty around them"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Conduct a model-based economic evaluation, which is to estimate and compare the expected costs and health outcomes of the options in the decision problem, with the uncertainty around them."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4100201 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Agree a written statement of the decision problem that the evaluation and any model will address"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Define the decision problem, which is to agree a written statement of the decision problem that the evaluation and any model will address."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4100301 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "State the perspective of the evaluation and the kinds of cost and outcome it includes"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Define the evaluation perspective, which is to state the perspective of the evaluation and the kinds of cost and outcome it includes."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4100401 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "State a time horizon that captures all relevant differences in costs and outcomes between the options"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Set the time horizon, which is to state a time horizon that captures all relevant differences in costs and outcomes between the options."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4100501 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Produce an economic model version, with its structure and parameters, that can be run to estimate costs and outcomes for each option"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Develop an economic model, which is to produce an economic model version, with its structure and parameters, that can be run to estimate costs and outcomes for each option."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4100601 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Agree a model structure that represents the disease process and the decision problem well enough to inform the decision"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Conceptualise the model structure, which is to agree a model structure that represents the disease process and the decision problem well enough to inform the decision."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4100701 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Obtain an estimate of the quantity of each relevant resource used, per person or per event, for each option or state"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Estimate resource use, which is to obtain an estimate of the quantity of each relevant resource used, per person or per event, for each option or state."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4100801 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Attach a unit cost, with its source, currency and price year, to each kind of resource counted"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Select unit costs, which is to attach a unit cost, with its source, currency and price year, to each kind of resource counted."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4100901 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Give each model health state a utility value, with its source and uncertainty, on a scale on which full health is 1 and dead is 0, with values below 0 for states worse than dead"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Assign utility values to model health states, which is to give each model health state a utility value, with its source and uncertainty, on a scale on which full health is 1 and dead is 0, with values below 0 for states worse than dead."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101001 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Express future costs and outcomes in present-value terms"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Add discounting to an economic model, which is to express future costs and outcomes in present-value terms."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101101 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Establish, with recorded evidence, whether the model is fit for its stated decision purpose"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Validate an economic model, which is to establish, with recorded evidence, whether the model is fit for its stated decision purpose."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101201 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Produce the incremental results that show which options are cost-effective at stated thresholds"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Calculate incremental cost-effectiveness results, which is to produce the incremental results that show which options are cost-effective at stated thresholds."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101301 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Show how far the results and the decision depend on uncertain inputs and assumptions"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Conduct sensitivity analysis, which is to show how far the results and the decision depend on uncertain inputs and assumptions."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101401 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Identify the inputs whose plausible values most change the results or the decision"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Run a deterministic sensitivity analysis, which is to identify the inputs whose plausible values most change the results or the decision."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101501 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Estimate expected results and the probability that each option is cost-effective across a range of threshold values, given joint parameter uncertainty"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Run a probabilistic sensitivity analysis, which is to estimate expected results and the probability that each option is cost-effective across a range of threshold values, given joint parameter uncertainty."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101601 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Produce a report that sets out the methods and results of the evaluation completely enough for them to be assessed"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Report an economic evaluation, which is to produce a report that sets out the methods and results of the evaluation completely enough for them to be assessed."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101701 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Provide the assessment body with economic evidence and a model it can review and rerun"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Prepare the economic evidence for a health technology assessment submission, which is to provide the assessment body with economic evidence and a model it can review and rerun."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101801 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Give each transition and treatment effect parameter of the model a value, with its source and uncertainty"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Estimate transition probabilities and treatment effects, which is to give each transition and treatment effect parameter of the model a value, with its source and uncertainty."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4101901 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Show whether the decision changes under plausible alternative assumptions and structures"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Run scenario analyses, which is to show whether the decision changes under plausible alternative assumptions and structures."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4102001 a obo:IAO_0000005,
+        owl:NamedIndividual ;
+    rdfs:label "Obtain the cost of each option or modelled health state, in a stated currency and price year"@en ;
+    obo:IAO_0000115 "An objective specification that states the intended result of the task specification Value resource use, which is to obtain the cost of each option or modelled health state, in a stated currency and price year."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200101 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Frame the decision problem the evaluation is to inform"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conduct a model-based economic evaluation, directing the practitioner to frame the decision problem the evaluation is to inform."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200102 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Build or adapt an economic model and populate it with evidence"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conduct a model-based economic evaluation, directing the practitioner to build or adapt an economic model and populate it with evidence."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200103 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Estimate incremental results and describe their uncertainty"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conduct a model-based economic evaluation, directing the practitioner to estimate incremental results and describe their uncertainty."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200104 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Report the methods and results of the evaluation"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conduct a model-based economic evaluation, directing the practitioner to report the methods and results of the evaluation."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200201 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Identify the population, the intervention and the comparators"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Define the decision problem, directing the practitioner to identify the population, the intervention and the comparators."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200202 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Specify the costs and outcomes to be counted"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Define the decision problem, directing the practitioner to specify the costs and outcomes to be counted."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200203 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Align the evaluation methods with the methods guidance of the decision maker or assessment body"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Define the decision problem, directing the practitioner to align the evaluation methods with the methods guidance of the decision maker or assessment body."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200204 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Record the decision problem for the evaluation team and the decision maker"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Define the decision problem, directing the practitioner to record the decision problem for the evaluation team and the decision maker."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200301 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Identify the decision maker and any methods guidance that applies"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Define the evaluation perspective, directing the practitioner to identify the decision maker and any methods guidance that applies."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200302 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Choose the perspective and list the kinds of resource it includes"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Define the evaluation perspective, directing the practitioner to choose the perspective and list the kinds of resource it includes."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200401 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Consider how long the effects of the options on costs and outcomes last"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Set the time horizon, directing the practitioner to consider how long the effects of the options on costs and outcomes last."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200402 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Record the chosen time horizon and the reason for it"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Set the time horizon, directing the practitioner to record the chosen time horizon and the reason for it."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200501 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Design the structure of the model"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Develop an economic model, directing the practitioner to design the structure of the model."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200502 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Populate the model parameters with estimates or stated assumptions"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Develop an economic model, directing the practitioner to populate the model parameters with estimates or stated assumptions."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200503 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Implement the model calculations, including discounting"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Develop an economic model, directing the practitioner to implement the model calculations, including discounting."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200601 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Describe the disease process and care pathway relevant to the decision"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conceptualise the model structure, directing the practitioner to describe the disease process and care pathway relevant to the decision."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200602 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Choose the modelling technique and the states or events to represent"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conceptualise the model structure, directing the practitioner to choose the modelling technique and the states or events to represent."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200603 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Record the structural assumptions and the reasons for them"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conceptualise the model structure, directing the practitioner to record the structural assumptions and the reasons for them."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200701 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Identify the kinds of resource that the perspective includes"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Estimate resource use, directing the practitioner to identify the kinds of resource that the perspective includes."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200702 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Measure or estimate the quantity of each resource used from records, trials or published sources"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Estimate resource use, directing the practitioner to measure or estimate the quantity of each resource used from records, trials or published sources."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200801 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Find unit cost sources that match the perspective and setting"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Select unit costs, directing the practitioner to find unit cost sources that match the perspective and setting."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200802 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Choose a unit cost for each resource and adjust it to the price year of the analysis where needed"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Select unit costs, directing the practitioner to choose a unit cost for each resource and adjust it to the price year of the analysis where needed."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200901 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Find utility evidence that matches the model health states and population"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Assign utility values to model health states, directing the practitioner to find utility evidence that matches the model health states and population."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4200902 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Choose a utility value for each state and record the reason for the choice"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Assign utility values to model health states, directing the practitioner to choose a utility value for each state and record the reason for the choice."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201001 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Apply the specified discount rates to relevant model calculations"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Add discounting to an economic model, directing the practitioner to apply the specified discount rates to relevant model calculations."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201002 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Calculate discounted totals"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Add discounting to an economic model, directing the practitioner to calculate discounted totals."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201101 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Check the model calculations and code for errors"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Validate an economic model, directing the practitioner to check the model calculations and code for errors."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201102 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Review the structure and assumptions with people who know the condition"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Validate an economic model, directing the practitioner to review the structure and assumptions with people who know the condition."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201103 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Compare model outputs with data not used to build the model, where such data exist"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Validate an economic model, directing the practitioner to compare model outputs with data not used to build the model, where such data exist."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201201 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Run the model for each option, deterministically or probabilistically"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Calculate incremental cost-effectiveness results, directing the practitioner to run the model for each option, deterministically or probabilistically."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201202 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Rank the options by cost and remove dominated and extendedly dominated options"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Calculate incremental cost-effectiveness results, directing the practitioner to rank the options by cost and remove dominated and extendedly dominated options."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201203 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Calculate incremental cost-effectiveness ratios or net monetary benefit"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Calculate incremental cost-effectiveness results, directing the practitioner to calculate incremental cost-effectiveness ratios or net monetary benefit."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201301 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Identify the uncertain parameters, assumptions and structural choices"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conduct sensitivity analysis, directing the practitioner to identify the uncertain parameters, assumptions and structural choices."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201302 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Vary them and record the effect on the results and on the decision"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Conduct sensitivity analysis, directing the practitioner to vary them and record the effect on the results and on the decision."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201401 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Choose the inputs to vary and their alternative values"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Run a deterministic sensitivity analysis, directing the practitioner to choose the inputs to vary and their alternative values."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201402 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Re-run the model for each set of values and tabulate or plot the results"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Run a deterministic sensitivity analysis, directing the practitioner to re-run the model for each set of values and tabulate or plot the results."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201501 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Assign a probability distribution to each uncertain parameter"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Run a probabilistic sensitivity analysis, directing the practitioner to assign a probability distribution to each uncertain parameter."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201502 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Run the model repeatedly with values sampled from those distributions"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Run a probabilistic sensitivity analysis, directing the practitioner to run the model repeatedly with values sampled from those distributions."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201503 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Summarise the simulated results, for example on a cost-effectiveness plane, an acceptability curve and an acceptability frontier"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Run a probabilistic sensitivity analysis, directing the practitioner to summarise the simulated results, for example on a cost-effectiveness plane, an acceptability curve and an acceptability frontier."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201601 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Describe the decision problem, methods, inputs and assumptions"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Report an economic evaluation, directing the practitioner to describe the decision problem, methods, inputs and assumptions."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201602 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Present the results and the analyses of uncertainty"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Report an economic evaluation, directing the practitioner to present the results and the analyses of uncertainty."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201603 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Check the report against a reporting checklist such as CHEERS 2022"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Report an economic evaluation, directing the practitioner to check the report against a reporting checklist such as CHEERS 2022."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201701 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Assemble the report, the executable model and the supporting documents in the format the body sets"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Prepare the economic evidence for a health technology assessment submission, directing the practitioner to assemble the report, the executable model and the supporting documents in the format the body sets."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201702 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Check that the assembled evidence is complete and consistent with the evaluation it reports"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Prepare the economic evidence for a health technology assessment submission, directing the practitioner to check that the assembled evidence is complete and consistent with the evaluation it reports."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201801 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Find clinical evidence on baseline risks and on the relative effects of the options"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Estimate transition probabilities and treatment effects, directing the practitioner to find clinical evidence on baseline risks and on the relative effects of the options."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201802 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Convert rates or survival data into transition probabilities for the model cycle"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Estimate transition probabilities and treatment effects, directing the practitioner to convert rates or survival data into transition probabilities for the model cycle."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201803 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Extrapolate beyond the observed follow-up where the time horizon requires it"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Estimate transition probabilities and treatment effects, directing the practitioner to extrapolate beyond the observed follow-up where the time horizon requires it."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201901 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Choose the alternative assumptions and structural choices to test"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Run scenario analyses, directing the practitioner to choose the alternative assumptions and structural choices to test."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4201902 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Re-run the model under each scenario and compare the results with the base case"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Run scenario analyses, directing the practitioner to re-run the model under each scenario and compare the results with the base case."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4202001 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Multiply each resource use estimate by the unit cost of that resource"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Value resource use, directing the practitioner to multiply each resource use estimate by the unit cost of that resource."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4202002 a obo:IAO_0000007,
+        owl:NamedIndividual ;
+    rdfs:label "Add the costs for each option or health state"@en ;
+    obo:IAO_0000115 "An action specification that is a main step of the task specification Value resource use, directing the practitioner to add the costs for each option or health state."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.3.0), from the catalogue entry of its task" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+<https://orcid.org/0000-0001-9502-4678> rdfs:label "Darrin Baines" .
+
+<https://www.nice.org.uk/process/pmg36/chapter/economic-evaluation> rdfs:label "NICE PMG36, NICE technology appraisal and highly specialised technologies guidance, the manual (published 31 January 2022, last updated 13 October 2026), section 4.5 Discounting. Methods guidance for England; link checked 16 October 2026"@en .
+
+obo:RO_0017010 a owl:ObjectProperty ;
+    rdfs:label "specified by information"@en ;
+    obo:IAO_0000115 "Inverse of information specifies."@en ;
+    obo:IAO_0000116 "HETO uses this relation from a health economics task performance to the task specification that prescribes it. It holds whether or not the performance succeeds."@en ;
+    obo:IAO_0000412 obo:ro.owl .
+
+heto:0000017 a owl:Class ;
+    rdfs:label "reporting task specification"@en ;
+    obo:IAO_0000115 "A task specification whose intended result is a written account of health economics work for readers, reviewers or decision makers."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Husereau et al. 2022" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 .
+
+heto:4000005 a owl:NamedIndividual,
+        heto:0000011 ;
+    rdfs:label "Develop an economic model"@en ;
+    obo:IAO_0000115 "A task specification for building an economic model that represents a stated decision problem and combines evidence and assumptions to estimate the costs and health outcomes of the options compared."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Briggs, Claxton and Sculpher 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000001 heto:4000006,
+        heto:4000007,
+        heto:4000008,
+        heto:4000009,
+        heto:4000010,
+        heto:4000018,
+        heto:4000020 ;
+    heto:1000003 heto:4000011,
+        heto:4000012 ;
+    heto:1000005 heto:4100501 ;
+    heto:1000006 heto:4200501,
+        heto:4200502,
+        heto:4200503 ;
+    heto:3000002 rheo:0000027 ;
+    heto:3000003 rheo:0000012,
+        rheo:0000013,
+        rheo:0000014,
+        rheo:0000015,
+        rheo:0000016,
+        rheo:0000018,
+        rheo:0000022,
+        rheo:0000025 ;
+    heto:3000004 rheo:0000020,
+        rheo:0000028,
+        rheo:0000029,
+        rheo:0000030 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "The decision problem specification and the estimates of clinical effects, resource use, unit costs, costs and utilities, with their sources."@en ;
+    heto:3000008 "An economic model version ready to be run."@en .
+
+heto:4000006 a owl:NamedIndividual,
+        heto:0000011 ;
+    rdfs:label "Conceptualise the model structure"@en ;
+    obo:IAO_0000115 "A task specification for deciding how an economic model will represent the decision problem, including the modelling technique, the health states or events, the pathways between them and the main assumptions, before the model is built."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Roberts et al. 2012" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000007,
+        heto:4000009,
+        heto:4000010,
+        heto:4000018 ;
+    heto:1000005 heto:4100601 ;
+    heto:1000006 heto:4200601,
+        heto:4200602,
+        heto:4200603 ;
+    heto:3000003 rheo:0000022,
+        rheo:0000025 ;
+    heto:3000004 rheo:0000020,
+        rheo:0000034,
+        rheo:0000134 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "The decision problem specification, clinical evidence and expert advice on the disease and its care."@en ;
+    heto:3000008 "A documented model structure with its states, allowed transitions and structural assumptions."@en .
+
+heto:4000008 a owl:NamedIndividual,
+        heto:0000012 ;
+    rdfs:label "Select unit costs"@en ;
+    obo:IAO_0000115 "A task specification for choosing the cost of one unit of each resource used in an economic evaluation, from sources that fit the perspective, the setting and the price year of the analysis."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000020 ;
+    heto:1000005 heto:4100801 ;
+    heto:1000006 heto:4200801,
+        heto:4200802 ;
+    heto:3000003 rheo:0000022,
+        rheo:0000072,
+        rheo:0000075,
+        rheo:0000082,
+        rheo:0000119,
+        rheo:0000123 ;
+    heto:3000004 rheo:0000014 ;
+    heto:3000005 rheo:0000152 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The list of resources counted, the perspective, and national or local cost sources."@en ;
+    heto:3000008 "Unit cost estimates with their source, currency and price year."@en .
+
+heto:4000009 a owl:NamedIndividual,
+        heto:0000013 ;
+    rdfs:label "Assign utility values to model health states"@en ;
+    obo:IAO_0000115 "A task specification for choosing a health state utility value for each state of an economic model, from evidence obtained with a stated valuation method, so that quality-adjusted life years can be calculated."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000005 heto:4100901 ;
+    heto:1000006 heto:4200901,
+        heto:4200902 ;
+    heto:3000002 oheo:0000196 ;
+    heto:3000003 oheo:0000105,
+        rheo:0000022,
+        rheo:0000033,
+        rheo:0000034,
+        rheo:0000090 ;
+    heto:3000004 rheo:0000012,
+        rheo:0000019,
+        rheo:0000030 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The model health states and published or trial-based utility evidence."@en ;
+    heto:3000008 "Utility estimates assigned to the model health states."@en .
+
+heto:4000010 a owl:NamedIndividual,
+        heto:0000011 ;
+    rdfs:label "Add discounting to an economic model"@en ;
+    obo:IAO_0000115 "A task specification for incorporating discounting into an economic model so that future costs and health outcomes are expressed in present-value terms using specified discount rates."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000012 ;
+    heto:1000005 heto:4101001 ;
+    heto:1000006 heto:4201001,
+        heto:4201002 ;
+    heto:3000003 rheo:0000028,
+        rheo:0000074,
+        rheo:0000092,
+        rheo:0000093 ;
+    heto:3000004 rheo:0000028,
+        rheo:0000074,
+        rheo:0000092 ;
+    heto:3000005 rheo:0000091,
+        rheo:0000152 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "Modelled costs and outcomes over time, specified rates and applicable guidance."@en ;
+    heto:3000008 "The model incorporating discounted costs and outcomes."@en ;
+    heto:3000009 <https://www.nice.org.uk/process/pmg36/chapter/economic-evaluation> .
+
+heto:4000011 a owl:NamedIndividual,
+        heto:0000015 ;
+    rdfs:label "Validate an economic model"@en ;
+    obo:IAO_0000115 "A task specification for checking that an economic model is free of technical errors, represents the decision problem credibly and gives results that are plausible against other evidence, so that it is fit for its decision purpose. The checks are repeated through the project, from the conceptual model to the final results."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Eddy et al. 2012; Vemer et al. 2016" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000012,
+        heto:4000016 ;
+    heto:1000005 heto:4101101 ;
+    heto:1000006 heto:4201101,
+        heto:4201102,
+        heto:4201103 ;
+    heto:3000003 rheo:0000022,
+        rheo:0000028,
+        rheo:0000032,
+        rheo:0000035 ;
+    heto:3000004 obo:IAO_0000310 ;
+    heto:3000005 rheo:0000031 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "The economic model version, its documentation and independent data where available."@en ;
+    heto:3000008 "A record of the validation checks performed and their findings."@en .
+
+heto:4000013 a owl:NamedIndividual,
+        heto:0000014 ;
+    rdfs:label "Conduct sensitivity analysis"@en ;
+    obo:IAO_0000115 "A task specification for testing whether the results and the decision of an economic evaluation change when uncertain inputs, assumptions or structural choices are varied."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Briggs, Claxton and Sculpher 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000001 heto:4000014,
+        heto:4000015,
+        heto:4000019 ;
+    heto:1000003 heto:4000016 ;
+    heto:1000005 heto:4101301 ;
+    heto:1000006 heto:4201301,
+        heto:4201302 ;
+    heto:3000003 rheo:0000019,
+        rheo:0000028 ;
+    heto:3000004 rheo:0000032 ;
+    heto:3000005 rheo:0000031 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "The economic model version, its base-case results and descriptions of the uncertainty in its inputs."@en ;
+    heto:3000008 "Sensitivity analysis results."@en .
+
+heto:4000018 a owl:NamedIndividual,
+        heto:0000011 ;
+    rdfs:label "Estimate transition probabilities and treatment effects"@en ;
+    obo:IAO_0000115 "A task specification for estimating, from clinical evidence, the probabilities of moving between the states of an economic model and the effects of each option on them, including any extrapolation beyond the observed follow-up, as inputs to the model."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Briggs, Claxton and Sculpher 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000012 ;
+    heto:1000005 heto:4101801 ;
+    heto:1000006 heto:4201801,
+        heto:4201802,
+        heto:4201803 ;
+    heto:3000003 rheo:0000022,
+        rheo:0000035,
+        rheo:0000134 ;
+    heto:3000004 rheo:0000016,
+        rheo:0000017,
+        rheo:0000018,
+        rheo:0000019,
+        rheo:0000030 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "The model structure, trial reports, published studies and patient-level or survival data."@en ;
+    heto:3000008 "Transition probability and treatment effect estimates assigned to the model parameters, with their uncertainty."@en .
+
+heto:4000020 a owl:NamedIndividual,
+        heto:0000012 ;
+    rdfs:label "Value resource use"@en ;
+    obo:IAO_0000115 "A task specification for multiplying the quantity of each resource used by its unit cost, and adding the results, to give the cost of each option or of each modelled health state from the stated perspective."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000012 ;
+    heto:1000005 heto:4102001 ;
+    heto:1000006 heto:4202001,
+        heto:4202002 ;
+    heto:3000003 rheo:0000014,
+        rheo:0000015,
+        rheo:0000072 ;
+    heto:3000004 rheo:0000013 ;
+    heto:3000005 rheo:0000150,
+        rheo:0000151 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "Resource use estimates, unit cost estimates and the perspective."@en ;
+    heto:3000008 "Cost estimates for each option or modelled health state, in a stated currency and price year."@en .
+
+obo:BFO_0000051 a owl:ObjectProperty ;
+    rdfs:label "has part"@en ;
+    obo:IAO_0000115 "a core relation that holds between a whole and its part"@en ;
+    obo:IAO_0000412 obo:ro.owl ;
+    owl:inverseOf obo:BFO_0000050 .
+
+heto:0000010 a owl:Class ;
+    rdfs:label "decision problem framing task specification"@en ;
+    obo:IAO_0000115 "A task specification whose intended result is a statement of the decision an economic evaluation will inform, or of one element of it such as the perspective or the time horizon."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 .
+
+heto:0000012 a owl:Class ;
+    rdfs:label "costing task specification"@en ;
+    obo:IAO_0000115 "A task specification whose intended result is the identification, measurement or valuation of the resources used by the options compared in an economic evaluation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 .
+
+heto:4000007 a owl:NamedIndividual,
+        heto:0000012 ;
+    rdfs:label "Estimate resource use"@en ;
+    obo:IAO_0000115 "A task specification for identifying and measuring the quantities of resources, such as staff time, medicines and hospital stays, used with each option or in each modelled health state, in natural units."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000008 ;
+    heto:1000005 heto:4100701 ;
+    heto:1000006 heto:4200701,
+        heto:4200702 ;
+    heto:3000002 rheo:0000123 ;
+    heto:3000003 rheo:0000022,
+        rheo:0000034,
+        rheo:0000035,
+        rheo:0000071,
+        rheo:0000072 ;
+    heto:3000004 rheo:0000015 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The perspective, the model structure, and records or published sources of resource use."@en ;
+    heto:3000008 "Resource use estimates in natural units."@en .
+
+heto:4000016 a owl:NamedIndividual,
+        heto:0000017 ;
+    rdfs:label "Report an economic evaluation"@en ;
+    obo:IAO_0000115 "A task specification for writing a full and transparent account of the methods, inputs, results and uncertainty of an economic evaluation, so that readers and decision makers can judge and reproduce it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Husereau et al. 2022" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000005 heto:4101601 ;
+    heto:1000006 heto:4201601,
+        heto:4201602,
+        heto:4201603 ;
+    heto:3000003 rheo:0000025,
+        rheo:0000028,
+        rheo:0000030,
+        rheo:0000032 ;
+    heto:3000004 obo:IAO_0000310 ;
+    heto:3000006 heto:0000040 ;
+    heto:3000007 "The decision problem specification, the model version with its documentation and parameter assignments, and all results."@en ;
+    heto:3000008 "A report of the economic evaluation."@en .
+
+heto:0000011 a owl:Class ;
+    rdfs:label "economic model development task specification"@en ;
+    obo:IAO_0000115 "A task specification whose intended result is an economic model, or a part or feature of one such as its structure or its calculations."@en ;
+    obo:IAO_0000116 "Classification only. Whether a task is part of developing a model is recorded with 'has subtask specification', not by placing it under this class."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Briggs, Claxton and Sculpher 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 .
+
+heto:0000014 a owl:Class ;
+    rdfs:label "uncertainty analysis task specification"@en ;
+    obo:IAO_0000115 "A task specification whose intended result is a description of how uncertainty in inputs, assumptions or model structure affects the results or the decision of an economic evaluation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Briggs, Claxton and Sculpher 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000001 .
+
+heto:3000002 a owl:AnnotationProperty ;
+    rdfs:label "involves type"@en ;
+    obo:IAO_0000115 "Relates a task specification to a class, defined in RHEO, OHEO or a reused ontology, whose instances the work uses, produces, acts on or takes place as. The value is a class URI, never a HEO concept."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> .
+
+heto:4000012 a owl:NamedIndividual,
+        heto:0000016 ;
+    rdfs:label "Calculate incremental cost-effectiveness results"@en ;
+    obo:IAO_0000115 "A task specification for comparing the expected costs and health outcomes of the options in an economic evaluation, ruling out dominated and extendedly dominated options and calculating incremental cost-effectiveness ratios or net benefit for the rest."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    heto:1000003 heto:4000013 ;
+    heto:1000005 heto:4101201 ;
+    heto:1000006 heto:4201201,
+        heto:4201202,
+        heto:4201203 ;
+    heto:3000003 rheo:0000028,
+        rheo:0000032,
+        rheo:0000117 ;
+    heto:3000004 rheo:0000032 ;
+    heto:3000005 rheo:0000031,
+        rheo:0000153 ;
+    heto:3000006 heto:0000041 ;
+    heto:3000007 "An economic model version or its probabilistic results and, where used, the decision maker's cost-effectiveness threshold."@en ;
+    heto:3000008 "Incremental results, such as ICERs or net monetary benefit."@en .
+
+heto:0000041 a owl:Class ;
+    rdfs:label "economic modeller role"@en ;
+    obo:IAO_0000115 "A health economics practitioner role that is realised when its bearer designs, builds, runs or checks an economic model."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026 (practitioner role for adding discounting)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf heto:0000040 .
+
+heto:0000040 a owl:Class ;
+    rdfs:label "health economics practitioner role"@en ;
+    obo:IAO_0000115 "A role borne by a person that is realised when that person carries out health economics work, such as framing, costing, modelling, analysing or reporting an economic evaluation."@en ;
+    obo:IAO_0000116 "Roles only. People are RHEO persons (Homo sapiens) and organisations are OBI organizations; neither is placed in this hierarchy. A person bears the role; the role is realised in a task performance."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial (HETO 0.1.0)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf obo:BFO_0000023 .
+
+heto:0000001 a owl:Class ;
+    rdfs:label "task specification"@en ;
+    obo:IAO_0000115 "A plan specification that describes a reusable, defined unit of health economics work, stating the result the work is meant to achieve and the main actions directed towards it, independently of any particular practitioner, project or software."@en ;
+    obo:IAO_0000116 "Each named task in the HETO catalogue is one individual of this class or of one of its subclasses, with its own URI. The specification is information. A particular practitioner doing the work is a separate process, a health economics task performance, linked to the specification by 'specified by information' (RO_0017010), as Duncan et al. 2024 propose for plan specifications. A calendar reminder, a topic heading or one person's to-do item is not by itself a task specification."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Defining tasks in HETO. Brief to the curator, 15 October 2026; IAO plan specification (IAO_0000104)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heto:1000006 ;
+            owl:someValuesFrom obo:IAO_0000007 ],
+        [ a owl:Restriction ;
+            owl:onProperty heto:1000005 ;
+            owl:someValuesFrom obo:IAO_0000005 ],
+        obo:IAO_0000104 .
+
+obo:IAO_0000005 a owl:Class ;
+    rdfs:label "objective specification"@en ;
+    obo:IAO_0000115 "A directive information entity that describes an intended process endpoint. When part of a plan specification the concretization is realized in a planned process in which the bearer tries to effect the world so that the process endpoint is achieved."@en ;
+    obo:IAO_0000116 "Used in HETO for the intended result of a task, one objective specification per task specification."@en ;
+    obo:IAO_0000412 obo:iao.owl ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+obo:IAO_0000007 a owl:Class ;
+    rdfs:label "action specification"@en ;
+    obo:IAO_0000115 "A directive information entity that describes an action the bearer will take."@en ;
+    obo:IAO_0000116 "Used in HETO for the main actions of a task. Detailed implementation steps belong in guidance, not here."@en ;
+    obo:IAO_0000412 obo:iao.owl ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+<https://orcid.org/0009-0006-0231-3731> rdfs:label "Michelle Ashley" .
+
+
+<https://healtheconomics.wiki/ontologies/heto> <http://www.w3.org/2002/07/owl#priorVersion> <https://healtheconomics.wiki/ontology/heto/0.2.0/heto.owl> ;
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Version 0.3.0 moves every HETO address from https://healtheconomics.wiki/ontology/heto to https://healtheconomics.wiki/ontologies/heto, so the ontology identifier, its version identifier and its terms match the ontology page on the site. Every class, property, definition and axiom is the same as in 0.2.0, and the imports now point to the family releases made at the same time (HEO 2.0.0, RHEO 0.4.0, OHEO 0.3.0, HETO 0.3.0, HEAO 0.2.0, HEMO 0.2.0, HELO 0.2.0, HEIRO 0.2.0). The old /ontology/ addresses are retired and are not redirected."@en .

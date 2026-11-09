@@ -1,0 +1,116 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+obo:IAO_0000115 a owl:AnnotationProperty .
+
+obo:IAO_0000116 a owl:AnnotationProperty .
+
+obo:IAO_0000117 a owl:AnnotationProperty .
+
+obo:IAO_0000118 a owl:AnnotationProperty ;
+    rdfs:label "alternative label"@en .
+
+obo:IAO_0000119 a owl:AnnotationProperty .
+
+dcterms:creator a owl:AnnotationProperty .
+
+dcterms:description a owl:AnnotationProperty .
+
+dcterms:issued a owl:AnnotationProperty .
+
+dcterms:license a owl:AnnotationProperty .
+
+dcterms:title a owl:AnnotationProperty .
+
+rheo:0000133 a owl:Class ;
+    rdfs:label "actively reproduced replacement record"@en ;
+    obo:IAO_0000115 "A replacement transition for which at least one process, intervention or resource use that maintained the state between the two observations is recorded and linked as state maintenance resource use (has state maintenance resource use, a core relation)."@en ;
+    obo:IAO_0000116 "Optional. Two patients can stay in the same recorded state while one needs intensive treatment and the other none: both transitions are replacements, and only the one with linked maintenance evidence is an actively reproduced replacement. Two observations alone cannot establish active reproduction."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000118 "actively reproduced replacement"@en ;
+    obo:IAO_0000119 "Baines D, RNI typology of state transitions (in development, 2026)" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/rni> ;
+    rdfs:subClassOf rheo:0000068 .
+
+rheo:2000080 a owl:DatatypeProperty ;
+    rdfs:label "has RNI exclusion reason"@en ;
+    obo:IAO_0000115 "Why the RNI rule left a transition record unclassified: a classification revision only, or a change in knowledge."@en ;
+    obo:IAO_0000119 "Baines D, RNI typology of state transitions (in development, 2026)" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/rni> ;
+    rdfs:range xsd:string .
+
+rheo:0000068 a owl:Class ;
+    rdfs:label "replacement transition record"@en ;
+    obo:IAO_0000115 "A transition record in which the entity is recorded in the same state at both observations when the two states are compared at the coarser of the two schemes' levels of detail, through recorded refinements, renamings and mergers: the state persists."@en ;
+    obo:IAO_0000116 "RNI: Replacement. RNI classifies changes in the entity and in the states open to it (entity change process), not revisions of the classification or changes in what observers know. Adopted reading (0.3.0): replacement is state persistence, as state membership is observed in state-transition models. The care, processes and resources that maintain the state are recorded separately as state maintenance resource use (the analogue of the state costs of a Markov model), linked with 'has state maintenance resource use' but not needed to classify the transition. Analyses that need active reproduction use the subclass actively reproduced replacement. Progression within a refined or merged state cannot be detected at the coarser level: the module's record rules flag such replacements with a warning."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000118 "replacement transition"@en ;
+    obo:IAO_0000119 "Baines D, RNI typology of state transitions (in development, 2026)" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/rni> ;
+    rdfs:subClassOf rheo:0000067 ;
+    owl:disjointWith rheo:0000069,
+        rheo:0000070,
+        rheo:0000131 .
+
+rheo:0000069 a owl:Class ;
+    rdfs:label "novation transition record"@en ;
+    obo:IAO_0000115 "A transition record in which the entity moved to a different state that was already open to it at the earlier observation: a state of the classification scheme version then in use, a state that refines one, or a state recorded as opened on or before that date."@en ;
+    obo:IAO_0000116 "RNI: Novation. RNI classifies changes in the entity and in the states open to it (entity change process), not revisions of the classification or changes in what observers know."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000118 "novation transition"@en ;
+    obo:IAO_0000119 "Baines D, RNI typology of state transitions (in development, 2026)" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/rni> ;
+    rdfs:subClassOf rheo:0000067 ;
+    owl:disjointWith rheo:0000070,
+        rheo:0000131 .
+
+rheo:0000070 a owl:Class ;
+    rdfs:label "innovation transition record"@en ;
+    obo:IAO_0000115 "A transition record in which the entity moved into a state that a recorded possibility change opened after the earlier observation and no later than the later observation."@en ;
+    obo:IAO_0000116 "RNI: Innovation. RNI classifies changes in the entity and in the states open to it (entity change process), not revisions of the classification or changes in what observers know. A new category in a classification scheme does not by itself make a transition an innovation: a category can be added for a condition that existed long before. The evidence is a possibility change record, such as a newly authorised intervention or a newly commissioned service becoming available. Conversely a state the classification already listed can be the target of an innovation if it became open only later."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000118 "innovation transition"@en ;
+    obo:IAO_0000119 "Baines D, RNI typology of state transitions (in development, 2026)" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/rni> ;
+    rdfs:subClassOf rheo:0000067 ;
+    owl:disjointWith rheo:0000131 .
+
+rheo:0000131 a owl:Class ;
+    rdfs:label "unclassified transition record"@en ;
+    obo:IAO_0000115 "A transition record that the RNI rule leaves unclassified because the difference between its two observations may come from a revision of the classification or from a change in what observers know, rather than from a change in the entity or its possibilities."@en ;
+    obo:IAO_0000116 "The reason is given with 'has RNI exclusion reason'. Recording the missing evidence (a possibility change record) lets the rule classify it."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000118 "transition not classified by RNI"@en ;
+    obo:IAO_0000119 "Baines D, RNI typology of state transitions (in development, 2026)" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/rni> ;
+    rdfs:subClassOf rheo:0000067 .
+
+rheo:0000067 a owl:Class ;
+    rdfs:label "transition record"@en ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+<https://healtheconomics.wiki/ontologies/rheo/rni> a owl:Ontology ;
+    dcterms:creator <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    dcterms:description "The RNI typology (Replacement, Novation, Innovation) of Darrin Baines, in the reading adopted for RHEO 0.4.0. It classifies recorded transitions as changes in the entity and in the states open to it, and only those: revisions of a classification and changes in what observers know are recorded in the core as their own kinds of change and are never by themselves an innovation. Replacement is state persistence; an optional subclass requires evidence that the state was actively reproduced. The core of RHEO does not depend on this module, so the typology can be revised in later versions without changing the core."@en ;
+    dcterms:issued "2026-10-16" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:title "RHEO RNI module"@en ;
+    rdfs:comment "Adopted reading for version 0.3.0, kept in its own module. The decisions and their reasons are given in the README and in RHEO-0.3.0-what-changed.md."@en ;
+    owl:imports <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl> ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo-rni.owl> ;
+    owl:versionInfo "0.4.0 (adopted reading, separate module)" .
+
+<https://orcid.org/0000-0001-9502-4678> rdfs:label "Darrin Baines" .
+
+<https://orcid.org/0009-0006-0231-3731> rdfs:label "Michelle Ashley" .
+

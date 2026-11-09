@@ -1,0 +1,1157 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix rheo:    <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix obo:     <http://purl.obolibrary.org/obo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rshape:  <https://healtheconomics.wiki/ontologies/rheo/shapes#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+
+# RHEO record rules (SHACL), first written for v0.1.0, revised for v0.3.0. The ontology says what a record MEANS; these rules say whether it is COMPLETE
+# and well formed. Severity: Violation = the record cannot be used; Warning = usable, but an analyst must know.
+#
+# 0.3.0: the rules are published and versioned with the ontology (version IRI below). OWL's open-world semantics do not treat
+# missing information as an error, so requirements such as "exactly one basis", "units present" or "analysis stated" live
+# here, not in the ontology. The RNI rules are in rheo-rni-shapes.ttl (RNI module, kept apart from the core) and the uncertainty rules in
+# rheo-uncertainty-shapes.ttl; this file does not depend on either.
+#
+# Validate WITHOUT inference, with the ontology added to the data graph (run_demo.py does this with
+# pyshacl inference="none" and ont_graph=rheo.ttl). The ontology's rdfs:subClassOf triples let targets and sh:class
+# follow the class hierarchy, while rdfs:range is NOT used to type values, so sh:class checks have force:
+# a population pointing at a document is rejected.
+
+<https://healtheconomics.wiki/ontologies/rheo/shapes> a owl:Ontology ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo-shapes.ttl> ;
+    owl:versionInfo "0.4.0" ;
+    dcterms:title "RHEO record rules"@en ;
+    dcterms:issued "2026-10-16"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl> ;
+    rdfs:comment "First versioned release of the record rules. The 0.2.2 rules file had no version IRI, so no prior version is named. Revised after independent reviews A and B (16 Oct 2026)."@en .
+
+rshape:Numeric a sh:NodeShape ; sh:or ( [ sh:datatype xsd:decimal ] [ sh:datatype xsd:integer ] ) .
+
+# ------------------------------------------------------------------ estimates
+rshape:EstimateShape a sh:NodeShape ;
+    sh:targetClass rheo:0000011 ;
+    sh:property [ sh:path rheo:2000001 ; sh:maxCount 1 ; sh:node rshape:Numeric ;
+        sh:message "An estimate has at most one numeric value, written as a number." ] ;
+    sh:property [ sh:path rheo:2000036 ; sh:maxCount 1 ; sh:in ( "not reported" "not applicable" "not yet extracted" ) ;
+        sh:message "A missingness reason is one of: not reported, not applicable, not yet extracted." ] ;
+    sh:property [ sh:path rheo:1000027 ; sh:or ( [ sh:class rheo:0000011 ] [ sh:class rheo:0000020 ] ) ;
+        sh:message "'Supersedes' must point to an estimate or an assumption." ] ;
+    sh:sparql [
+        sh:message "An estimate needs a numeric value, or a missingness reason (not reported, not applicable, not yet extracted), so that a missing value is never read as zero." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:2000001 ?v } FILTER NOT EXISTS { $this rheo:2000036 ?r } }""" ] ;
+    sh:property [ sh:path rheo:2000002 ; sh:minCount 1 ;
+        sh:message "Missing measurement context: an estimate needs its unit or scale." ] ;
+    sh:property [ sh:path rheo:1000001 ; sh:class rheo:0000004 ;
+        sh:message "The population must be a population specification." ] ;
+    sh:property [ sh:path rheo:1000024 ; sh:class rheo:0000004 ;
+        sh:message "The measured-in population must be a population specification." ] ;
+    sh:property [ sh:path rheo:2000005 ; sh:minCount 1 ; sh:pattern "^([A-Z]{2}(-[A-Z0-9]{1,3})?|INT)$" ;
+        sh:message "Missing context: an estimate needs at least one ISO 3166 code for where it was obtained (or INT for several countries)." ] ;
+    sh:property [ sh:path rheo:1000005 ; sh:maxCount 1 ; sh:class rheo:0000010 ;
+        sh:message "An estimate estimates at most one estimand." ] ;
+    sh:property [ sh:path rheo:1000025 ; sh:or ( [ sh:class obo:IAO_0000310 ] [ sh:class rheo:0000035 ] ) ;
+        sh:message "'Taken from source' must point to a document or a dataset." ] ;
+    sh:property [ sh:path rheo:1000026 ; sh:or ( [ sh:class rheo:0000011 ] [ sh:class rheo:0000020 ] ) ;
+        sh:message "'Derived from' must point to an estimate or an assumption." ] ;
+    sh:property [ sh:path rheo:2000009 ; sh:minCount 1 ;
+        sh:message "Missing provenance: say how the estimate was obtained or calculated." ] ;
+    sh:property [ sh:path rheo:1000006 ; sh:minCount 1 ; sh:severity sh:Warning ;
+        sh:message "No uncertainty recorded: this estimate cannot be used in a probabilistic sensitivity analysis." ] ;
+    sh:property [ sh:path rheo:1000006 ; sh:class rheo:0000019 ] ;
+    sh:sparql [
+        sh:message "Missing provenance: no chain of 'taken from source' or 'derived from' reaches a document or a dataset." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE {
+                FILTER NOT EXISTS { $this rheo:1000026*/rheo:1000025 ?doc . ?doc a/rdfs:subClassOf* ?k . FILTER (?k IN (obo:IAO_0000310, rheo:0000035)) }
+            }""" ] ;
+    
+    sh:sparql [
+        sh:message "The value lies outside its own uncertainty interval." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE {
+                $this rheo:2000001 ?value ; rheo:1000006 ?u .
+                ?u rheo:2000011 ?lo ; rheo:2000012 ?hi .
+                FILTER (?value < ?lo || ?value > ?hi)
+            }""" ] .
+
+# Patient-level quantities must say which population they apply to (costs and price indices need not).
+rshape:PatientLevelEstimateShape a sh:NodeShape ;
+    sh:targetClass rheo:0000012, rheo:0000015, rheo:0000016, rheo:0000017, rheo:0000018 ;
+    sh:property [ sh:path rheo:1000001 ; sh:minCount 1 ;
+        sh:message "Missing context: this estimate must say which population it applies to." ] .
+
+rshape:UtilityEstimateShape a sh:NodeShape ;
+    sh:targetClass rheo:0000012 ;
+    sh:property [ sh:path rheo:2000001 ; sh:maxInclusive 1 ;
+        sh:message "A utility cannot exceed 1 (full health). Negative values (worse than dead) are allowed." ] ;
+    sh:property [ sh:path rheo:1000002 ; sh:minCount 1 ; sh:class rheo:0000021 ;
+        sh:message "Missing context: a utility estimate must say which health state description it values." ] ;
+    sh:property [ sh:path rheo:2000023 ; sh:minCount 1 ; sh:severity sh:Warning ;
+        sh:message "No valuation method reported: flag this utility for review." ] ;
+    .
+
+rshape:CostEstimateShape a sh:NodeShape ;
+    sh:targetClass rheo:0000013 ;
+    sh:property [ sh:path rheo:2000003 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[A-Z]{3}$" ;
+        sh:message "Missing context: a cost estimate needs one ISO 4217 currency code, such as GBP." ] ;
+    sh:property [ sh:path rheo:2000004 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(/[0-9]{2})?$" ;
+        sh:message "Missing context: a cost estimate needs its price year (2024) or financial year (2023/24)." ] ;
+    sh:property [ sh:path rheo:1000004 ; sh:minCount 1 ; sh:class rheo:0000121 ;
+        sh:message "Missing context: a cost estimate must say which kind of care process or resource it values." ] ;
+    sh:property [ sh:path rheo:1000049 ; sh:minCount 1 ; sh:severity sh:Warning ;
+        sh:message "No perspective recorded for this cost: link its perspective specification (under perspective)." ] ;
+    sh:property [ sh:path rheo:1000049 ; sh:maxCount 1 ; sh:class rheo:0000072 ;
+        sh:message "A cost estimate follows at most one perspective, given as a perspective specification." ] .
+
+rshape:UnitCostShape a sh:NodeShape ;
+    sh:targetClass rheo:0000014 ;
+    sh:property [ sh:path rheo:2000001 ; sh:minInclusive 0 ; sh:message "A unit cost cannot be negative." ] .
+
+rshape:ProbabilityEstimateShape a sh:NodeShape ;
+    sh:targetClass rheo:0000016 ;
+    sh:property [ sh:path rheo:2000001 ; sh:minInclusive 0 ; sh:maxInclusive 1 ;
+        sh:message "A probability must lie between 0 and 1." ] ;
+    sh:property [ sh:path rheo:2000006 ; sh:maxCount 1 ; sh:pattern "^P([0-9]+Y)?([0-9]+M)?([0-9]+W)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$" ;
+        sh:message "The time interval must be one ISO 8601 duration, such as P1Y." ] ;
+    sh:or ( [ sh:path rheo:2000006 ; sh:minCount 1 ] [ sh:path rheo:2000025 ; sh:minCount 1 ; sh:pattern "^per event$" ; sh:flags "i" ] ) ;
+    sh:message "Missing context: a probability needs its time interval (for example, P1Y), or must be marked 'per event'." ;
+    sh:property [ sh:path rheo:1000003 ; sh:minCount 1 ; sh:class rheo:0000005 ;
+        sh:message "Missing context: a probability estimate must say which kind of clinical event it concerns." ] .
+
+rshape:RateEstimateShape a sh:NodeShape ;
+    sh:targetClass rheo:0000017 ;
+    sh:property [ sh:path rheo:2000001 ; sh:minInclusive 0 ; sh:message "A rate cannot be negative." ] ;
+    sh:property [ sh:path rheo:1000003 ; sh:minCount 1 ; sh:class rheo:0000005 ;
+        sh:message "Missing context: a rate must say which kind of clinical event it counts." ] .
+
+# ------------------------------------------------------------------ uncertainty, assumptions, estimands, populations
+rshape:UncertaintyShape a sh:NodeShape ;
+    sh:targetClass rheo:0000019 ;
+    sh:property [ sh:path rheo:2000010 ; sh:maxCount 1 ; sh:minInclusive 0 ; sh:message "A standard error cannot be negative." ] ;
+    sh:property [ sh:path rheo:2000011 ; sh:maxCount 1 ; sh:lessThanOrEquals rheo:2000012 ;
+        sh:message "The lower limit must not exceed the upper limit." ] ;
+    sh:property [ sh:path rheo:2000012 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rheo:2000013 ; sh:maxCount 1 ; sh:minExclusive 0 ; sh:maxExclusive 1 ;
+        sh:message "The interval level is a proportion, such as 0.95." ] ;
+    sh:property [ sh:path rheo:2000014 ; sh:maxCount 1 ;
+        sh:in ( "http://purl.obolibrary.org/obo/STATO_0000177"^^xsd:anyURI "http://purl.obolibrary.org/obo/STATO_0000268"^^xsd:anyURI
+                "http://purl.obolibrary.org/obo/STATO_0000438"^^xsd:anyURI "http://purl.obolibrary.org/obo/STATO_0000227"^^xsd:anyURI ) ;
+        sh:message "The distribution family must be a STATO distribution: beta (STATO_0000177), Gamma (STATO_0000268), log normal (STATO_0000438) or normal (STATO_0000227)." ] ;
+    sh:sparql [
+        sh:message "An interval needs both limits and its level." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE {
+                { $this rheo:2000011 ?x } UNION { $this rheo:2000012 ?y }
+                FILTER NOT EXISTS { $this rheo:2000011 ?a ; rheo:2000012 ?b ; rheo:2000013 ?c }
+            }""" ] ;
+    sh:sparql [
+        sh:message "A distribution needs its parameters." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { $this rheo:2000014 ?d . FILTER NOT EXISTS { $this rheo:2000015 ?p }
+                # structured parameters of the uncertainty extension module are accepted in place of the text (review A)
+                FILTER NOT EXISTS { $this ?sp ?x . ?sp rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> } }""" ] ;
+    sh:sparql [
+        sh:message "An uncertainty specification needs a standard error, an interval or a distribution." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE {
+                FILTER NOT EXISTS { $this rheo:2000010 ?se }
+                FILTER NOT EXISTS { $this rheo:2000011 ?lo }
+                FILTER NOT EXISTS { $this rheo:2000014 ?d }
+            }""" ] .
+
+rshape:AssumptionShape a sh:NodeShape ;
+    sh:targetClass rheo:0000020 ;
+    sh:property [ sh:path rheo:2000016 ; sh:minCount 1 ; sh:message "An assumption must state its justification." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:maxCount 1 ; sh:node rshape:Numeric ] ;
+    sh:sparql [
+        sh:message "An assumed value needs its unit or scale." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000001 ?v . FILTER NOT EXISTS { $this rheo:2000002 ?u } }""" ] .
+
+rshape:EstimandShape a sh:NodeShape ;
+    sh:targetClass rheo:0000010 ;
+    sh:property [ sh:path rheo:1000028 ; sh:minCount 1 ; sh:class rheo:0000004 ; sh:message "An estimand needs its population." ] ;
+    sh:property [ sh:path rheo:2000032 ; sh:minCount 1 ; sh:message "An estimand needs its variable." ] ;
+    sh:property [ sh:path rheo:2000033 ; sh:minCount 1 ; sh:message "An estimand needs its summary measure." ] .
+
+rshape:PopulationShape a sh:NodeShape ;
+    sh:targetClass rheo:0000004 ;
+    sh:property [ sh:path rheo:2000021 ; sh:minCount 1 ; sh:message "A population specification needs its criteria." ] .
+
+# ------------------------------------------------------------------ models, assignments, runs, results
+rshape:ParameterShape a sh:NodeShape ;
+    sh:targetClass rheo:0000029 ;
+    sh:property [ sh:path rheo:2000002 ; sh:minCount 1 ; sh:message "A model parameter needs its unit or scale." ] .
+
+rshape:ParameterAssignmentShape a sh:NodeShape ;
+    sh:targetClass rheo:0000030 ;
+    sh:property [ sh:path rheo:1000012 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000029 ;
+        sh:message "An assignment sets exactly one model parameter." ] ;
+    sh:property [ sh:path rheo:1000013 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000028 ;
+        sh:message "An assignment belongs to exactly one model version." ] ;
+    sh:xone ( [ sh:path rheo:1000010 ; sh:minCount 1 ; sh:maxCount 1 ]
+              [ sh:path rheo:1000011 ; sh:minCount 1 ; sh:maxCount 1 ] ) ;
+    sh:message "An assignment must select exactly one estimate or adopt exactly one assumption, not both and not neither." ;
+    sh:property [ sh:path rheo:1000010 ; sh:class rheo:0000011 ; sh:message "'Selects estimate' must point to an estimate." ] ;
+    sh:property [ sh:path rheo:1000011 ; sh:class rheo:0000020 ; sh:message "'Adopts assumption' must point to an assumption." ] ;
+    sh:property [ sh:path rheo:2000016 ; sh:minCount 1 ; sh:message "An assignment must give the reason for the choice." ] ;
+    sh:sparql [ sh:message "Incomplete justification: a placeholder such as TBC, n/a or an empty text is not a reason." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000016 ?value .
+                FILTER (REGEX(STR(?value), "^ *(tbc|tbd|todo|to do|n/?a|none|na|ok|okay|-+|[?]+|x+|see above|as above|placeholder)?[.]? *$", "i")
+                     || REGEX(STR(?value), "^ *(tbc|tbd|to be confirmed|to be decided|to do|todo)([^a-z]|$)", "i")
+                     || STRLEN(REPLACE(STR(?value), "^ +| +$", "")) < 8) }""" ] ;
+    sh:property [ sh:path rheo:2000020 ; sh:minCount 1 ;
+        sh:message "An assignment must state the analysis it belongs to (for example, base case); a missing label is not read as the base case." ] ;
+    sh:sparql [
+        sh:message "Incomplete justification: the assignment says its basis is unchanged, but the previous model version assigned this parameter a different estimate or assumption." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE {
+                $this rheo:2000016 ?why ; rheo:1000012 ?p ; rheo:1000013 ?mv ; rheo:2000020 ?l ; rheo:1000010|rheo:1000011 ?b .
+                FILTER (REGEX(STR(?why), "^ *unchanged([^a-z]|$)", "i"))
+                ?mv rheo:1000015 ?prev . ?a0 rheo:1000013 ?prev ; rheo:1000012 ?p ; rheo:2000020 ?l ; rheo:1000010|rheo:1000011 ?value . FILTER (?value != ?b)
+            }""" ] ;
+    sh:sparql [
+        sh:message "Incomplete justification: the assignment says its basis is unchanged, but the parameter has no assignment in the previous model version." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE {
+                $this rheo:2000016 ?why ; rheo:1000012 ?p ; rheo:1000013 ?mv .
+                FILTER (REGEX(STR(?why), "^ *unchanged([^a-z]|$)", "i"))
+                FILTER NOT EXISTS { ?mv rheo:1000015 ?prev . ?a0 rheo:1000013 ?prev ; rheo:1000012 ?p }
+            }""" ] ;
+    sh:sparql [
+        sh:message "The unit code of the estimate or assumption differs from the unit code of the parameter." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000012 ?p ; rheo:1000010|rheo:1000011 ?value . ?p rheo:2000092 ?c1 . ?value rheo:2000092 ?c2 . FILTER (STR(?c1) != STR(?c2)) }""" ] ;
+    sh:sparql [
+        sh:message "Incomplete justification: the assumption this assignment adopts has no justification of its own." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000011 ?value . FILTER NOT EXISTS { ?value rheo:2000016 ?j . FILTER (STRLEN(STR(?j)) >= 15) } }""" ] ;
+    sh:sparql [
+        sh:message "Missing measurement context: the estimate or assumption this assignment uses has no unit or scale." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000010|rheo:1000011 ?value . FILTER NOT EXISTS { ?value rheo:2000002 ?u } }""" ] ;
+    sh:sparql [
+        sh:message "Missing population context: the patient-level estimate or assumption this assignment uses does not say which population it applies to." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE {
+                $this rheo:1000010|rheo:1000011 ?value .
+                { ?value a/rdfs:subClassOf* ?k . FILTER (?k IN (rheo:0000012, rheo:0000015, rheo:0000016, rheo:0000017, rheo:0000018)) }
+                UNION { ?value a rheo:0000020 ; rheo:2000001 ?v . FILTER EXISTS { ?value rheo:1000002|rheo:1000003 ?x } }
+                FILTER NOT EXISTS { ?value rheo:1000001 ?pop }
+            }""" ] ;
+    sh:sparql [
+        sh:message "Missing time interval: the probability this assignment uses has no time interval and is not marked per event." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE {
+                $this rheo:1000010|rheo:1000011 ?value .
+                { ?value a/rdfs:subClassOf* rheo:0000016 }
+                UNION { ?value a rheo:0000020 ; rheo:1000003 ?e ; rheo:2000002 ?u . FILTER (CONTAINS(LCASE(STR(?u)), "probability")) }
+                FILTER NOT EXISTS { ?value rheo:2000006 ?i } FILTER NOT EXISTS { ?value rheo:2000025 ?pe }
+            }""" ] ;
+    sh:property [ sh:path rheo:1000030 ; sh:maxCount 1 ; sh:class rheo:0000034 ; sh:message "'For health state' must point to one model state." ] ;
+    sh:sparql [
+        sh:message "The parameter is not one of the model version's parameters." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000012 ?value ; rheo:1000013 ?mv . FILTER NOT EXISTS { ?mv rheo:1000016 ?value } }""" ] ;
+    sh:sparql [
+        sh:message "The estimate's currency differs from the model version's currency; convert it as a derived estimate first." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE {
+                $this rheo:1000010 ?value ; rheo:1000013 ?mv .
+                ?value rheo:2000003 ?c1 . ?mv rheo:2000003 ?c2 . FILTER (?c1 != ?c2)
+            }""" ] 
+    .
+
+rshape:ModelVersionShape a sh:NodeShape ;
+    sh:targetClass rheo:0000028 ;
+    sh:property [ sh:path rheo:1000014 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000027 ;
+        sh:message "A model version must be a version of exactly one economic model." ] ;
+    sh:property [ sh:path rheo:2000017 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A model version needs one version label." ] ;
+    sh:property [ sh:path rheo:2000018 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+        sh:message "A model version needs its release date (YYYY-MM-DD)." ] ;
+    sh:sparql [
+        sh:message "A model version cannot be among its own previous versions." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000015+ $this }""" ] ;
+    
+    sh:property [ sh:path rheo:1000015 ; sh:maxCount 1 ; sh:class rheo:0000028 ] ;
+    sh:property [ sh:path rheo:1000016 ; sh:class rheo:0000029 ] ;
+    sh:property [ sh:path rheo:2000003 ; sh:maxCount 1 ; sh:pattern "^[A-Z]{3}$" ] ;
+    sh:property [ sh:path rheo:2000004 ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(/[0-9]{2})?$" ] .
+
+rshape:ModelRunShape a sh:NodeShape ;
+    sh:targetClass rheo:0000031 ;
+    sh:property [ sh:path rheo:1000017 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000028 ;
+        sh:message "A model run executes exactly one model version." ] ;
+    sh:property [ sh:path rheo:1000018 ; sh:minCount 1 ; sh:class rheo:0000030 ;
+        sh:message "A model run must list the parameter assignments it used." ] ;
+    sh:property [ sh:path rheo:2000020 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A model run needs exactly one analysis label (for example, base case)." ] ;
+    sh:sparql [
+        sh:message "The run uses two assignments for the same parameter in its analysis: {?value} is set twice." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000020 ?l ; rheo:1000018 ?a1, ?a2 . ?a1 rheo:1000012 ?value ; rheo:2000020 ?l . ?a2 rheo:1000012 ?value ; rheo:2000020 ?l . FILTER (?a1 != ?a2) }""" ] ;
+    sh:sparql [
+        sh:message "The run uses an assignment that is not labelled for the run's analysis: state the analysis on the assignment explicitly." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000020 ?l ; rheo:1000018 ?value . FILTER NOT EXISTS { ?value rheo:2000020 ?l } }""" ] ;
+    sh:sparql [
+        sh:message "A model run used an assignment that belongs to a different model version." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000017 ?mv ; rheo:1000018 ?value . ?value rheo:1000013 ?other . FILTER (?other != ?mv) }""" ] ;
+    sh:sparql [
+        sh:message "The run does not set every parameter of its model version." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE {
+                $this rheo:1000017 ?mv . ?mv rheo:1000016 ?value .
+                FILTER NOT EXISTS { $this rheo:1000018 ?a . ?a rheo:1000012 ?value }
+            }""" ] .
+
+rshape:ResultShape a sh:NodeShape ;
+    sh:targetClass rheo:0000032 ;
+    sh:property [ sh:path rheo:1000019 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000031 ;
+        sh:message "A model result must name the model run that produced it." ] ;
+    sh:property [ sh:path rheo:2000022 ; sh:minCount 1 ; sh:message "A model result must say what it measures." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ;
+        sh:message "A model result needs exactly one numeric value." ] ;
+    sh:property [ sh:path rheo:2000002 ; sh:minCount 1 ; sh:message "A model result needs its unit." ] ;
+    sh:property [ sh:path rheo:1000031 ; sh:minCount 1 ; sh:class rheo:0000026 ; sh:severity sh:Warning ;
+        sh:message "The result does not say which option or options it concerns." ] ;
+    sh:sparql [
+        sh:message "A result with a monetary unit needs its currency code and price year." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000002 ?u . FILTER (REGEX(STR(?u), "^[A-Z]{3}( |$)")) FILTER NOT EXISTS { $this rheo:2000003 ?c } }""" ] ;
+    sh:sparql [
+        sh:message "A monetary result needs its price year." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000003 ?c . FILTER NOT EXISTS { $this rheo:2000004 ?y } }""" ] .
+
+rshape:DecisionProblemShape a sh:NodeShape ;
+    sh:targetClass rheo:0000025 ;
+    sh:property [ sh:path rheo:1000022 ; sh:minCount 1 ; sh:class rheo:0000004 ; sh:message "A decision problem needs its population." ] ;
+    sh:property [ sh:path rheo:1000021 ; sh:minCount 1 ; sh:class rheo:0000026 ; sh:message "A decision problem needs at least one option besides the comparator." ] ;
+    sh:property [ sh:path rheo:1000023 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000026 ; sh:message "A decision problem needs one comparator." ] ;
+    sh:property [ sh:path rheo:1000049 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000072 ;
+        sh:message "A decision problem needs its perspective, linked as one perspective specification (under perspective)." ] ;
+    sh:property [ sh:path rheo:2000028 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:or ( [ sh:pattern "^P([0-9]+Y)?([0-9]+M)?([0-9]+W)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$" ] [ sh:pattern "^lifetime$" ; sh:flags "i" ] ) ;
+        sh:message "A decision problem needs its time horizon (an ISO 8601 duration such as P40Y, or lifetime)." ] .
+
+# ------------------------------------------------------------------ documents
+rshape:SourceShape a sh:NodeShape ;
+    sh:targetClass rheo:0000022 ;
+    sh:property [ sh:path dcterms:bibliographicCitation ; sh:minCount 1 ; sh:message "An evidence source document needs a citation." ] ;
+    sh:property [ sh:path rheo:2000035 ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" ] ;
+    sh:property [ sh:path rheo:2000035 ; sh:minCount 1 ; sh:severity sh:Warning ; sh:message "No publication date recorded." ] .
+
+rshape:NoticeShape a sh:NodeShape ;
+    sh:targetClass rheo:0000023, rheo:0000024 ;
+    sh:property [ sh:path rheo:2000019 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+        sh:message "A correction or retraction notice needs its date (YYYY-MM-DD)." ] ;
+    sh:or ( [ sh:path rheo:1000008 ; sh:minCount 1 ] [ sh:path rheo:1000009 ; sh:minCount 1 ] ) ;
+    sh:message "A notice must name the document it corrects or retracts." .
+
+# ================================================================== RHEO 0.2: records of the real world
+# Dates are plain ISO 8601 strings (xsd:string), one form only, so that dates compare and join reliably. 0.3.0: the
+# ontology gives these properties named datatypes (RHEO_3000001 to RHEO_3000005); the rules below check every date,
+# duration and year property, including that each date exists in the calendar.
+rshape:Date a sh:NodeShape ; sh:datatype xsd:string ; sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+    sh:message "A date must be a plain string in the form YYYY-MM-DD." .
+
+rshape:DateValues a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:2000018, rheo:2000019, rheo:2000035, rheo:2000040, rheo:2000041, rheo:2000042, rheo:2000071, rheo:2000073 ;
+    sh:sparql [ sh:message "Not a valid date: {?value} must be a plain string YYYY-MM-DD naming a day that exists." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?path ?value WHERE {
+                $this ?path ?value .
+                FILTER (?path IN (rheo:2000018, rheo:2000019, rheo:2000035, rheo:2000040, rheo:2000041, rheo:2000042, rheo:2000071, rheo:2000073))
+                BIND (REGEX(STR(?value), "^[0-9]{4}-[0-9]{2}-[0-9]{2}$") && DATATYPE(?value) = xsd:string AS ?form)
+                BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (xsd:integer(SUBSTR(STR(?value), 6, 2)) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d)
+                BIND ((?y - 4 * FLOOR(?y / 4) = 0) && ((?y - 100 * FLOOR(?y / 100) != 0) || (?y - 400 * FLOOR(?y / 400) = 0)) AS ?leap)
+                BIND (IF(?m = 2, IF(?leap, 29, 28), IF(?m IN (4, 6, 9, 11), 30, 31)) AS ?days)
+                FILTER (!?form || ?m < 1 || ?m > 12 || ?d < 1 || ?d > ?days)
+            }""" ] .
+
+rshape:DurationValues a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:2000006, rheo:2000029 ;
+    sh:property [ sh:path rheo:2000006 ; sh:datatype xsd:string ; sh:pattern "^P([0-9]+Y)?([0-9]+M)?([0-9]+W)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$" ;
+        sh:message "A time interval must be an ISO 8601 duration written as a plain string, such as P1Y." ] ;
+    sh:property [ sh:path rheo:2000029 ; sh:datatype xsd:string ; sh:pattern "^P([0-9]+Y)?([0-9]+M)?([0-9]+W)?([0-9]+D)?$" ;
+        sh:message "A cycle length must be an ISO 8601 duration written as a plain string, such as P1Y or P28D." ] ;
+    sh:sparql [ sh:message "An empty duration ({?value}) is not a duration: give at least one number and unit, such as P1Y or PT12H." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000006|rheo:2000029|rheo:2000028 ?value . FILTER (REGEX(STR(?value), "^PT?$|T$")) }""" ] .
+
+rshape:YearValues a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:2000004, rheo:2000051, rheo:2000028 ;
+    sh:property [ sh:path rheo:2000004 ; sh:datatype xsd:string ; sh:pattern "^[0-9]{4}(/[0-9]{2})?$" ;
+        sh:message "A price year must be a plain string: a year (2024) or a financial year (2023/24)." ] ;
+    sh:property [ sh:path rheo:2000051 ; sh:datatype xsd:string ; sh:pattern "^[0-9]{4}$" ;
+        sh:message "A conversion year must be a plain string year, such as 2025." ] ;
+    sh:property [ sh:path rheo:2000028 ; sh:datatype xsd:string ; sh:pattern "^(P([0-9]+Y)?([0-9]+M)?([0-9]+W)?([0-9]+D)?|[Ll]ifetime)$" ;
+        sh:message "A time horizon must be an ISO 8601 duration (P40Y) or lifetime, as a plain string." ] .
+
+# 0.3.0: when a thing was observed and when its record was made are kept apart
+rshape:RecordingTimeShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:2000072 ;
+    sh:property [ sh:path rheo:2000072 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+        sh:message "A recording time is one xsd:dateTime, such as 2025-06-07T09:30:00Z." ] ;
+    sh:sparql [ sh:message "Observation after recording: the record was made before the date of what it records." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000072 ?rt ; rheo:2000040|rheo:2000042 ?value . FILTER (SUBSTR(STR(?rt), 1, 10) < STR(?value)) }""" ] .
+
+# 0.3.0: instrument, instrument version and value set are recorded separately (utility estimates and utility measurements)
+rshape:InstrumentAndValueSet a sh:NodeShape ;
+    sh:targetClass rheo:0000012, rheo:0000090 ;
+    sh:sparql [ sh:message "An indirect utility needs its instrument (such as EQ-5D), the instrument version (such as 3L) and the value set (such as UK), each recorded separately." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE {
+                $this rheo:2000023 ?m .
+                FILTER (!REGEX(STR(?m), '^(time trade-off|tto|standard gamble|sg|visual analogue scale|vas|discrete choice experiment|dce)$', "i"))
+                FILTER (NOT EXISTS { $this rheo:2000076 ?i } || NOT EXISTS { $this rheo:2000077 ?v } || NOT EXISTS { $this rheo:2000007 ?vs })
+            }""" ] ;
+    sh:sparql [ sh:message "The value set field names an instrument or its version ({?value}): record the instrument and its version separately." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000007 ?value . FILTER (REGEX(STR(?value), "EQ-?5D|SF-?6D|HUI|[35]L", "i")) }""" ] ;
+    sh:property [ sh:path rheo:2000076 ; sh:maxCount 1 ] ; sh:property [ sh:path rheo:2000077 ; sh:maxCount 1 ] ; sh:property [ sh:path rheo:2000007 ; sh:maxCount 1 ] .
+
+# 0.3.0: perspective. The perspective specification ('under perspective') is authoritative; the text is a label only.
+rshape:PerspectiveLabelShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:2000027 ;
+    sh:property [ sh:path rheo:1000049 ; sh:minCount 1 ;
+        sh:message "A perspective given only as text is not accepted: link the perspective specification (under perspective), which is authoritative; the text is a label." ] .
+rshape:UnderPerspectiveShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:1000049 ;
+    sh:property [ sh:path rheo:1000049 ; sh:class rheo:0000072 ; sh:message "'Under perspective' must point to a perspective specification." ] .
+
+# 0.3.0 (critique point 8): an approval names who approved, when, and for what
+rshape:RecordStatusShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:2000037 ;
+    sh:property [ sh:path rheo:2000037 ; sh:maxCount 1 ; sh:in ( "draft" "reviewed" "approved" ) ;
+        sh:message "A record status is one of: draft, reviewed, approved." ] ;
+    sh:property [ sh:path rheo:1000099 ; sh:node rshape:Agent ; sh:maxCount 1 ; sh:message "A record has one reviewer, an organization or a person." ] ;
+    sh:property [ sh:path rheo:2000073 ; sh:maxCount 1 ; sh:message "A record has one review date: record a new review as a new record status." ] ;
+    sh:property [ sh:path rheo:2000074 ; sh:maxCount 1 ; sh:message "An approval has one scope." ] ;
+    sh:sparql [ sh:message "An approved record needs its reviewer (reviewed by), its review date and its approval scope." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000037 "approved" .
+                FILTER (NOT EXISTS { $this rheo:1000099 ?r } || NOT EXISTS { $this rheo:2000073 ?d } || NOT EXISTS { $this rheo:2000074 ?s . FILTER (REGEX(STR(?s), "[A-Za-z0-9]")) }) }""" ] ;
+    sh:sparql [ sh:message "A reviewed record needs its reviewer and review date." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000037 "reviewed" . FILTER (NOT EXISTS { $this rheo:1000099 ?r } || NOT EXISTS { $this rheo:2000073 ?d }) }""" ] .
+
+# ------------------------------------------------------------------ states, schemes and transitions (RNI)
+rshape:SchemeVersionShape a sh:NodeShape ;
+    sh:targetClass rheo:0000065 ;
+    sh:property [ sh:path rheo:1000080 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000110 ;
+        sh:message "A classification scheme version must say which classification scheme it is a version of." ] .
+
+rshape:StateObservationShape a sh:NodeShape ;
+    sh:targetClass rheo:0000066 ;
+    sh:property [ sh:path rheo:1000040 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A state observation records exactly one person or entity." ] ;
+    sh:property [ sh:path rheo:2000040 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Date ; sh:message "A state observation needs its date (YYYY-MM-DD)." ] ;
+    sh:property [ sh:path rheo:1000042 ; sh:maxCount 1 ; sh:class rheo:0000064 ; sh:message "A state observation has at most one state description." ] ;
+    sh:property [ sh:path rheo:1000043 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000065 ; sh:message "A state observation needs exactly one classification scheme version." ] ;
+    sh:sparql [ sh:message "A state observation needs a state, or a missingness reason (for example, lost to follow-up)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:1000042 ?s } FILTER NOT EXISTS { $this rheo:2000036 ?r } }""" ] ;
+    sh:sparql [ sh:message "The state is not part of the classification scheme version used." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000042 ?value ; rheo:1000043 ?s . FILTER NOT EXISTS { ?value rheo:1000044 ?s } }""" ] ;
+    sh:sparql [ sh:message "The same entity is recorded in two different states of the same scheme on the same date; the states of a scheme are mutually exclusive." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000040 ?x ; rheo:1000043 ?s ; rheo:2000040 ?d ; rheo:1000042 ?a .
+              ?o rheo:1000040 ?x ; rheo:1000043 ?s ; rheo:2000040 ?d ; rheo:1000042 ?b . FILTER (?o != $this && ?a != ?b) }""" ] ;
+    sh:sparql [ sh:message "The same entity is recorded on the same date in states of two versions of one classification that do not correspond (neither refines, renames or merges the other)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000040 ?x ; rheo:1000043 ?s ; rheo:2000040 ?d ; rheo:1000042 ?a . ?s rheo:1000080 ?l .
+              ?o rheo:1000040 ?x ; rheo:1000043 ?s2 ; rheo:2000040 ?d ; rheo:1000042 ?value . ?s2 rheo:1000080 ?l . FILTER (?s2 != ?s && ?value != ?a)
+              FILTER NOT EXISTS { ?a (rheo:1000081|rheo:1000082|rheo:1000087)+ ?value } FILTER NOT EXISTS { ?value (rheo:1000081|rheo:1000082|rheo:1000087)+ ?a } }""" ] .
+
+rshape:TransitionShape a sh:NodeShape ;
+    sh:targetClass rheo:0000067 ;
+    sh:property [ sh:path rheo:1000045 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000066 ; sh:message "A transition needs exactly one earlier observation." ] ;
+    sh:property [ sh:path rheo:1000046 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000066 ; sh:message "A transition needs exactly one later observation." ] ;
+    sh:sparql [ sh:message "Both observations of a transition must record a state; a missing observation cannot start or end a transition." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { { $this rheo:1000045 ?o } UNION { $this rheo:1000046 ?o } FILTER NOT EXISTS { ?o rheo:1000042 ?s } }""" ] ;
+    sh:sparql [ sh:message "The two observations of a transition must record the same person or entity." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000045 ?a ; rheo:1000046 ?b . ?a rheo:1000040 ?x . ?b rheo:1000040 ?y . FILTER (?x != ?y) }""" ] ;
+    sh:sparql [ sh:message "The later observation must be dated after the earlier one." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000045 ?a ; rheo:1000046 ?b . ?a rheo:2000040 ?da . ?b rheo:2000040 ?db . FILTER (STR(?db) <= STR(?da)) }""" ] ;
+    sh:sparql [ sh:message "The two observations use versions of different classification schemes, so they cannot form a transition." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000045 ?a ; rheo:1000046 ?b . ?a rheo:1000043 ?sa . ?b rheo:1000043 ?sb .
+              ?sa rheo:1000080 ?la . ?sb rheo:1000080 ?lb . FILTER (?la != ?lb) }""" ] ;
+    sh:sparql [ sh:message "The observations are not consecutive: another observation of the same entity in the same scheme lies between them." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000045 ?a ; rheo:1000046 ?b . ?a rheo:1000040 ?x ; rheo:2000040 ?da ; rheo:1000043 ?sa . ?b rheo:2000040 ?db . ?sa rheo:1000080 ?l .
+              ?m rheo:1000040 ?x ; rheo:2000040 ?dm ; rheo:1000043 ?sm . ?sm rheo:1000080 ?l . FILTER (STR(?dm) > STR(?da) && STR(?dm) < STR(?db)) }""" ] ;
+    sh:sparql [ sh:message "A transition cannot leave a state that the transition specification for this classification scheme version treats as absorbing (such as dead)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000045 ?a ; rheo:1000046 ?b . ?a rheo:1000042 ?xa ; rheo:1000043 ?sa . ?b rheo:1000042 ?xb .
+              ?ts rheo:1000096 ?sa ; rheo:1000097 ?xa .
+              FILTER (?xa != ?xb) FILTER NOT EXISTS { ?xb (rheo:1000082|rheo:1000081)+ ?xa } }""" ] .
+rshape:ObservationMethodWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000067 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "The two observations used different methods and no knowledge change record explains the difference: the change of state may come from the method." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000045 ?a ; rheo:1000046 ?b . ?a rheo:2000088 ?ma ; rheo:1000042 ?xa . ?b rheo:2000088 ?mb ; rheo:1000042 ?xb .
+              FILTER (STR(?ma) != STR(?mb) && ?xa != ?xb) FILTER NOT EXISTS { ?k2 a rheo:0000130 ; rheo:1000095 ?b } }""" ] .
+rshape:StateMaintenanceShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:1000110 ;
+    sh:property [ sh:path rheo:1000110 ;
+        sh:or ( [ sh:class rheo:0000071 ] [ sh:class obo:OGMS_0000096 ] [ sh:class rheo:0000054 ] [ sh:class rheo:0000055 ] [ sh:class rheo:0000057 ] ) ;
+        sh:message "State maintenance resource use must be a resource use record or a care process (health care, social care, informal care or resource use)." ] .
+
+# 0.3.0 (critique point 6): absorption belongs to a model version or a transition specification, not to a state description
+rshape:ObsoleteAbsorbingShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:2000068 ;
+    sh:property [ sh:path rheo:2000068 ; sh:maxCount 0 ;
+        sh:message "'Is absorbing' on a state description is obsolete: state it in a transition specification for the model version or classification scheme version concerned (treats as absorbing)." ] .
+rshape:TransitionSpecificationShape a sh:NodeShape ;
+    sh:targetClass rheo:0000134 ;
+    sh:property [ sh:path rheo:1000096 ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:class rheo:0000028 ] [ sh:class rheo:0000065 ] ) ;
+        sh:message "A transition specification governs exactly one model version or one classification scheme version." ] ;
+    sh:property [ sh:path rheo:1000097 ; sh:minCount 1 ; sh:class rheo:0000064 ;
+        sh:message "A transition specification must name the states it treats as absorbing." ] ;
+    sh:sparql [ sh:message "A transition specification for a classification scheme version can only treat a state of that version as absorbing." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000096 ?s ; rheo:1000097 ?value . ?s a rheo:0000065 . FILTER NOT EXISTS { ?value rheo:1000044 ?s } }""" ] .
+
+# 0.3.0 (critique point 1): records of the three kinds of change
+rshape:PossibilityChangeShape a sh:NodeShape ;
+    sh:targetClass rheo:0000128 ;
+    sh:property [ sh:path rheo:1000091 ; sh:minCount 1 ; sh:class rheo:0000064 ; sh:message "A possibility change record must name the state that became open." ] ;
+    sh:property [ sh:path rheo:2000071 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Date ; sh:message "A possibility change record needs its effective date (YYYY-MM-DD)." ] ;
+    sh:property [ sh:path rheo:1000001 ; sh:class rheo:0000004 ] ;
+    sh:property [ sh:path rheo:1000116 ; sh:class rheo:0000116 ] ;
+    sh:sparql [ sh:message "A possibility change record must say where or for whom the state became open: a population (applies to population) or an area (records opened area)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:1000001|rheo:1000116 ?where } }""" ] .
+rshape:ClassificationRevisionShape a sh:NodeShape ;
+    sh:targetClass rheo:0000129 ;
+    sh:property [ sh:path rheo:1000092 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000065 ; sh:message "A classification revision record names exactly one revised scheme version." ] ;
+    sh:property [ sh:path rheo:1000093 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000065 ; sh:message "A classification revision record names exactly one resulting scheme version." ] ;
+    sh:sparql [ sh:message "A classification revision must lead from one version of a classification to a different version of the same classification." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000092 ?a ; rheo:1000093 ?b . FILTER (?a = ?b || NOT EXISTS { ?a rheo:1000080 ?l . ?b rheo:1000080 ?l }) }""" ] ;
+    sh:sparql [ sh:message "An introduced state must belong to the resulting version, and must be new: not in the revised version, and not a refinement, renaming or merger of its states." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000092 ?a ; rheo:1000093 ?b ; rheo:1000094 ?value .
+              FILTER (NOT EXISTS { ?value rheo:1000044 ?b } || EXISTS { ?value rheo:1000044 ?a } || EXISTS { ?value (rheo:1000081|rheo:1000082|rheo:1000087)+ ?old . ?old rheo:1000044 ?a }) }""" ] .
+rshape:KnowledgeChangeShape a sh:NodeShape ;
+    sh:targetClass rheo:0000130 ;
+    sh:property [ sh:path rheo:1000095 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000066 ; sh:message "A knowledge change record concerns exactly one state observation." ] .
+
+rshape:MemberGroupShape a sh:NodeShape ;
+    sh:targetClass rheo:0000118 ;
+    sh:property [ sh:path rheo:1000085 ; sh:maxCount 1 ; sh:class rheo:0000064 ; sh:message "A member group is defined by at most one state description." ] .
+
+# ------------------------------------------------------------------ resource use, costing, perspectives
+rshape:ResourceUseRecordShape a sh:NodeShape ;
+    sh:targetClass rheo:0000071 ;
+    sh:property [ sh:path rheo:1000041 ; sh:minCount 1 ; sh:message "A resource use record must name the process in which the resource was used." ] ;
+    sh:property [ sh:path rheo:1000004 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000121 ; sh:message "A resource use record needs exactly one kind of resource." ] ;
+    sh:property [ sh:path rheo:2000043 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:minInclusive 0 ; sh:message "A resource use record needs one quantity, zero or more." ] ;
+    sh:property [ sh:path rheo:2000002 ; sh:minCount 1 ; sh:message "A resource use record needs its units." ] .
+
+rshape:WorkAbsenceShape a sh:NodeShape ;
+    sh:targetClass rheo:0000113 ;
+    sh:property [ sh:path rheo:1000040 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class obo:NCBITaxon_9606 ; sh:message "A work absence record names exactly one person." ] ;
+    sh:property [ sh:path rheo:2000043 ; sh:minCount 1 ; sh:node rshape:Numeric ; sh:minInclusive 0 ; sh:message "A work absence record needs the time absent." ] ;
+    sh:property [ sh:path rheo:2000002 ; sh:minCount 1 ; sh:message "A work absence record needs its units (for example, days)." ] ;
+    sh:property [ sh:path rheo:2000041 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A work absence record needs the start of the absence." ] ;
+    sh:property [ sh:path rheo:2000042 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A work absence record needs the end of the absence." ] .
+
+rshape:PerspectiveShape a sh:NodeShape ;
+    sh:targetClass rheo:0000072 ;
+    sh:property [ sh:path rheo:1000050 ; sh:minCount 1 ; sh:class rheo:0000121 ; sh:message "A perspective must list the kinds of resource it counts." ] .
+
+rshape:CostingShape a sh:NodeShape ;
+    sh:targetClass rheo:0000073 ;
+    sh:property [ sh:path rheo:1000049 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000072 ; sh:message "A costing process follows exactly one perspective." ] ;
+    sh:property [ sh:path rheo:1000106 ; sh:class rheo:0000020 ; sh:message "'Valuation rests on assumption' must point to a modelling assumption." ] ;
+    sh:sparql [ sh:message "A costing process produced a cost record under a different perspective from its own." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this rheo:1000049 ?p ; obo:OBI_0000299 ?value . ?value rheo:1000049 ?q . FILTER (?p != ?q) }""" ] .
+
+rshape:UnitCostValuationShape a sh:NodeShape ;
+    sh:targetClass rheo:0000150 ;
+    sh:sparql [ sh:message "A unit cost valuation must output cost records that value a recorded resource use at a unit cost." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this obo:OBI_0000299 ?value . FILTER NOT EXISTS { ?value rheo:1000047 ?r ; rheo:1000048 ?u } }""" ] .
+
+# 0.3.0 (critique point 3): a cost record is any record of a valuation; the rules check each kind by its links
+rshape:CostRecordShape a sh:NodeShape ;
+    sh:targetClass rheo:0000074 ;
+    sh:property [ sh:path rheo:1000047 ; sh:maxCount 1 ; sh:or ( [ sh:class rheo:0000071 ] [ sh:class rheo:0000113 ] ) ;
+        sh:message "A cost record values at most one resource use record or work absence record." ] ;
+    sh:property [ sh:path rheo:1000048 ; sh:maxCount 1 ; sh:class rheo:0000014 ; sh:message "A cost record names at most one unit cost estimate." ] ;
+    sh:sparql [ sh:message "A cost record that values a resource use must name the one unit cost estimate it applies, and the reverse." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { { $this rheo:1000047 ?r FILTER NOT EXISTS { $this rheo:1000048 ?u } } UNION { $this rheo:1000048 ?u2 FILTER NOT EXISTS { $this rheo:1000047 ?r2 } } }""" ] ;
+    sh:sparql [ sh:message "A cost record must show how its value was produced: a resource use valued at a unit cost, a sum of cost records, an adjustment, a comparison of two alternatives, or an estimation method." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:1000047|rheo:1000100|rheo:1000101|rheo:1000105|rheo:2000009 ?how } }""" ] ;
+    sh:property [ sh:path rheo:1000100 ; sh:class rheo:0000074 ; sh:message "'Sums cost record' must point to cost records." ] ;
+    sh:property [ sh:path rheo:1000101 ; sh:maxCount 1 ; sh:class rheo:0000074 ; sh:message "An adjusted cost record adjusts exactly one cost record." ] ;
+    sh:property [ sh:path rheo:1000102 ; sh:maxCount 1 ; sh:class rheo:0000011 ; sh:message "An adjustment applies one factor, given as an estimate." ] ;
+    sh:property [ sh:path rheo:1000106 ; sh:class rheo:0000020 ; sh:message "'Valuation rests on assumption' must point to a modelling assumption." ] ;
+    sh:sparql [ sh:message "A total is not the sum of the cost records it adds." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000001 ?value .
+              { SELECT $this (SUM(?c) AS ?total) WHERE { $this rheo:1000100 ?part . ?part rheo:2000001 ?c } GROUP BY $this }
+              FILTER (ABS(?value - ?total) > 0.01) }""" ] ;
+    sh:sparql [ sh:message "A total adds cost records of a different currency, price year or perspective from its own." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000100 ?value ; rheo:2000003 ?c ; rheo:2000004 ?y ; rheo:1000049 ?p .
+              ?value rheo:2000003 ?c2 ; rheo:2000004 ?y2 ; rheo:1000049 ?p2 . FILTER (?c != ?c2 || STR(?y) != STR(?y2) || ?p != ?p2) }""" ] ;
+    sh:sparql [ sh:message "A total adds discounted and undiscounted cost records together." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000100 ?p1, ?p2 . ?p1 rheo:2000062 true . FILTER NOT EXISTS { ?p2 rheo:2000062 true } }""" ] ;
+    sh:sparql [ sh:message "A total adds the opportunity cost and the accounting cost of the same resource use, counting it twice." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE { $this rheo:1000100 ?value, ?c . ?value a/rdfs:subClassOf* rheo:0000155 . ?c rheo:1000047 ?r .
+              { ?proc obo:OBI_0000299 ?value ; obo:OBI_0000293 ?r } UNION { ?value rheo:1000047 ?r } }""" ] ;
+    sh:property [ sh:path rheo:2000089 ; sh:maxCount 1 ; sh:in ( "inflation" "deflation" "currency conversion" "discounting" ) ;
+        sh:message "An adjustment kind is one of: inflation, deflation, currency conversion, discounting." ] ;
+    sh:sparql [ sh:message "An adjusted cost record must state its kind of adjustment (has adjustment kind)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000101 ?base . FILTER NOT EXISTS { $this rheo:2000089 ?k } }""" ] ;
+    sh:sparql [ sh:message "An inflation or deflation keeps the currency of the cost it adjusts and changes its price year." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000101 ?base ; rheo:2000089 ?k ; rheo:2000003 ?c ; rheo:2000004 ?y . ?base rheo:2000003 ?c0 ; rheo:2000004 ?y0 .
+              FILTER (?k IN ("inflation", "deflation") && (?c != ?c0 || STR(?y) = STR(?y0))) }""" ] ;
+    sh:sparql [ sh:message "A currency conversion must change the currency, using a conversion estimate from the cost's currency into the record's currency." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000101 ?base ; rheo:2000089 "currency conversion" ; rheo:2000003 ?c . ?base rheo:2000003 ?c0 .
+              FILTER (?c = ?c0 || NOT EXISTS { $this rheo:1000102 ?f . ?f a rheo:0000082 ; rheo:2000003 ?c0 ; rheo:2000047 ?c }) }""" ] ;
+    sh:sparql [ sh:message "A discounted cost record must be marked discounted, name its discounting specification and give its time point." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000089 "discounting" .
+              FILTER (NOT EXISTS { $this rheo:2000062 true } || NOT EXISTS { $this rheo:1000117 ?d } || NOT EXISTS { $this rheo:2000060 ?tp }) }""" ] ;
+    sh:sparql [ sh:message "An adjusted cost record needs the factor it applies (uses adjustment factor), and its value must be the adjusted cost multiplied by that factor." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000101 ?base ; rheo:2000001 ?value . ?base rheo:2000001 ?b .
+              OPTIONAL { $this rheo:1000102 ?f . ?f rheo:2000001 ?fv }
+              FILTER (!BOUND(?fv) || ABS(?value - ?b * ?fv) > 0.01) }""" ] ;
+    sh:sparql [ sh:message "An incremental cost record compares exactly two cost records, names the option and the comparator, and its value must be the option's cost minus the comparator's." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000105 ?any ; rheo:2000001 ?value .
+              OPTIONAL { $this rheo:1000103 ?alt ; rheo:1000104 ?cmp .
+                         $this rheo:1000105 ?ca . ?ca rheo:1000103 ?alt ; rheo:2000001 ?va .
+                         $this rheo:1000105 ?cc . ?cc rheo:1000103 ?cmp ; rheo:2000001 ?vc . FILTER (?ca != ?cc) }
+              { SELECT $this (COUNT(DISTINCT ?x) AS ?n) WHERE { $this rheo:1000105 ?x } GROUP BY $this }
+              FILTER (?n != 2 || !BOUND(?va) || !BOUND(?vc) || ABS(?value - (?va - ?vc)) > 0.01) }""" ] ;
+    sh:sparql [ sh:message "An incremental cost record compares a cost record of a different currency, price year or perspective from its own ({?value})." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000105 ?value ; rheo:2000003 ?c ; rheo:2000004 ?y ; rheo:1000049 ?p .
+              OPTIONAL { ?value rheo:2000003 ?c2 } OPTIONAL { ?value rheo:2000004 ?y2 } OPTIONAL { ?value rheo:1000049 ?p2 }
+              FILTER (!BOUND(?c2) || !BOUND(?y2) || !BOUND(?p2) || ?c != ?c2 || STR(?y) != STR(?y2) || ?p != ?p2) }""" ] ;
+    sh:property [ sh:path rheo:1000120 ; sh:maxCount 1 ; sh:node rshape:Agent ; sh:message "A cost is borne by one organization, household or person." ] ;
+    sh:sparql [ sh:message "The cost is borne by {?value}, whose costs this perspective does not count." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000049 ?p ; rheo:1000120 ?value . ?p rheo:1000121 ?any . FILTER NOT EXISTS { ?p rheo:1000121 ?value } }""" ] ;
+    sh:property [ sh:path rheo:1000049 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000072 ; sh:message "A cost record must name its perspective." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:message "A cost record needs one value." ] ;
+    sh:property [ sh:path rheo:2000003 ; sh:maxCount 1 ; sh:pattern "^[A-Z]{3}$" ; sh:message "A cost record has one ISO 4217 currency." ] ;
+    sh:property [ sh:path rheo:2000004 ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(/[0-9]{2})?$" ; sh:message "A cost record has one price year." ] ;
+    sh:sparql [ sh:message "A cost record needs its ISO 4217 currency and its price year (only a health opportunity cost, in QALYs or DALYs, has none)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { FILTER (NOT EXISTS { $this rheo:2000003 ?c } || NOT EXISTS { $this rheo:2000004 ?y })
+              FILTER NOT EXISTS { $this a/rdfs:subClassOf* rheo:0000155 ; rheo:2000002 ?u . FILTER (REGEX(STR(?u), "QALY|DALY")) } }""" ] ;
+    sh:sparql [ sh:message "The cost is not the quantity used multiplied by the unit cost." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000001 ?value ; rheo:1000047 ?r ; rheo:1000048 ?u . ?r rheo:2000043 ?q . ?u rheo:2000001 ?uc .
+              FILTER (ABS(?value - ?q * ?uc) > 0.01) }""" ] ;
+    sh:sparql [ sh:message "The kind of resource valued is not counted in this perspective." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000047 ?r ; rheo:1000049 ?p . ?r rheo:1000004 ?k . FILTER NOT EXISTS { ?p rheo:1000050 ?k } }""" ] ;
+    sh:sparql [ sh:message "The unit cost values a different kind of resource from the one recorded." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000047 ?r ; rheo:1000048 ?u . ?r rheo:1000004 ?k . ?u rheo:1000004 ?k2 . FILTER (?k != ?k2) }""" ] ;
+    sh:sparql [ sh:message "The currency or price year of the cost record differs from that of its unit cost." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000048 ?u ; rheo:2000003 ?c ; rheo:2000004 ?y . ?u rheo:2000003 ?c2 ; rheo:2000004 ?y2 . FILTER (?c != ?c2 || STR(?y) != STR(?y2)) }""" ] .
+
+# ------------------------------------------------------------------ prices, payments and grouping
+# 0.3.0 (critique point 3): an opportunity cost names the forgone alternative
+rshape:OpportunityCostShape a sh:NodeShape ;
+    sh:targetClass rheo:0000155 ;
+    sh:property [ sh:path rheo:1000107 ; sh:minCount 1 ; sh:or ( [ sh:class rheo:0000026 ] [ sh:class rheo:0000122 ] ) ;
+        sh:message "An opportunity cost must name the forgone alternative, an intervention or a kind of care process; a monetary valuation alone does not establish it, and a kind of resource is not an alternative use." ] ;
+    sh:sparql [ sh:message "The forgone alternative is the kind of item being valued itself ({?value}), not an alternative use of it." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this rheo:1000107 ?value . { ?proc obo:OBI_0000299 $this ; obo:OBI_0000293 ?r } UNION { $this rheo:1000047 ?r } ?r rheo:1000004 ?value }""" ] ;
+    sh:sparql [ sh:message "A health opportunity cost needs its unit, such as QALYs." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:2000003 ?c } FILTER NOT EXISTS { $this rheo:2000002 ?u } }""" ] .
+
+# review fixes: perspectives list the bearers they count; unit codes; ICERs computed from other results
+rshape:PerspectiveBearerShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:1000121 ;
+    sh:property [ sh:path rheo:1000121 ; sh:node rshape:Agent ; sh:message "A perspective counts the costs of organizations, households or persons." ] .
+rshape:UnitCodeShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:2000092 ;
+    sh:property [ sh:path rheo:2000092 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[^ ]+$" ;
+        sh:message "A unit code is one UCUM code written without spaces, such as 1, /a or /{admission}." ] .
+rshape:ParameterUnitCodeWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000029 ;
+    sh:severity sh:Warning ;
+    sh:property [ sh:path rheo:2000092 ; sh:minCount 1 ; sh:message "No UCUM unit code for this parameter: units cannot be compared automatically (required from version 0.4)." ] .
+rshape:ComputedResultShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:1000119 ;
+    sh:property [ sh:path rheo:1000119 ; sh:class rheo:0000032 ; sh:message "'Computed from result' must point to a model result." ] ;
+    sh:sparql [ sh:message "A result can only be computed from results of the same model run." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000119 ?value ; rheo:1000019 ?run . ?value rheo:1000019 ?run2 . FILTER (?run != ?run2) }""" ] ;
+    sh:sparql [ sh:message "The ICER is not the incremental cost divided by the incremental QALYs it is computed from." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000022 "incremental cost-effectiveness ratio" ; rheo:2000001 ?value ; rheo:1000119 ?rc, ?rq .
+              ?rc rheo:2000022 "incremental cost" ; rheo:2000001 ?c . ?rq rheo:2000022 "incremental QALYs" ; rheo:2000001 ?q .
+              FILTER (?q = 0 || ABS(?value - ?c / ?q) > 0.01 * ABS(?value)) }""" ] .
+
+rshape:TariffShape a sh:NodeShape ;
+    sh:targetClass rheo:0000075 ;
+    sh:property [ sh:path rheo:1000057 ; sh:minCount 1 ; sh:class obo:OBI_0000245 ; sh:message "A tariff must name the organization that issued it." ] ;
+    sh:property [ sh:path rheo:1000058 ; sh:minCount 1 ; sh:class rheo:0000122 ; sh:message "A tariff must say which kind of care process it prices." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:message "A tariff needs one amount." ] ;
+    sh:property [ sh:path rheo:2000003 ; sh:minCount 1 ; sh:pattern "^[A-Z]{3}$" ; sh:message "A tariff needs its currency." ] ;
+    sh:property [ sh:path rheo:2000041 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A tariff needs the start of the period it applies to." ] .
+
+rshape:Agent a sh:NodeShape ; sh:or ( [ sh:class obo:OBI_0000245 ] [ sh:class obo:OMRSE_00000076 ] [ sh:class obo:NCBITaxon_9606 ] ) ;
+    sh:message "Must be an organization, a household or a person." .
+
+rshape:PaymentRecordShape a sh:NodeShape ;
+    sh:targetClass rheo:0000077 ;
+    sh:property [ sh:path rheo:1000053 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Agent ; sh:message "A payment record must name who paid: an organization, a household or a person." ] ;
+    sh:property [ sh:path rheo:1000054 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Agent ; sh:message "A payment record must name who was paid: an organization, a household or a person." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:message "A payment record needs one amount (negative for a refund or clawback)." ] ;
+    sh:property [ sh:path rheo:2000003 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[A-Z]{3}$" ; sh:message "A payment record needs its currency." ] ;
+    sh:property [ sh:path rheo:2000040 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A payment record needs its date." ] ;
+    sh:property [ sh:path rheo:1000056 ; sh:minCount 1 ; sh:class rheo:0000076 ; sh:severity sh:Warning ; sh:message "No payment mechanism recorded." ] 
+    .
+
+rshape:GroupAssignmentShape a sh:NodeShape ;
+    sh:targetClass rheo:0000114 ;
+    sh:property [ sh:path rheo:1000041 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A case-mix group assignment names exactly one episode or spell." ] ;
+    sh:property [ sh:path rheo:1000086 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000122 ; sh:message "A case-mix group assignment names exactly one group." ] .
+
+rshape:PriceAgreementShape a sh:NodeShape ;
+    sh:targetClass rheo:0000078 ;
+    sh:property [ sh:path rheo:1000059 ; sh:minCount 1 ; sh:class rheo:0000026 ; sh:message "A price agreement must name the technology." ] ;
+    sh:property [ sh:path rheo:2000045 ; sh:minCount 1 ; sh:in ( "list" "net" ) ; sh:message "A price agreement must say whether the price is a list price or a net price." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:node rshape:Numeric ; sh:message "A price agreement needs its price." ] ;
+    sh:property [ sh:path rheo:2000003 ; sh:minCount 1 ; sh:pattern "^[A-Z]{3}$" ; sh:message "A price agreement needs its currency." ] ;
+    sh:property [ sh:path rheo:2000041 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A price agreement needs its start date." ] .
+
+# Confidential values must stay confidential when they are passed on
+rshape:ConfidentialityShape a sh:NodeShape ;
+    sh:targetClass rheo:0000011 ;
+    sh:sparql [ sh:message "This estimate is taken from a confidential source or price but is not marked confidential." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000026*/rheo:1000025 ?src . ?src rheo:2000046 true . FILTER NOT EXISTS { $this rheo:2000046 true } }""" ] ;
+    sh:sparql [ sh:message "This estimate is derived from a confidential estimate but is not marked confidential." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000026+ ?value . ?value rheo:2000046 true . FILTER NOT EXISTS { $this rheo:2000046 true } }""" ] .
+rshape:ConfidentialCostRecordShape a sh:NodeShape ;
+    sh:targetClass rheo:0000074 ;
+    sh:sparql [ sh:message "This cost record is calculated from a confidential value but is not marked confidential." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this (rheo:1000026|rheo:1000048|rheo:1000100|rheo:1000101|rheo:1000102|rheo:1000105)+ ?value . { ?value rheo:2000046 true } UNION { ?value rheo:1000025 ?s . ?s rheo:2000046 true }
+              FILTER NOT EXISTS { $this rheo:2000046 true } }""" ] .
+rshape:ConfidentialResultShape a sh:NodeShape ;
+    sh:targetClass rheo:0000032 
+    .
+
+# ------------------------------------------------------------------ stocks and flows (observed) and projections
+rshape:StockOrGroup a sh:NodeShape ;
+    sh:or ( [ sh:class rheo:0000118 ] [ sh:class rheo:0000043 ] [ sh:class rheo:0000097 ] [ sh:class rheo:0000042 ] [ sh:class obo:OBI_0000245 ] ) ;
+    sh:message "Stocks and flows must refer to real things: a member group, a resource stock, a workforce, a care setting or an organization (not a state description)." .
+
+rshape:StockMeasurementShape a sh:NodeShape ;
+    sh:targetClass rheo:0000079 , rheo:0000112 ;
+    sh:property [ sh:path rheo:1000060 ; sh:maxCount 1 ; sh:node rshape:StockOrGroup ] ;
+    sh:property [ sh:path rheo:1000051 ; sh:maxCount 1 ; sh:node rshape:StockOrGroup ] ;
+    sh:property [ sh:path rheo:1000052 ; sh:maxCount 1 ; sh:node rshape:StockOrGroup ] ;
+    sh:property [ sh:path rheo:2000044 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:minInclusive 0 ; sh:message "A count needs one value, zero or more." ] ;
+    sh:sparql [ sh:message "A count must be either a stock (what it counts, and a date) or a flow (an origin, a destination or both, and the period start and end)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:1000060 ?x ; rheo:2000040 ?d }
+                                 FILTER NOT EXISTS { $this rheo:1000051|rheo:1000052 ?o ; rheo:2000041 ?s ; rheo:2000042 ?e } }""" ] ;
+    sh:sparql [ sh:message "A flow period must not end before it starts." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000041 ?s ; rheo:2000042 ?e . FILTER (STR(?e) < STR(?s)) }""" ] ;
+    .
+
+rshape:ObservedCountShape a sh:NodeShape ;
+    sh:targetClass rheo:0000079 , rheo:0000080 ;
+    sh:property [ sh:path rheo:2000048 ; sh:minCount 1 ; sh:in ( "observed" ) ; sh:message "Stock and flow measurements record observed counts; projections are projected counts produced by a model run." ] .
+rshape:FlowMeasurementShape a sh:NodeShape ;
+    sh:targetClass rheo:0000080 ;
+    sh:property [ sh:path rheo:1000051 ; sh:maxCount 1 ; sh:node rshape:StockOrGroup ; sh:message "A flow measurement has at most one origin." ] ;
+    sh:property [ sh:path rheo:1000052 ; sh:maxCount 1 ; sh:node rshape:StockOrGroup ; sh:message "A flow measurement has at most one destination." ] ;
+    sh:sparql [ sh:message "A flow measurement needs an origin, a destination or both; a flow to or from outside the system needs its reason (for example, administered or left)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { { FILTER NOT EXISTS { $this rheo:1000051 ?o } FILTER NOT EXISTS { $this rheo:1000052 ?d } }
+              UNION { FILTER (NOT EXISTS { $this rheo:1000051 ?o2 } || NOT EXISTS { $this rheo:1000052 ?d2 }) FILTER NOT EXISTS { $this rheo:2000069 ?why } } }""" ] ;
+    sh:property [ sh:path rheo:2000044 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:minInclusive 0 ; sh:message "A flow measurement needs one count, zero or more." ] ;
+    sh:property [ sh:path rheo:2000041 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A flow measurement needs the start of its period." ] ;
+    sh:property [ sh:path rheo:2000042 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A flow measurement needs the end of its period." ] .
+rshape:StockMeasurementDateShape a sh:NodeShape ;
+    sh:targetClass rheo:0000079 ;
+    sh:property [ sh:path rheo:1000060 ; sh:minCount 1 ; sh:message "A stock measurement must say what it counts." ] ;
+    sh:property [ sh:path rheo:2000040 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Date ; sh:message "A stock measurement needs its date." ] .
+rshape:ProjectedCountShape a sh:NodeShape ;
+    sh:targetClass rheo:0000112 ;
+    sh:property [ sh:path rheo:2000040 ; sh:maxCount 1 ; sh:node rshape:Date ; sh:message "A projected count has at most one date (YYYY-MM-DD)." ] ;
+    sh:property [ sh:path rheo:2000041 ; sh:maxCount 1 ; sh:node rshape:Date ; sh:message "A projected flow period needs a plain start date (YYYY-MM-DD)." ] ;
+    sh:property [ sh:path rheo:2000042 ; sh:maxCount 1 ; sh:node rshape:Date ; sh:message "A projected flow period needs a plain end date (YYYY-MM-DD)." ] ;
+    sh:sparql [ sh:message "A projected count must be produced by a model run." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this WHERE { FILTER NOT EXISTS { ?run a rheo:0000031 ; obo:OBI_0000299 $this } }""" ] .
+
+# 0.2.2: a patient movement is a real process; where it starts and ends is given by RO has start location and has end
+# location. 'Counts flow from' and 'counts flow to' (rheo:1000051, rheo:1000052) are for counts only.
+rshape:PatientMovementShape a sh:NodeShape ;
+    sh:targetClass rheo:0000058 ;
+    sh:property [ sh:path obo:RO_0002231 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000042 ; sh:message "A patient movement needs its start location (has start location), a care setting." ] ;
+    sh:property [ sh:path obo:RO_0002232 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000042 ; sh:message "A patient movement needs its end location (has end location), a care setting." ] ;
+    sh:property [ sh:path rheo:1000051 ; sh:maxCount 0 ; sh:message "'Counts flow from' is for counts only: record where a patient movement starts with has start location (RO_0002231)." ] ;
+    sh:property [ sh:path rheo:1000052 ; sh:maxCount 0 ; sh:message "'Counts flow to' is for counts only: record where a patient movement ends with has end location (RO_0002232)." ] ;
+    sh:property [ sh:path obo:RO_0000057 ; sh:minCount 1 ; sh:message "A patient movement needs the person who moved." ] .
+
+# ------------------------------------------------------------------ households, conversion, decisions, test accuracy
+rshape:HouseholdRecordShape a sh:NodeShape ;
+    sh:targetClass rheo:0000081 ;
+    sh:property [ sh:path rheo:1000040 ; sh:minCount 1 ; sh:class obo:OMRSE_00000076 ; sh:message "A household economic record must name the household." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:node rshape:Numeric ; sh:minInclusive 0 ; sh:message "A household economic record needs its amount." ] ;
+    sh:property [ sh:path rheo:2000003 ; sh:minCount 1 ; sh:pattern "^[A-Z]{3}$" ; sh:message "A household economic record needs its currency." ] ;
+    sh:property [ sh:path rheo:2000022 ; sh:minCount 1 ; sh:in ( "total household consumption expenditure" "total household income" ) ;
+        sh:message "A household economic record must say whether it measures total household consumption expenditure or total household income." ] ;
+    sh:property [ sh:path rheo:2000041 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A household economic record needs the start of its period." ] ;
+    sh:property [ sh:path rheo:2000042 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A household economic record needs the end of its period." ] .
+
+rshape:ConversionShape a sh:NodeShape ;
+    sh:targetClass rheo:0000082 ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:minExclusive 0 ; sh:message "A conversion needs a positive rate." ] ;
+    sh:property [ sh:path rheo:2000003 ; sh:minCount 1 ; sh:pattern "^[A-Z]{3}$" ; sh:message "A conversion needs the currency it converts from." ] ;
+    sh:property [ sh:path rheo:2000047 ; sh:minCount 1 ; sh:pattern "^[A-Z]{3}$" ; sh:message "A conversion needs the currency it converts into." ] ;
+    sh:property [ sh:path rheo:2000051 ; sh:minCount 1 ; sh:pattern "^[0-9]{4}$" ; sh:message "A conversion needs the year it applies to." ] ;
+    sh:sparql [ sh:message "A conversion must convert between two different currencies." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000003 ?a ; rheo:2000047 ?b . FILTER (?a = ?b) }""" ] .
+
+rshape:TestAccuracyShape a sh:NodeShape ;
+    sh:targetClass rheo:0000084 ;
+    sh:property [ sh:path rheo:2000001 ; sh:minInclusive 0 ; sh:maxInclusive 1 ; sh:message "Sensitivity and specificity are proportions between 0 and 1." ] .
+
+rshape:RecommendationShape a sh:NodeShape ;
+    sh:targetClass rheo:0000083 ;
+    sh:property [ sh:path rheo:1000057 ; sh:minCount 1 ; sh:class obo:OBI_0000245 ; sh:message "A recommendation must name the body that issued it." ] ;
+    sh:property [ sh:path rheo:1000059 ; sh:minCount 1 ; sh:class rheo:0000026 ; sh:message "A recommendation must name the technology." ] ;
+    sh:property [ sh:path rheo:2000050 ; sh:minCount 1 ;
+        sh:in ( "recommended" "recommended with restrictions" "recommended with managed access" "recommended only in research" "not recommended" "terminated appraisal" ) ;
+        sh:message "A recommendation must state its decision: recommended, recommended with restrictions, recommended with managed access, recommended only in research, not recommended or terminated appraisal." ] ;
+    sh:property [ sh:path rheo:2000040 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A recommendation needs its date." ] ;
+    sh:property [ sh:path rheo:1000061 ; sh:minCount 1 ; sh:class rheo:0000032 ; sh:severity sh:Warning ; sh:message "The recommendation does not name the model results it relied on." ] .
+
+rshape:ThresholdShape a sh:NodeShape ;
+    sh:targetClass rheo:0000117 ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:node rshape:Numeric ; sh:message "A decision threshold needs its value." ] ;
+    sh:property [ sh:path rheo:2000002 ; sh:minCount 1 ; sh:message "A decision threshold needs its unit (for example, GBP per QALY gained)." ] .
+
+rshape:EvidenceDatasetShape a sh:NodeShape ;
+    sh:targetClass rheo:0000035 ;
+    sh:property [ sh:path rheo:1000063 ; sh:class obo:IAO_0000027 ; sh:message "The members of a dataset must be data records." ] .
+
+# ================================================================== RHEO 0.2 extensions: QALYs, DALYs, trials, insurance, carbon, institutions
+rshape:UtilityMeasurementShape a sh:NodeShape ;
+    sh:targetClass rheo:0000090 ;
+    sh:property [ sh:path rheo:1000040 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A utility measurement records exactly one person." ] ;
+    sh:property [ sh:path rheo:2000040 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A utility measurement needs its date." ] ;
+    sh:property [ sh:path rheo:2000060 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:message "A utility measurement needs its time point (years from baseline)." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:maxInclusive 1 ; sh:message "A utility value is a number no greater than 1." ] ;
+    sh:property [ sh:path rheo:2000023 ; sh:minCount 1 ; sh:message "A utility measurement needs its valuation method." ] ;
+    sh:sparql [ sh:message "A utility measurement needs a value, or a missingness reason, so that a missing value is never read as zero." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:2000001 ?v } FILTER NOT EXISTS { $this rheo:2000036 ?r } }""" ] .
+
+rshape:QALYRecordShape a sh:NodeShape ;
+    sh:targetClass rheo:0000092 ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node rshape:Numeric ; sh:message "A QALY record needs one value." ] ;
+    sh:property [ sh:path rheo:2000062 ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ; sh:message "A QALY record must say whether it is discounted." ] ;
+    sh:property [ sh:path rheo:2000041 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A QALY record needs the start of its period." ] ;
+    sh:property [ sh:path rheo:2000042 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A QALY record needs the end of its period." ] ;
+    sh:sparql [ sh:message "A discounted QALY record must state its annual discount rate." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:2000062 true . FILTER NOT EXISTS { $this rheo:2000031 ?r } }""" ] .
+
+rshape:DALYRecordShape a sh:NodeShape ;
+    sh:targetClass rheo:0000094 ;
+    sh:property [ sh:path rheo:2000063 ; sh:minCount 1 ; sh:node rshape:Numeric ; sh:minInclusive 0 ; sh:message "A DALY record needs its years of life lost." ] ;
+    sh:property [ sh:path rheo:2000064 ; sh:minCount 1 ; sh:node rshape:Numeric ; sh:minInclusive 0 ; sh:message "A DALY record needs its years lived with disability." ] ;
+    sh:sparql [ sh:message "DALYs must equal years of life lost plus years lived with disability." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000001 ?value ; rheo:2000063 ?yll ; rheo:2000064 ?yld . FILTER (ABS(?value - (?yll + ?yld)) > 0.001) }""" ] .
+
+rshape:EmissionsRecordShape a sh:NodeShape ;
+    sh:targetClass rheo:0000106 ;
+    sh:property [ sh:path rheo:1000072 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000071 ; sh:message "An emissions record accounts for exactly one resource use record." ] ;
+    sh:property [ sh:path rheo:1000073 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000105 ; sh:message "An emissions record must name the one emission factor it applies." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:node rshape:Numeric ; sh:message "An emissions record needs its value." ] ;
+    sh:sparql [ sh:message "The emissions are not the quantity used multiplied by the emission factor." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000001 ?value ; rheo:1000072 ?r ; rheo:1000073 ?e . ?r rheo:2000043 ?q . ?e rheo:2000001 ?f . FILTER (ABS(?value - ?q * ?f) > 0.001) }""" ] ;
+    sh:sparql [ sh:message "The emission factor is for a different kind of resource from the one recorded." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000072 ?r ; rheo:1000073 ?e . ?r rheo:1000004 ?k . ?e rheo:1000004 ?k2 . FILTER (?k != ?k2) }""" ] .
+
+rshape:AllocationShape a sh:NodeShape ;
+    sh:targetClass rheo:0000100 ;
+    sh:property [ sh:path rheo:1000040 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "An allocation record names exactly one participant." ] ;
+    sh:property [ sh:path rheo:1000074 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000099 ; sh:message "An allocation record names exactly one trial arm." ] ;
+    sh:property [ sh:path rheo:2000040 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "An allocation record needs its date." ] .
+
+rshape:EnrolmentShape a sh:NodeShape ;
+    sh:targetClass rheo:0000104 ;
+    sh:property [ sh:path rheo:1000040 ; sh:minCount 1 ; sh:message "An enrolment record must name the person or household." ] ;
+    sh:property [ sh:path rheo:1000071 ; sh:minCount 1 ; sh:class obo:OBI_0000245 ; sh:message "An enrolment record must name the scheme's organization." ] ;
+    sh:property [ sh:path rheo:2000041 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "An enrolment record needs the start of the period." ] ;
+    sh:property [ sh:path rheo:2000042 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "An enrolment record needs the end of the period." ] .
+
+rshape:BenefitPackageShape a sh:NodeShape ;
+    sh:targetClass rheo:0000103 ;
+    sh:property [ sh:path rheo:1000057 ; sh:minCount 1 ; sh:class obo:OBI_0000245 ; sh:message "A benefit package must name the payer that issued it." ] ;
+    sh:property [ sh:path rheo:1000070 ; sh:minCount 1 ; sh:class rheo:0000121 ; sh:message "A benefit package must list the kinds of care it covers." ] .
+
+rshape:OutcomesAgreementShape a sh:NodeShape ;
+    sh:targetClass rheo:0000098 ;
+    sh:property [ sh:path rheo:2000065 ; sh:minCount 1 ; sh:message "An outcomes-based agreement must state the outcome that payment depends on." ] .
+
+rshape:MarketingAuthorisationShape a sh:NodeShape ;
+    sh:targetClass rheo:0000108 ;
+    sh:property [ sh:path rheo:1000057 ; sh:minCount 1 ; sh:class obo:OBI_0000245 ; sh:message "A marketing authorisation must name the regulator." ] ;
+    sh:property [ sh:path rheo:1000075 ; sh:minCount 1 ; sh:class rheo:0000026 ; sh:message "A marketing authorisation must name the technology." ] ;
+    sh:property [ sh:path rheo:2000040 ; sh:minCount 1 ; sh:node rshape:Date ; sh:message "A marketing authorisation needs its date." ] .
+
+rshape:FundingRuleShape a sh:NodeShape ;
+    sh:targetClass rheo:0000109 ;
+    sh:property [ sh:path rheo:1000057 ; sh:minCount 1 ; sh:class obo:OBI_0000245 ; sh:message "A funding rule must name the organization that issued it." ] ;
+    sh:property [ sh:path rheo:1000076 ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:message "A funding rule must say what a technology needs to be funded." ] ;
+    sh:sparql [ sh:message "A funding rule requires a class of directive record (such as marketing authorisation), named by its class IRI; {?value} is not such a class." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            PREFIX owl: <http://www.w3.org/2002/07/owl#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE { $this rheo:1000076 ?value . FILTER NOT EXISTS { ?value a owl:Class ; rdfs:subClassOf+ obo:IAO_0000033 } }""" ] .
+
+# ------------------------------------------------------------------ stock-flow balance (0.2.1): observed counts, and projections by model run
+rshape:StockBalanceObservedShape a sh:NodeShape ;
+    sh:targetClass rheo:0000079 ;
+    sh:sparql [ sh:message "Stock and flows do not balance: this count is not the previous count plus inflows minus outflows over the period." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+              $this rheo:1000060 ?x ; rheo:2000044 ?value ; rheo:2000040 ?t . 
+              ?m0 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000044 ?c0 ; rheo:2000040 ?t0 . FILTER (STR(?t0) < STR(?t))
+              FILTER NOT EXISTS { ?m1 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000040 ?t1 . FILTER (STR(?t1) > STR(?t0) && STR(?t1) < STR(?t)) }
+              FILTER EXISTS { ?f a rheo:0000080 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?fs ; rheo:2000042 ?fe . FILTER (STR(?fs) > STR(?t0) && STR(?fe) <= STR(?t)) }
+              FILTER NOT EXISTS { ?f2 a rheo:0000080 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?gs ; rheo:2000042 ?ge . FILTER ((STR(?gs) <= STR(?t0) && STR(?ge) > STR(?t0)) || (STR(?gs) <= STR(?t) && STR(?ge) > STR(?t))) }
+              OPTIONAL { SELECT ?x ?t0 ?t (SUM(?n) AS ?inflow) WHERE {
+                  { SELECT DISTINCT ?x ?t0 ?t WHERE { ?s0 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000040 ?t0 . ?s1 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000040 ?t . FILTER (STR(?t0) < STR(?t)) } }
+                  ?gn a rheo:0000080 ; rheo:1000052 ?x ; rheo:2000041 ?sn ; rheo:2000042 ?en ; rheo:2000044 ?n . FILTER (STR(?sn) > STR(?t0) && STR(?en) <= STR(?t)) } GROUP BY ?x ?t0 ?t }
+              OPTIONAL { SELECT ?x ?t0 ?t (SUM(?k) AS ?outflow) WHERE {
+                  { SELECT DISTINCT ?x ?t0 ?t WHERE { ?s0 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000040 ?t0 . ?s1 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000040 ?t . FILTER (STR(?t0) < STR(?t)) } }
+                  ?gk a rheo:0000080 ; rheo:1000051 ?x ; rheo:2000041 ?sk ; rheo:2000042 ?ek ; rheo:2000044 ?k . FILTER (STR(?sk) > STR(?t0) && STR(?ek) <= STR(?t)) } GROUP BY ?x ?t0 ?t }
+              FILTER (ABS(?value - (?c0 + COALESCE(?inflow, 0) - COALESCE(?outflow, 0))) > 0.001)
+            }""" ] .
+
+rshape:StockBalanceObservedNoFlowsWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000079 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "The stock changed since the previous count but no flows are recorded for the period, so the balance cannot be checked." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+              $this rheo:1000060 ?x ; rheo:2000044 ?value ; rheo:2000040 ?t . 
+              ?m0 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000044 ?c0 ; rheo:2000040 ?t0 . FILTER (STR(?t0) < STR(?t))
+              FILTER NOT EXISTS { ?m1 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000040 ?t1 . FILTER (STR(?t1) > STR(?t0) && STR(?t1) < STR(?t)) }
+              FILTER (?c0 != ?value)
+              FILTER NOT EXISTS { ?f a rheo:0000080 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?fs ; rheo:2000042 ?fe . FILTER (STR(?fs) > STR(?t0) && STR(?fe) <= STR(?t)) }
+              FILTER NOT EXISTS { ?f2 a rheo:0000080 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?gs ; rheo:2000042 ?ge . FILTER ((STR(?gs) <= STR(?t0) && STR(?ge) > STR(?t0)) || (STR(?gs) <= STR(?t) && STR(?ge) > STR(?t))) }
+            }""" ] .
+
+rshape:StockBalanceObservedStraddleWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000079 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "A flow straddles a count date, so the balance for this period cannot be checked: record flows within the periods between counts." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+              $this rheo:1000060 ?x ; rheo:2000044 ?value ; rheo:2000040 ?t . 
+              ?m0 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000044 ?c0 ; rheo:2000040 ?t0 . FILTER (STR(?t0) < STR(?t))
+              FILTER NOT EXISTS { ?m1 a rheo:0000079 ; rheo:1000060 ?x ; rheo:2000040 ?t1 . FILTER (STR(?t1) > STR(?t0) && STR(?t1) < STR(?t)) }
+              FILTER EXISTS { ?f2 a rheo:0000080 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?gs ; rheo:2000042 ?ge . FILTER ((STR(?gs) <= STR(?t0) && STR(?ge) > STR(?t0)) || (STR(?gs) <= STR(?t) && STR(?ge) > STR(?t))) }
+            }""" ] .
+
+rshape:StockBalanceProjectedShape a sh:NodeShape ;
+    sh:targetClass rheo:0000112 ;
+    sh:sparql [ sh:message "Stock and flows do not balance: this count is not the previous count plus inflows minus outflows over the period (projections of the same model run)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+              $this rheo:1000060 ?x ; rheo:2000044 ?value ; rheo:2000040 ?t . ?run obo:OBI_0000299 $this . 
+              ?m0 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000044 ?c0 ; rheo:2000040 ?t0 . ?run obo:OBI_0000299 ?m0 . FILTER (STR(?t0) < STR(?t))
+              FILTER NOT EXISTS { ?m1 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000040 ?t1 . ?run obo:OBI_0000299 ?m1 . FILTER (STR(?t1) > STR(?t0) && STR(?t1) < STR(?t)) }
+              FILTER EXISTS { ?f a rheo:0000112 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?fs ; rheo:2000042 ?fe . ?run obo:OBI_0000299 ?f . FILTER (STR(?fs) > STR(?t0) && STR(?fe) <= STR(?t)) }
+              FILTER NOT EXISTS { ?f2 a rheo:0000112 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?gs ; rheo:2000042 ?ge . ?run obo:OBI_0000299 ?f2 . FILTER ((STR(?gs) <= STR(?t0) && STR(?ge) > STR(?t0)) || (STR(?gs) <= STR(?t) && STR(?ge) > STR(?t))) }
+              OPTIONAL { SELECT ?run ?x ?t0 ?t (SUM(?n) AS ?inflow) WHERE {
+                  { SELECT DISTINCT ?run ?x ?t0 ?t WHERE { ?s0 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000040 ?t0 . ?s1 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000040 ?t . ?run obo:OBI_0000299 ?s0 . ?run obo:OBI_0000299 ?s1 . FILTER (STR(?t0) < STR(?t)) } }
+                  ?gn a rheo:0000112 ; rheo:1000052 ?x ; rheo:2000041 ?sn ; rheo:2000042 ?en ; rheo:2000044 ?n . ?run obo:OBI_0000299 ?gn . FILTER (STR(?sn) > STR(?t0) && STR(?en) <= STR(?t)) } GROUP BY ?run ?x ?t0 ?t }
+              OPTIONAL { SELECT ?run ?x ?t0 ?t (SUM(?k) AS ?outflow) WHERE {
+                  { SELECT DISTINCT ?run ?x ?t0 ?t WHERE { ?s0 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000040 ?t0 . ?s1 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000040 ?t . ?run obo:OBI_0000299 ?s0 . ?run obo:OBI_0000299 ?s1 . FILTER (STR(?t0) < STR(?t)) } }
+                  ?gk a rheo:0000112 ; rheo:1000051 ?x ; rheo:2000041 ?sk ; rheo:2000042 ?ek ; rheo:2000044 ?k . ?run obo:OBI_0000299 ?gk . FILTER (STR(?sk) > STR(?t0) && STR(?ek) <= STR(?t)) } GROUP BY ?run ?x ?t0 ?t }
+              FILTER (ABS(?value - (?c0 + COALESCE(?inflow, 0) - COALESCE(?outflow, 0))) > 0.001)
+            }""" ] .
+
+rshape:StockBalanceProjectedNoFlowsWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000112 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "The stock changed since the previous count but no flows are recorded for the period, so the balance cannot be checked." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+              $this rheo:1000060 ?x ; rheo:2000044 ?value ; rheo:2000040 ?t . ?run obo:OBI_0000299 $this . 
+              ?m0 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000044 ?c0 ; rheo:2000040 ?t0 . ?run obo:OBI_0000299 ?m0 . FILTER (STR(?t0) < STR(?t))
+              FILTER NOT EXISTS { ?m1 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000040 ?t1 . ?run obo:OBI_0000299 ?m1 . FILTER (STR(?t1) > STR(?t0) && STR(?t1) < STR(?t)) }
+              FILTER (?c0 != ?value)
+              FILTER NOT EXISTS { ?f a rheo:0000112 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?fs ; rheo:2000042 ?fe . ?run obo:OBI_0000299 ?f . FILTER (STR(?fs) > STR(?t0) && STR(?fe) <= STR(?t)) }
+              FILTER NOT EXISTS { ?f2 a rheo:0000112 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?gs ; rheo:2000042 ?ge . ?run obo:OBI_0000299 ?f2 . FILTER ((STR(?gs) <= STR(?t0) && STR(?ge) > STR(?t0)) || (STR(?gs) <= STR(?t) && STR(?ge) > STR(?t))) }
+            }""" ] .
+
+rshape:StockBalanceProjectedStraddleWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000112 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "A flow straddles a count date, so the balance for this period cannot be checked: record flows within the periods between counts." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+              $this rheo:1000060 ?x ; rheo:2000044 ?value ; rheo:2000040 ?t . ?run obo:OBI_0000299 $this . 
+              ?m0 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000044 ?c0 ; rheo:2000040 ?t0 . ?run obo:OBI_0000299 ?m0 . FILTER (STR(?t0) < STR(?t))
+              FILTER NOT EXISTS { ?m1 a rheo:0000112 ; rheo:1000060 ?x ; rheo:2000040 ?t1 . ?run obo:OBI_0000299 ?m1 . FILTER (STR(?t1) > STR(?t0) && STR(?t1) < STR(?t)) }
+              FILTER EXISTS { ?f2 a rheo:0000112 ; rheo:1000051|rheo:1000052 ?x ; rheo:2000041 ?gs ; rheo:2000042 ?ge . ?run obo:OBI_0000299 ?f2 . FILTER ((STR(?gs) <= STR(?t0) && STR(?ge) > STR(?t0)) || (STR(?gs) <= STR(?t) && STR(?ge) > STR(?t))) }
+            }""" ] .
+
+# ------------------------------------------------------------------ warnings (SPARQL-based, severity set on the shape)
+rshape:PaymentRecordShapeWarning1 a sh:NodeShape ;
+    sh:targetClass rheo:0000077 ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        sh:message "The payment differs from the tariff it was made under: record the adjustment or cost-sharing that explains it." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000001 ?value ; rheo:1000055 ?t . ?t rheo:2000001 ?tv . FILTER (ABS(?value - ?tv) > 0.01) }""" ] .
+
+rshape:ConfidentialResultShapeWarning2 a sh:NodeShape ;
+    sh:targetClass rheo:0000032 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "This result was produced with a confidential value and could reveal it, but is not marked confidential." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000019 ?run . ?run rheo:1000018 ?a . ?a rheo:1000010|rheo:1000011 ?e . ?e (rheo:1000026|rheo:1000048|rheo:1000100|rheo:1000101|rheo:1000102|rheo:1000105)* ?c .
+              { ?c rheo:2000046 true } UNION { ?c rheo:1000025 ?s . ?s rheo:2000046 true } FILTER NOT EXISTS { $this rheo:2000046 true } }""" ] .
+
+
+# ------------------------------------------------------------------ warnings (SPARQL-based, severity set on the shape)
+rshape:EstimateShapeWarning1 a sh:NodeShape ;
+    sh:targetClass rheo:0000011 ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        sh:message "No source location recorded: say where in the source the value was taken from (for example, Table 3)." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000025 ?d . FILTER NOT EXISTS { $this rheo:2000008 ?loc } }""" ] .
+
+rshape:ParameterAssignmentShapeWarning2 a sh:NodeShape ;
+    sh:targetClass rheo:0000030 ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        sh:message "The unit of the estimate or assumption differs from the unit of the parameter." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE {
+                $this rheo:1000012 ?p . { $this rheo:1000010 ?value } UNION { $this rheo:1000011 ?value }
+                ?p rheo:2000002 ?u1 . ?value rheo:2000002 ?u2 . FILTER (?u1 != ?u2)
+            }""" ] .
+
+rshape:ModelVersionShapeWarning3 a sh:NodeShape ;
+    sh:targetClass rheo:0000028 ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        sh:message "A parameter of this version has no assignment." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000016 ?value . FILTER NOT EXISTS { ?a rheo:1000013 $this ; rheo:1000012 ?value } }""" ] .
+
+# 0.2.2: a utility measured in people values a clinical or classification state description, never a model state
+rshape:UtilityEstimateShapeWarningModelState a sh:NodeShape ;
+    sh:targetClass rheo:0000012 ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        sh:message "This utility was measured in people but values a model state, and no person is ever in a model state: value the clinical or classification state description that the model state represents." ;
+        sh:select """
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE { $this rheo:1000024 ?pop ; rheo:1000002 ?value . ?value a/rdfs:subClassOf* rheo:0000034 }""" ] .

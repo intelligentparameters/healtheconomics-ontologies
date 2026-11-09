@@ -1,0 +1,224 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+obo:IAO_0000115 a owl:AnnotationProperty .
+
+obo:IAO_0000116 a owl:AnnotationProperty .
+
+obo:IAO_0000117 a owl:AnnotationProperty .
+
+obo:IAO_0000119 a owl:AnnotationProperty .
+
+dcterms:creator a owl:AnnotationProperty .
+
+dcterms:description a owl:AnnotationProperty .
+
+dcterms:issued a owl:AnnotationProperty .
+
+dcterms:license a owl:AnnotationProperty .
+
+dcterms:title a owl:AnnotationProperty .
+
+rheo:1000111 a owl:ObjectProperty ;
+    rdfs:label "has distribution parameter"@en ;
+    obo:IAO_0000115 "Relates an uncertainty specification to one of its structured distribution parameters."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000019 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range rheo:0000140 .
+
+rheo:1000112 a owl:ObjectProperty ;
+    rdfs:label "has marginal"@en ;
+    obo:IAO_0000115 "Relates a joint uncertainty specification to the uncertainty specification of one of the quantities it covers."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000141 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range rheo:0000019 .
+
+rheo:1000113 a owl:ObjectProperty ;
+    rdfs:label "correlates"@en ;
+    obo:IAO_0000115 "Relates a correlation specification to one of the two uncertainty specifications whose quantities it correlates."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000142 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range rheo:0000019 .
+
+rheo:1000114 a owl:ObjectProperty ;
+    rdfs:label "drawn in draw set"@en ;
+    obo:IAO_0000115 "Relates an uncertainty specification to a draw set in which its quantity was sampled."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000019 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range rheo:0000143 .
+
+rheo:1000115 a owl:ObjectProperty ;
+    rdfs:label "draw set for run"@en ;
+    obo:IAO_0000115 "Relates a draw set to the model run, such as a probabilistic sensitivity analysis run, that used it."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000143 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range rheo:0000031 .
+
+rheo:1000118 a owl:ObjectProperty ;
+    rdfs:label "part of joint specification"@en ;
+    obo:IAO_0000115 "Relates a correlation specification to the joint uncertainty specification whose dependence it helps to state."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000142 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range rheo:0000141 .
+
+rheo:2000081 a owl:DatatypeProperty ;
+    rdfs:label "has parameter name"@en ;
+    obo:IAO_0000115 "The name of a distribution parameter, such as alpha, beta, shape, scale, rate, mean, sd, meanlog or sdlog."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000140 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:string .
+
+rheo:2000082 a owl:DatatypeProperty ;
+    rdfs:label "has correlation coefficient"@en ;
+    obo:IAO_0000115 "A correlation coefficient between -1 and 1."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000142 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000083 a owl:DatatypeProperty ;
+    rdfs:label "has correlation kind"@en ;
+    obo:IAO_0000115 "The kind of correlation or dependence stated: Pearson, Spearman rank or covariance."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000142 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:string .
+
+rheo:2000084 a owl:DatatypeProperty ;
+    rdfs:label "has covariance"@en ;
+    obo:IAO_0000115 "A covariance between two quantities, in the product of their units."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000142 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000085 a owl:DatatypeProperty ;
+    rdfs:label "has draw count"@en ;
+    obo:IAO_0000115 "The number of draws (iterations) in a draw set, a positive whole number."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000143 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:positiveInteger .
+
+rheo:2000086 a owl:DatatypeProperty ;
+    rdfs:label "has random seed"@en ;
+    obo:IAO_0000115 "The random seed, or other identifier of the random number stream, that reproduces a draw set."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000143 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:string .
+
+rheo:2000087 a owl:DatatypeProperty ;
+    rdfs:label "has joint form"@en ;
+    obo:IAO_0000115 "The form of a joint distribution or dependence, such as Dirichlet, multivariate normal or independent."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000141 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:string .
+
+rheo:2000090 a owl:DatatypeProperty ;
+    rdfs:label "has dependence method"@en ;
+    obo:IAO_0000115 "How the dependence between quantities is produced when they are sampled: independent sampling, Cholesky decomposition, Gaussian copula, Iman-Conover rank correlation, bootstrap resampling or a joint posterior sample."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:string .
+
+rheo:2000091 a owl:DatatypeProperty ;
+    rdfs:label "has fixed-value reason"@en ;
+    obo:IAO_0000115 "Why the value of a parameter assignment is held fixed in a probabilistic analysis instead of being drawn, such as a structural assumption tested in scenarios."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:range xsd:string .
+
+obo:IAO_0000027 a owl:Class ;
+    rdfs:label "data entity"@en ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:0000030 a owl:Class ;
+    rdfs:label "parameter assignment"@en ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:0000031 a owl:Class ;
+    rdfs:label "model run"@en ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+obo:IAO_0000030 a owl:Class ;
+    rdfs:label "information content entity"@en ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:0000140 a owl:Class ;
+    rdfs:label "distribution parameter specification"@en ;
+    obo:IAO_0000115 "An information content entity that gives one named parameter of a probability distribution and its numeric value, such as alpha = 48 for a beta distribution."@en ;
+    obo:IAO_0000116 "Structured and authoritative where given; the text of has distribution parameters is then a copy for display."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:disjointWith rheo:0000019,
+        rheo:0000142 .
+
+rheo:0000141 a owl:Class ;
+    rdfs:label "joint uncertainty specification"@en ;
+    obo:IAO_0000115 "An information content entity that describes the uncertainty of two or more quantities together, stating how their values vary jointly, such as a Dirichlet distribution over the transitions from one state, a multivariate normal over regression coefficients, or independent draws taken in one draw set."@en ;
+    obo:IAO_0000116 "Each quantity's own uncertainty specification is linked as a marginal."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:disjointWith rheo:0000019,
+        rheo:0000140,
+        rheo:0000142 .
+
+rheo:0000143 a owl:Class ;
+    rdfs:label "draw set"@en ;
+    obo:IAO_0000115 "A data entity that is an identified set of values sampled together in a probabilistic analysis, such as the 1,000 iterations of a probabilistic sensitivity analysis, with the number of draws and the random seed."@en ;
+    obo:IAO_0000116 "Quantities drawn in the same draw set are sampled together in each iteration: recording two marginal distributions does not say this."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+<https://orcid.org/0000-0001-9502-4678> rdfs:label "Darrin Baines" .
+
+<https://orcid.org/0009-0006-0231-3731> rdfs:label "Michelle Ashley" .
+
+rheo:0000019 a owl:Class ;
+    rdfs:label "uncertainty specification"@en ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:0000142 a owl:Class ;
+    rdfs:label "correlation specification"@en ;
+    obo:IAO_0000115 "An information content entity stating the correlation or covariance between two uncertain quantities, with its value and kind, such as a rank correlation of 0.5 imposed between two utilities."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo/uncertainty> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:disjointWith rheo:0000019 .
+
+<https://healtheconomics.wiki/ontologies/rheo/uncertainty> a owl:Ontology ;
+    dcterms:creator <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    dcterms:description "An optional extension of RHEO for probabilistic analyses: structured distribution parameters, joint uncertainty specifications, correlation and covariance between uncertain quantities, and identified draw sets that show which quantities were sampled together."@en ;
+    dcterms:issued "2026-10-16" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:title "RHEO uncertainty extension module"@en ;
+    owl:imports <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl> ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo-uncertainty.owl> ;
+    owl:versionInfo "0.4.0" .
+

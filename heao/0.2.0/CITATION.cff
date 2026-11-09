@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Health Economics Axiology Ontology (HEAO)"
+version: "0.2.0"
+date-released: "2026-11-08"
+license: CC-BY-4.0
+url: "https://healtheconomics.wiki"
+repository: "https://bioportal.bioontology.org/ontologies/HEAO"
+abstract: "The Health Economics Axiology Ontology (HEAO) describes how health economics turns quantities into values. Health becomes quality-adjusted life years (QALYs) or disability-adjusted life years (DALYs), resources become costs, a future amount becomes a present value and a QALY can be given a money value. HEAO keeps the quantity apart from its valuation and records the weight, method, perspective and context used in each valuation. Discounting is treated as the valuation of time and value of information as the valuation of reducing decision uncertainty. HEAO reuses the classes of the Real Health Economics Ontology (RHEO) and the Outcomes Health Economics Ontology (OHEO), and this is an alpha release for review."
+keywords:
+  - "health economics"
+  - "axiology"
+  - "valuation"
+  - "QALY"
+  - "discounting"
+  - "value of information"
+  - "ontology"
+  - "OWL"
+authors:
+  - family-names: "Baines"
+    given-names: "Darrin"
+    orcid: "https://orcid.org/0000-0001-9502-4678"
+  - family-names: "Ashley"
+    given-names: "Michelle"
+    orcid: "https://orcid.org/0009-0006-0231-3731"
+# After Zenodo publishes the record, add its DOI on a new line below in this form
+# doi: 10.5281/zenodo.0000000

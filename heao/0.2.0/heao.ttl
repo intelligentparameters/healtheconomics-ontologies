@@ -1,0 +1,2464 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+obo:IAO_0000114 a owl:AnnotationProperty ;
+    rdfs:label "has curation status"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000115 a owl:AnnotationProperty ;
+    rdfs:label "definition"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000116 a owl:AnnotationProperty ;
+    rdfs:label "editor note"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000117 a owl:AnnotationProperty ;
+    rdfs:label "term editor"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000118 a owl:AnnotationProperty ;
+    rdfs:label "alternative label"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000119 a owl:AnnotationProperty ;
+    rdfs:label "definition source"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+obo:IAO_0000412 a owl:AnnotationProperty ;
+    rdfs:label "imported from"@en ;
+    rdfs:isDefinedBy obo:iao.owl .
+
+dcterms:bibliographicCitation a owl:AnnotationProperty ;
+    rdfs:label "bibliographic citation"@en .
+
+dcterms:contributor a owl:AnnotationProperty ;
+    rdfs:label "contributor"@en .
+
+dcterms:created a owl:AnnotationProperty ;
+    rdfs:label "date created"@en .
+
+dcterms:creator a owl:AnnotationProperty ;
+    rdfs:label "creator"@en .
+
+dcterms:description a owl:AnnotationProperty ;
+    rdfs:label "description"@en .
+
+dcterms:issued a owl:AnnotationProperty ;
+    rdfs:label "date issued"@en .
+
+dcterms:license a owl:AnnotationProperty ;
+    rdfs:label "license"@en .
+
+dcterms:modified a owl:AnnotationProperty ;
+    rdfs:label "date modified"@en .
+
+dcterms:publisher a owl:AnnotationProperty ;
+    rdfs:label "publisher"@en .
+
+dcterms:title a owl:AnnotationProperty ;
+    rdfs:label "title"@en .
+
+vann:preferredNamespacePrefix a owl:AnnotationProperty ;
+    rdfs:label "preferred namespace prefix"@en .
+
+vann:preferredNamespaceUri a owl:AnnotationProperty ;
+    rdfs:label "preferred namespace URI"@en .
+
+prov:wasAttributedTo a owl:ObjectProperty ;
+    rdfs:label "was attributed to"@en ;
+    obo:IAO_0000115 "Attribution is the ascribing of an entity to an agent."@en ;
+    obo:IAO_0000116 "Declared as PROV-O states it. HEAO uses it from a valuation provenance record to the person or organization that made or adopted the valuation."@en ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o> .
+
+foaf:homepage a owl:AnnotationProperty ;
+    rdfs:label "homepage"@en .
+
+heao:0000002 a owl:Class ;
+    rdfs:label "health-adjusted time valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which time lived, or time spent in a health state, is converted into health-adjusted time on a health value scale, such as QALYs or DALYs, by applying a preference-based utility weight or a disability weight to each period."@en ;
+    obo:IAO_0000116 "RHEO's QALY calculation process and OHEO's DALY calculation process are bridged here. A process that also discounts, such as RHEO scenario s11 QC1, may also be typed time valuation, and one that applies a severity weight may also be typed severity weighting. Scoring a health state to give a utility is health state scoring, not this."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "QALY or DALY valuation"@en,
+        "health outcome valuation"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015; Murray 1994" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-04" .
+
+heao:0000003 a owl:Class ;
+    rdfs:label "preference-based index scoring"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A health state scoring in which a person's health state profile on a preference-based measure is converted into a single utility by applying a value set, without the person valuing health states themselves."@en ;
+    obo:IAO_0000116 "This is the only part of instrument use that HEAO treats as valuation. The descriptive questionnaire and its responses are measurement and stay in OHEO and RHEO. OHEO's indirect health state valuation process is bridged here. Utility mapping is not bridged in 0.1.0, because whether predicting a utility with a mapping function is a valuation is open for Darrin Baines."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "indirect utility scoring"@en ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000005 ;
+            owl:someValuesFrom heao:0000055 ],
+        heao:0000079 ;
+    heao:9000002 "HEMO-HOOK-03" .
+
+heao:0000005 a owl:Class ;
+    rdfs:label "productivity cost valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A resource valuation in which time lost from paid or unpaid productive activity, or reduced output at work, because of ill health or premature death is converted into money, by the human capital method or the friction cost method."@en ;
+    obo:IAO_0000116 "Some productivity effects may already be counted in QALYs if respondents consider income when they value health states (Brouwer et al. 1997), so a valuation should say whether they are counted on the cost side, the effect side or neither."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "indirect cost valuation"@en ;
+    obo:IAO_0000119 "Koopmanschap et al. 1995; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000004 ;
+    heao:9000002 "HEMO-HOOK-16" .
+
+heao:0000007 a owl:Class ;
+    rdfs:label "price year adjustment"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A monetary revaluation in which an amount of money is moved from one price year to another by applying a price index ratio, as in inflating past unit costs to the price year of an analysis."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "deflation adjustment"@en,
+        "inflation adjustment"@en ;
+    obo:IAO_0000119 "Turner et al. 2019; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000041 ],
+        heao:0000006 ;
+    heao:9000002 "HEMO-HOOK-09" .
+
+heao:0000009 a owl:Class ;
+    rdfs:label "purchasing power parity conversion"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A currency conversion in which a purchasing power parity conversion factor is applied, so that the converted amount buys the same quantity of goods and services in the target country as the original amount bought in the source country."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "PPP conversion"@en ;
+    obo:IAO_0000119 "Turner et al. 2019; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000043 ],
+        heao:0000008 ;
+    heao:9000002 "HEMO-HOOK-10" .
+
+heao:0000010 a owl:Class ;
+    rdfs:label "time valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which an amount of cost or health occurring at a stated time is converted into its present value at a base time by applying a discount factor derived from a discount rate."@en ;
+    obo:IAO_0000116 "Discounting is the valuation of timing. Each amount in a stream is one time valuation with its own discount factor, and the present value of the stream is their sum, which is arithmetic. A model that first weights time by utility and then discounts makes a chain of two valuations, so each judgement can be changed on its own."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "discounting"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015; Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000044 ],
+        heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-01" .
+
+heao:0000012 a owl:Class ;
+    rdfs:label "health opportunity cost valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A health-money exchange in which a cost falling on a constrained health budget is converted into the health expected to be forgone elsewhere in that system, by dividing it by a money value of a QALY taken to reflect the marginal productivity of the budget, either an estimated supply-side threshold value or a value a decision-making body has adopted for that purpose."@en ;
+    obo:IAO_0000116 "The result is a RHEO opportunity cost record in health units, and the cost record carries has health opportunity cost to it. This is how HEAO joins costs to health outcomes. A cost is not an outcome domain, but the health it displaces is an outcome forgone. The amount depends on which money value of a QALY is divided into the cost, so a result at an adopted value is the health forgone at that value, not an estimate of the health actually displaced."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "valuation of health forgone"@en ;
+    obo:IAO_0000119 "Claxton et al. 2015; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000046 ],
+        [ a owl:Restriction ;
+            owl:onProperty heao:1000012 ;
+            owl:someValuesFrom rheo:0000155 ],
+        heao:0000011 ;
+    heao:9000002 "HEMO-HOOK-12" .
+
+heao:0000014 a owl:Class ;
+    rdfs:label "severity weighting"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An equity weighting in which QALYs gained are weighted according to the severity of the condition, measured by absolute or proportional QALY shortfall, under a severity weighting rule."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "severity modifier application"@en ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.13 to 6.2.18 and table 6.1, checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000008 ;
+            owl:someValuesFrom heao:0000018 ],
+        [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000050 ],
+        heao:0000013 ;
+    heao:9000002 "HEMO-HOOK-14" .
+
+heao:0000015 a owl:Class ;
+    rdfs:label "value of information analysis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which the expected value of reducing decision uncertainty is assigned, as the expected gain in net benefit from deciding with more information, calculated from a probabilistic analysis at a stated money value of health."@en ;
+    obo:IAO_0000116 "The quantity valued is the uncertainty in net benefit, held as the draws of a probabilistic sensitivity analysis. The result is not the product of one quantity and one weight, so the functional form is the expected maximum over options."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "VOI analysis"@en,
+        "information valuation"@en ;
+    obo:IAO_0000119 "Claxton 1999; Ades et al. 2004; Briggs et al. 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000012 ;
+            owl:someValuesFrom heao:0000074 ],
+        heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-17" .
+
+heao:0000027 a owl:Class ;
+    rdfs:label "constant rate discounting method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A discounting method in which the discount factor for an amount t years after the base time is 1/(1+r)^t, for a constant annual discount rate r."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "exponential discounting method"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015; Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000026 ;
+    heao:9000002 "HEMO-HOOK-01" .
+
+heao:0000028 a owl:Class ;
+    rdfs:label "hyperbolic discounting method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A non-constant rate discounting method in which the implied discount rate falls continuously as the delay grows, as with a discount factor of 1/(1+at) for a parameter a."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Frederick et al. 2002, footnote 13; Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000102 ;
+    heao:9000002 "HEMO-HOOK-02" .
+
+heao:0000033 a owl:Class ;
+    rdfs:label "nested Monte Carlo EVPPI method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value of information calculation method in which the EVPPI of a subset of parameters is estimated by an outer sample of those parameters and an inner sample of the remaining parameters for each outer draw."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brennan et al. 2007" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000032 ;
+    heao:9000002 "HEMO-HOOK-18" .
+
+heao:0000034 a owl:Class ;
+    rdfs:label "regression-based EVPPI method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value of information calculation method in which the EVPPI of a subset of parameters is estimated from a single probabilistic sensitivity analysis sample by regressing net benefit on those parameters with a nonparametric regression."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Strong et al. 2014" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000032 ;
+    heao:9000002 "HEMO-HOOK-18" .
+
+heao:0000070 a owl:Class ;
+    rdfs:label "valued quantity"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity that is the quantity input of at least one valuation, such as a resource use record, a time spent in a health state or an amount already valued that is valued again."@en ;
+    obo:IAO_0000116 "Defined class. Do not assert it. A reasoner places a record here because a valuation uses it as its quantity."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( obo:IAO_0000030 [ a owl:Restriction ;
+                        owl:onProperty heao:1000002 ;
+                        owl:someValuesFrom heao:0000001 ] ) ] .
+
+heao:0000071 a owl:Class ;
+    rdfs:label "valuation result"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity that is the output of at least one valuation, such as a cost record, a QALY record, a present value or an expected value of perfect information."@en ;
+    obo:IAO_0000116 "Defined class. Do not assert it. A reasoner places a record here because a valuation produced it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( obo:IAO_0000030 [ a owl:Restriction ;
+                        owl:onProperty heao:1000013 ;
+                        owl:someValuesFrom heao:0000001 ] ) ] .
+
+heao:0000072 a owl:Class ;
+    rdfs:label "valuation target"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An entity that at least one valuation is about, such as a health state, a kind of resource, a group of patients or a decision."@en ;
+    obo:IAO_0000116 "Defined class. Do not assert it. It is a query class only. It classifies health states, kinds of resource, organisations and decisions alike, and says nothing about them beyond the relation to a valuation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:BFO_0000001 ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( obo:BFO_0000001 [ a owl:Restriction ;
+                        owl:onProperty heao:1000007 ;
+                        owl:someValuesFrom heao:0000001 ] ) ] .
+
+heao:0000080 a owl:Class ;
+    rdfs:label "capability index scoring"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A health state scoring in which a person's responses to a capability instrument, such as the ICECAP-A, are converted into a capability index value by applying a capability or care-related index value set, on a scale anchored at no capability and full capability."@en ;
+    obo:IAO_0000116 "Its values are on the capability index scale and cannot weight time in QALYs (OHEO_0000400)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Flynn et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000005 ;
+            owl:someValuesFrom heao:0000055 ],
+        heao:0000079 ;
+    heao:9000002 "HEMO-HOOK-03" .
+
+heao:0000081 a owl:Class ;
+    rdfs:label "wellbeing-adjusted time valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which a change in life satisfaction, measured on a 0 to 10 scale, is converted into wellbeing-adjusted life years (WELLBYs), one WELLBY being a one-point change in life satisfaction for one person for one year."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "WELLBY valuation"@en ;
+    obo:IAO_0000119 "HM Treasury 2021 (Wellbeing guidance for appraisal, supplementary Green Book guidance, July 2021), checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-27" .
+
+heao:0000083 a owl:Class ;
+    rdfs:label "informal care valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A resource valuation in which the time informal carers spend giving care is converted into money, by the proxy good method, the opportunity cost method, contingent valuation or the well-being valuation method."@en ;
+    obo:IAO_0000116 "Effects of caring on carers' own health, valued in QALYs, are a health-adjusted time valuation, not this."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "van den Berg et al. 2004; Koopmanschap et al. 2008" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000004 ;
+    heao:9000002 "HEMO-HOOK-28" .
+
+heao:0000084 a owl:Class ;
+    rdfs:label "proxy good method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A market price method in which informal care time is valued at the market price of a close substitute, such as the wage of a professional home carer."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "replacement cost method"@en ;
+    obo:IAO_0000119 "Koopmanschap et al. 2008" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000020 ;
+    heao:9000002 "HEMO-HOOK-28" .
+
+heao:0000087 a owl:Class ;
+    rdfs:label "monetary benefit valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which a stated health benefit or other outcome is valued in money as a whole, such as by the willingness to pay elicited by contingent valuation, for use in cost-benefit analysis."@en ;
+    obo:IAO_0000116 "OHEO's willingness-to-pay and willingness-to-accept estimates for a stated benefit are results of this kind of valuation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "cost-benefit valuation"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000001 .
+
+heao:0000089 a owl:Class ;
+    rdfs:label "size of benefit weighting"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A decision modifier weighting in which the QALYs gained from a technology are weighted according to the size of the incremental QALY gain per patient, under a size of benefit weighting rule."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.20 to 6.2.24 and table 6.2, checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000093 ],
+        [ a owl:Restriction ;
+            owl:onProperty heao:1000008 ;
+            owl:someValuesFrom heao:0000091 ],
+        heao:0000088 ;
+    heao:9000002 "HEMO-HOOK-25" .
+
+heao:0000094 a owl:Class ;
+    rdfs:label "adopted threshold value"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A money value of a QALY adopted by a decision-making body in a decision threshold specification, for comparison with incremental cost-effectiveness ratios and for net benefit, whatever basis it is meant to reflect, such as the £25,000 to £35,000 per QALY that NICE adopts and intends to reflect the opportunity cost of programmes displaced."@en ;
+    obo:IAO_0000116 "Not declared disjoint from estimated supply-side threshold value or consumption value of a QALY, because an adopted figure may be meant to reflect either. Empirical supply-side estimates can differ from the figure a body adopts."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "adopted cost-effectiveness threshold"@en,
+        "decision threshold value"@en ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.3.4 to 6.3.8, checked 18 October 2026; NICE 2022 (PMG36, last updated 13 October 2026), section 6.3.1, checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000046 ;
+    heao:9000002 "HEMO-HOOK-11" .
+
+heao:0000097 a owl:Class ;
+    rdfs:label "partial value function"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A weight function that converts the performance of an option on one criterion of a multi-criteria decision analysis into a score on a common value scale."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Thokala et al. 2016" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000055 ;
+    heao:9000002 "HEMO-HOOK-29" .
+
+heao:0000098 a owl:Class ;
+    rdfs:label "MCDA weighted sum valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which the scores of an option on several criteria are combined into one overall value by weighting each score by its MCDA criterion weight and summing, as in the additive model of multi-criteria decision analysis."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "MCDA valuation"@en ;
+    obo:IAO_0000119 "Thokala et al. 2016; Marsh et al. 2016" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000096 ],
+        heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-29" .
+
+heao:0000103 a owl:Class ;
+    rdfs:label "stepped declining rate discounting method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A non-constant rate discounting method in which the discount rate is constant within stated periods and lower in later periods, so that the rate steps down as the delay grows, as in long-horizon schedules for public sector appraisal."@en ;
+    obo:IAO_0000116 "Not hyperbolic. A stepped schedule changes the rate at stated times; hyperbolic discounting lowers it continuously."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "stepped discount rate method"@en ;
+    obo:IAO_0000119 "Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000102 ;
+    heao:9000002 "HEMO-HOOK-23" .
+
+heao:0000104 a owl:Class ;
+    rdfs:label "differential discounting specification"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A discounting specification that states different annual discount rates for costs and for health effects."@en ;
+    obo:IAO_0000116 "Differential discounting is a choice of two rates in one specification, not a way of deriving factors, so it is a specification and not a discounting method."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "differential discounting"@en ;
+    obo:IAO_0000119 "Attema et al. 2018; Claxton et al. 2011" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf rheo:0000093 ;
+    heao:9000002 "HEMO-HOOK-01" .
+
+heao:1000001 a owl:ObjectProperty ;
+    rdfs:label "has valued quantity"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation to the information content entity recording the quantity it values, such as a resource use record, a time in a health state or an amount already valued."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range obo:IAO_0000030 ;
+    rdfs:subPropertyOf obo:OBI_0000293 ;
+    owl:inverseOf heao:1000002 ;
+    heao:9000001 heao:4000005 .
+
+heao:1000006 a owl:ObjectProperty ;
+    rdfs:label "has valuation target"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation to the entity its value is about, such as a health state, a kind of resource, a group of patients or a decision."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    owl:inverseOf heao:1000007 ;
+    heao:9000001 heao:4000005 .
+
+heao:1000009 a owl:ObjectProperty ;
+    rdfs:label "uses valuation method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation, a valuation weight or a weight function to the valuation method by which it values or was made to value."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000019 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000010 a owl:ObjectProperty ;
+    rdfs:label "from valuation perspective"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation, a valuation weight or a weight function to the valuation perspective stating whose values supply its weight."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000062 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000011 a owl:ObjectProperty ;
+    rdfs:label "in valuation context"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation to the valuation context it is made for, against which its appropriateness is judged."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000066 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000014 a owl:ObjectProperty ;
+    rdfs:label "has valuation provenance"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation, a valuation weight, a weight function or a valuation specification to the valuation provenance record of who made or adopted it, from which source and when."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000067 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000015 a owl:ObjectProperty ;
+    rdfs:label "on value scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation weight, a valuation result or a weight function to the value scale its numbers are expressed on."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000058 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000016 a owl:ObjectProperty ;
+    rdfs:label "weight derived by"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation weight to what produced its value, such as the valuation that applied a value set to a profile, a preference elicitation process or a value set development study."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000035 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    heao:9000001 heao:4000003 .
+
+heao:1000017 a owl:ObjectProperty ;
+    rdfs:label "has functional form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation or a valuation function to the named functional form by which it combines its inputs."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000057 ;
+    heao:9000001 heao:4000003 .
+
+heao:1000018 a owl:ObjectProperty ;
+    rdfs:label "has valuation function"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation to the valuation function it computes."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000056 ;
+    heao:9000001 heao:4000003 .
+
+heao:1000019 a owl:AsymmetricProperty,
+        owl:IrreflexiveProperty,
+        owl:ObjectProperty ;
+    rdfs:label "revaluation of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a later valuation to an earlier valuation of the same valued quantity that it replaces, with a different weight, weight function, specification, method, perspective or context. The earlier valuation and its result are kept."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000001 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000020 a owl:ObjectProperty ;
+    rdfs:label "replaced valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation change record to the earlier valuation that was replaced."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000069 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000001 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000021 a owl:ObjectProperty ;
+    rdfs:label "replacing valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation change record to the later valuation that replaced the earlier one."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000069 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000001 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000023 a owl:ObjectProperty ;
+    rdfs:label "states valuation parameter"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation specification to a valuation parameter it states, such as a discounting specification to its discount rate."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000016 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000051 ;
+    heao:9000001 heao:4000001 .
+
+heao:1000024 a owl:ObjectProperty ;
+    rdfs:label "has health opportunity cost"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a cost record of spending that falls on a constrained health budget to the opportunity cost record of the health expected to be forgone elsewhere in that system because of it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Claxton et al. 2015; Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range rheo:0000155 ;
+    heao:9000001 heao:4000003 .
+
+heao:1000025 a owl:ObjectProperty ;
+    rdfs:label "assesses valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation appropriateness assessment to the valuation it assesses."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000068 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000001 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000026 a owl:AsymmetricProperty,
+        owl:IrreflexiveProperty,
+        owl:ObjectProperty ;
+    rdfs:label "supersedes valuation specification"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation specification to an earlier valuation specification of the same body that it replaces for new valuations, such as a new discount rate replacing an old one."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000016 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000016 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000027 a owl:ObjectProperty ;
+    rdfs:label "names reference case"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation context to the OHEO reference case profile whose methods the valuation is made under."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000066 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range oheo:0000327 ;
+    heao:9000001 heao:4000001 .
+
+heao:1000028 a owl:ObjectProperty ;
+    rdfs:label "has decision maker"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation context to the organization that makes the decision the valuation informs."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000066 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range obo:OBI_0000245 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000029 a owl:ObjectProperty ;
+    rdfs:label "concerns decision problem"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation context to the RHEO decision problem specification of the decision the valuation informs."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000066 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range rheo:0000025 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000030 a owl:ObjectProperty ;
+    rdfs:label "is justified in part by"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a discount rate to a time preference that is one of its grounds. Social discount rates also rest on the expected growth of consumption and, for health, on growth in the value of health."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000052 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000054 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000031 a owl:ObjectProperty ;
+    rdfs:label "has price basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a unit cost or price weight to its price basis, market price, administered price, accounting cost or opportunity cost."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000039 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000108 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000032 a owl:ObjectProperty ;
+    rdfs:label "has cost increment basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a unit cost or price weight to whether it is an average or a marginal cost."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000039 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000109 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000033 a owl:ObjectProperty ;
+    rdfs:label "has changed component"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation change record to the component of the valuation that changed between the replaced and the replacing valuation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000069 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000110 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000034 a owl:ObjectProperty ;
+    rdfs:label "has appropriateness verdict"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation appropriateness assessment to its verdict."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000068 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000111 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000035 a owl:ObjectProperty ;
+    rdfs:label "applies to stream"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a discount rate to what it is applied to, costs or health effects."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000052 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000112 ;
+    heao:9000001 heao:4000002 .
+
+heao:2000001 a owl:DatatypeProperty ;
+    rdfs:label "has discounting time"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The time in years from the base time of a discounting specification to the time an amount occurs, from which its discount factor is calculated."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000044 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range xsd:decimal .
+
+heao:2000006 a owl:DatatypeProperty ;
+    rdfs:label "has source citation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The citation of the source a valuation, valuation weight or valuation specification was taken from, in author-year form or as a document title with its version and year."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000067 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range xsd:string .
+
+heao:2000007 a owl:DatatypeProperty ;
+    rdfs:label "has adoption date"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The date a valuation, valuation weight or valuation specification was made or adopted, as an ISO 8601 date written YYYY-MM-DD."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000067 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range rheo:3000001 .
+
+heao:2000008 a owl:DatatypeProperty ;
+    rdfs:label "has annual affected population"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The number of people expected to be affected by a decision in each year of its expected lifetime, used to scale a value of information estimate per person to a population."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range xsd:decimal .
+
+heao:2000009 a owl:DatatypeProperty ;
+    rdfs:label "has decision lifetime"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The number of years over which a decision is expected to apply, used to scale a value of information estimate per person to a population."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range xsd:decimal .
+
+heao:2000010 a owl:DatatypeProperty ;
+    rdfs:label "has effective population"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The discounted number of people expected to be affected by a decision over its expected lifetime."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range xsd:decimal .
+
+heao:2000011 a owl:DatatypeProperty ;
+    rdfs:label "has minimum proportional QALY shortfall"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The lowest proportional QALY shortfall at which a severity weight applies under its severity weighting rule."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000050 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range xsd:decimal .
+
+heao:2000012 a owl:DatatypeProperty ;
+    rdfs:label "has minimum absolute QALY shortfall"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The lowest absolute QALY shortfall, in QALYs, at which a severity weight applies under its severity weighting rule."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000050 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range xsd:decimal .
+
+heao:2000013 a owl:DatatypeProperty ;
+    rdfs:label "has anchor description"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The anchors and unit of a value scale in words, such as full health 1 and dead 0."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000058 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range xsd:string .
+
+heao:4000004 a owl:NamedIndividual,
+        heao:0000107 ;
+    rdfs:label "causal relationship"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A kind of cross-ontology relationship in which one thing brings about another in reality, such as spending on a constrained budget displacing health elsewhere. It holds between real processes or the things taking part in them, not between records."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000006 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "multiplicative form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form in which the result is one valued quantity multiplied by one weight, the canonical q x w."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000007 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "multiplicative form over a time profile"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form in which the result is a sum, or an integral, of quantities multiplied by weights that vary over time, as in QALYs over a cohort trace or a discounted stream."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000008 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "division form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form in which the result is one valued quantity divided by one weight, as when a cost is converted into health forgone by dividing by a money value of a QALY."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Stinnett and Mullahy 1998; Claxton et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000009 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "multi-attribute form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form in which the weight is itself a function of several attributes, combined additively or multiplicatively, as in a value set."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000010 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "non-exponential time form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form in which the discount factor is not (1+r) raised to minus t for a constant r, as in hyperbolic or stepped declining rate discounting."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Attema et al. 2018; Frederick et al. 2002" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000011 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "nonlinear aggregation form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form with no single weight for each person, such as an equally distributed equivalent with an inequality aversion parameter or a social welfare function."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Atkinson 1970; Cookson et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000012 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "rule-based form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form in which the weight is chosen by a rule or looked up in a table, such as a tariff by case group or a severity weight by shortfall band, and then applied multiplicatively."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000013 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "expected maximum form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form in which the result is the expected value of the maximum net benefit across options minus the maximum of the expected net benefits, as in the expected value of perfect information."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Claxton 1999; Briggs et al. 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000014 a owl:NamedIndividual,
+        heao:0000059 ;
+    rdfs:label "QALY scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A health value scale on which one year in full health counts as one QALY and being dead counts as zero."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000015 a owl:NamedIndividual,
+        heao:0000059 ;
+    rdfs:label "DALY scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A health value scale on which one DALY is one year of healthy life lost, from premature death or from time lived with disability, without the age weights and discounting of the first DALYs unless a valuation states them."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Murray 1994" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000016 a owl:NamedIndividual,
+        heao:0000059 ;
+    rdfs:label "equity-weighted QALY scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A health value scale on which QALYs are counted after equity weights have been applied, so that values on it are not comparable with unweighted QALYs."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Cookson et al. 2017; Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000017 a owl:NamedIndividual,
+        heao:0000061 ;
+    rdfs:label "utility scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A weight scale for preference-based utility weights, with full health at 1 and dead at 0 and values below 0 for states worse than dead."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Torrance 1986" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000018 a owl:NamedIndividual,
+        heao:0000061 ;
+    rdfs:label "disability weight scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A weight scale for disability weights, with full health at 0 and a state equivalent to death at 1."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Murray 1994" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000019 a owl:NamedIndividual,
+        heao:0000061 ;
+    rdfs:label "capability index scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A weight scale for capability or care-related index values, anchored at the worst and best states of the descriptive system, such as no capability and full capability, rather than at dead and full health, so its values cannot weight time in QALYs."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brazier et al. 2017; Flynn et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000020 a owl:NamedIndividual,
+        heao:0000061 ;
+    rdfs:label "dimensionless multiplier scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A weight scale for pure numbers that multiply a value, such as equity weights, discount factors and price index ratios, on which 1 leaves the value unchanged."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000021 a owl:NamedIndividual,
+        heao:0000057 ;
+    rdfs:label "additive form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation functional form in which the result is a baseline value plus or minus a quantity multiplied by a weight, as when a utility decrement over a duration is subtracted from a baseline."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000022 a owl:NamedIndividual,
+        heao:0000058 ;
+    rdfs:label "WELLBY scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value scale on which one WELLBY is a one-point change in life satisfaction on a 0 to 10 scale for one person for one year."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HM Treasury 2021 (Wellbeing guidance for appraisal, supplementary Green Book guidance, July 2021), checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000023 a owl:NamedIndividual,
+        heao:0000108 ;
+    rdfs:label "market price basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A price basis in which a resource is valued at the price paid for it in a market."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000024 a owl:NamedIndividual,
+        heao:0000108 ;
+    rdfs:label "administered price basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A price basis in which a resource is valued at the amount a payer has set for it in a tariff, fee schedule or price agreement."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000025 a owl:NamedIndividual,
+        heao:0000108 ;
+    rdfs:label "accounting cost basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A price basis in which a resource is valued at its average cost from accounts, including overheads and capital."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000026 a owl:NamedIndividual,
+        heao:0000108 ;
+    rdfs:label "opportunity cost basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A price basis in which a resource is valued at the value of its best alternative use forgone."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000027 a owl:NamedIndividual,
+        heao:0000109 ;
+    rdfs:label "average cost basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A cost increment basis in which a unit cost is total cost divided by the number of units."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000028 a owl:NamedIndividual,
+        heao:0000109 ;
+    rdfs:label "marginal cost basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A cost increment basis in which a unit cost is the change in total cost from one more unit."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000029 a owl:NamedIndividual,
+        heao:0000110 ;
+    rdfs:label "weight component"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation component that is the valuation weight applied."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000030 a owl:NamedIndividual,
+        heao:0000110 ;
+    rdfs:label "weight function component"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation component that is the weight function applied."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000031 a owl:NamedIndividual,
+        heao:0000110 ;
+    rdfs:label "specification component"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation component that is the valuation specification followed."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000032 a owl:NamedIndividual,
+        heao:0000110 ;
+    rdfs:label "method component"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation component that is the valuation method used."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000033 a owl:NamedIndividual,
+        heao:0000110 ;
+    rdfs:label "perspective component"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation component that is the valuation perspective whose values supply the weight."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000034 a owl:NamedIndividual,
+        heao:0000110 ;
+    rdfs:label "context component"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation component that is the valuation context the valuation is made for."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000035 a owl:NamedIndividual,
+        heao:0000111 ;
+    rdfs:label "appropriate verdict"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An appropriateness verdict that a valuation fits its context."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000036 a owl:NamedIndividual,
+        heao:0000111 ;
+    rdfs:label "inappropriate verdict"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An appropriateness verdict that a valuation does not fit its context."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000037 a owl:NamedIndividual,
+        heao:0000111 ;
+    rdfs:label "not assessable verdict"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An appropriateness verdict that the records do not allow the fit to be judged."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000038 a owl:NamedIndividual,
+        heao:0000112 ;
+    rdfs:label "costs stream"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A discounted stream that is the costs of an evaluation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:4000039 a owl:NamedIndividual,
+        heao:0000112 ;
+    rdfs:label "health effects stream"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A discounted stream that is the health effects of an evaluation."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:9000001 a owl:AnnotationProperty ;
+    rdfs:label "has linking kind"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a relationship that HEAO makes across ontologies, a property or an annotated bridge axiom, to the kind of relationship it is, one of definitional, representational, computational, causal or valuational."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:9000002 a owl:AnnotationProperty ;
+    rdfs:label "has HEMO hook"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a HEAO term to the identifier of the formula hook, listed in hemo-hooks.md, that the planned HEMO mathematics ontology must formalise for it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:0000008 a owl:Class ;
+    rdfs:label "currency conversion"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A monetary revaluation in which an amount of money is converted from one currency to another by applying a market exchange rate or a purchasing power parity conversion factor."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Turner et al. 2019" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000006 ;
+    heao:9000002 "HEMO-HOOK-10" .
+
+heao:0000011 a owl:Class ;
+    rdfs:label "health-money exchange"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which health is converted into money, or money into health, by applying a monetary value of health, as in the health term of net monetary benefit or the cost term of net health benefit."@en ;
+    obo:IAO_0000116 "The multiplication of a health gain by a money value of a QALY is the valuation. Subtracting a cost from the result, to give net monetary benefit, is arithmetic. Converting money into health divides by the money value, so its functional form is recorded as division."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Stinnett and Mullahy 1998; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000045 ],
+        heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-11" .
+
+heao:0000013 a owl:Class ;
+    rdfs:label "equity weighting"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A decision modifier weighting in which health or money already valued is weighted by an equity weight, or aggregated with an inequality aversion parameter, to express a social value judgement about whose gains or losses count for more."@en ;
+    obo:IAO_0000116 "Equity weighting acts on an amount that is already a valuation result, so the extra value it adds is a social judgement and not a health gain. Multiplicative weighting fits the canonical form. Inequality-averse aggregation, such as an equally distributed equivalent, has no single weight for each person and is recorded with the nonlinear aggregation form and its parameter. The same weights should be considered for the health opportunity cost of the spending, or weighted gains are set against unweighted losses."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "distributional weighting"@en ;
+    obo:IAO_0000119 "Cookson et al. 2017; Atkinson 1970" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000008 ;
+            owl:someValuesFrom heao:0000017 ],
+        heao:0000088 ;
+    heao:9000002 "HEMO-HOOK-13" .
+
+heao:0000018 a owl:Class ;
+    rdfs:label "severity weighting rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An equity weighting rule that sets the weight given to QALYs by bands of absolute and proportional QALY shortfall, applying whichever implies the greater severity."@en ;
+    obo:IAO_0000116 "NICE's severity modifier is the case in use. Its bands and weights are held as data in the worked examples, with the section of the manual they were checked against. In the NICE manual it applies to technology appraisals, and section 6.2.20 applies no severity weighting to highly specialised technologies."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "severity modifier"@en ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.13 to 6.2.18 and table 6.1, checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000017 ;
+    heao:9000002 "HEMO-HOOK-14" .
+
+heao:0000021 a owl:Class ;
+    rdfs:label "opportunity cost method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which a resource is valued at the value of its best alternative use forgone, including by a shadow price where no market price reflects that value."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "shadow pricing method"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 .
+
+heao:0000022 a owl:Class ;
+    rdfs:label "administered price method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which a resource or a care process is valued at the amount a payer has set for it in a tariff, a fee schedule or a price agreement, which may differ from both its market price and its opportunity cost."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "tariff-based costing method"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 .
+
+heao:0000023 a owl:Class ;
+    rdfs:label "human capital method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which productive time lost to ill health or premature death is valued at the earnings that would have been received over the whole period lost."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "human capital approach"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015; Koopmanschap et al. 1995" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-16" .
+
+heao:0000024 a owl:Class ;
+    rdfs:label "friction cost method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which productive time lost to ill health is valued only over the friction period needed to replace the absent worker and restore production."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Koopmanschap et al. 1995" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-16" .
+
+heao:0000025 a owl:Class ;
+    rdfs:label "health state weighting method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which time is weighted by a preference-based utility weight or a disability weight for the health state it is spent in, and the weighted periods are summed."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "QALY weighting method"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015; Murray 1994" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-04" .
+
+heao:0000029 a owl:Class ;
+    rdfs:label "monetary revaluation method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method stating how an amount of money is moved between price years or currencies, such as by a health price index, a general price index, a market exchange rate or a purchasing power parity factor."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Turner et al. 2019" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-09" .
+
+heao:0000030 a owl:Class ;
+    rdfs:label "net benefit method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which health and costs are placed on one scale by valuing health at a stated money value of health, or costs at the health they would buy, so that options are compared by net benefit."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Stinnett and Mullahy 1998; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-11" .
+
+heao:0000031 a owl:Class ;
+    rdfs:label "equity weighting method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method stating how equity concerns enter a valuation, such as multiplying health gains by group weights or aggregating health with an inequality aversion parameter."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Cookson et al. 2017; Atkinson 1970" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-13" .
+
+heao:0000037 a owl:Class ;
+    rdfs:label "utility decrement"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight that is a reduction in preference-based utility associated with an event, a treatment or a health state, applied by subtraction from a baseline utility."@en ;
+    obo:IAO_0000116 "OHEO's utility decrement estimate is bridged here. The coefficients of a value set are OHEO preference weights, bridged directly under valuation weight, not utility decrements."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "disutility weight"@en ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-26" .
+
+heao:0000038 a owl:Class ;
+    rdfs:label "disability weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight that expresses the loss of health in a health state on a scale on which 0 is full health and 1 is equivalent to death, used to weight time lived with disability in DALYs."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Murray 1994" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-05" .
+
+heao:0000042 a owl:Class ;
+    rdfs:label "market exchange rate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A monetary adjustment factor equal to the number of units of one currency exchanged for one unit of another currency in a stated period."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Turner et al. 2019" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000040 ;
+    heao:9000002 "HEMO-HOOK-10" .
+
+heao:0000047 a owl:Class ;
+    rdfs:label "estimated supply-side threshold value"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A money value of a QALY estimated from the supply side, as the cost at which a health system is expected to give up one QALY elsewhere when its budget is displaced, from evidence on the marginal productivity of its spending."@en ;
+    obo:IAO_0000116 "Disjoint from consumption value of a QALY. A figure a decision-making body adopts, such as NICE's, is an adopted threshold value, even when the body intends it to reflect opportunity cost."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "k"@en,
+        "supply-side threshold estimate"@en ;
+    obo:IAO_0000119 "Claxton et al. 2015; Vallejo-Torres et al. 2016" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000046 ;
+    heao:9000002 "HEMO-HOOK-12" .
+
+heao:0000048 a owl:Class ;
+    rdfs:label "consumption value of a QALY"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A money value of a QALY estimated from the demand side, as the amount of consumption that individuals or society are willing to give up for one QALY."@en ;
+    obo:IAO_0000116 "Disjoint from estimated supply-side threshold value. The two answer different questions, what health is worth to people and what it costs the system at the margin, and using one in place of the other is the market value against opportunity cost confusion."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "demand-side threshold"@en,
+        "willingness-to-pay value of a QALY"@en ;
+    obo:IAO_0000119 "Vallejo-Torres et al. 2016" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000046 ;
+    heao:9000002 "HEMO-HOOK-11" .
+
+heao:0000054 a owl:Class ;
+    rdfs:label "time preference"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A disposition of a person or a society to value a benefit less, or a cost less, the later it occurs, which a discount rate for health or for consumption may express."@en ;
+    obo:IAO_0000116 "Time preference is one real basis of a discount rate, so it is a BFO disposition. As a disposition of real bearers it belongs with reality, and its move to RHEO 0.4 is proposed (rheo-backlog-additions.md). When RHEO adds it, this class will be made obsolete with term replaced by the RHEO term. Open for Darrin Baines."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Attema et al. 2018; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:BFO_0000016 .
+
+heao:0000060 a owl:Class ;
+    rdfs:label "monetary value scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value scale on which values are expressed in money of a stated currency at the prices of a stated price year."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015; Turner et al. 2019" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000058 .
+
+heao:0000063 a owl:Class ;
+    rdfs:label "preference source specification"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation perspective stating the people whose stated or revealed preferences supply a weight, such as the general adult population of one country for a value set, or patients with the condition."@en ;
+    obo:IAO_0000116 "Replaces, as a typed link, OHEO's free text 'has valuation population' (OHEO_2000012). The jurisdiction of the preference source is what the appropriateness rule compares with the valuation context."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000062 .
+
+heao:0000064 a owl:Class ;
+    rdfs:label "payer valuation perspective"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation perspective in which resources are valued at the amounts a stated payer pays for them, through tariffs, fee schedules or price agreements."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000062 .
+
+heao:0000065 a owl:Class ;
+    rdfs:label "decision-maker valuation perspective"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation perspective in which weights are set by the social value judgements of a decision-making body, such as its money value of a QALY, its discount rate or its equity weights, rather than taken from individual preferences."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "extra-welfarist valuation perspective"@en ;
+    obo:IAO_0000119 "Brouwer et al. 2008" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000062 .
+
+heao:0000075 a owl:Class ;
+    rdfs:label "EVPI estimate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value of information estimate of the expected gain in net benefit per person from resolving all uncertainty in the parameters of a decision model before choosing, equal to the expected value of the maximum net benefit across options minus the maximum of the expected net benefits."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "expected value of perfect information estimate"@en ;
+    obo:IAO_0000119 "Claxton 1999; Briggs et al. 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000074 ;
+    heao:9000002 "HEMO-HOOK-17" .
+
+heao:0000076 a owl:Class ;
+    rdfs:label "EVPPI estimate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value of information estimate of the expected gain in net benefit per person from resolving the uncertainty in a stated subset of parameters before choosing, with the uncertainty in the other parameters left unresolved."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "expected value of partial perfect information estimate"@en ;
+    obo:IAO_0000119 "Brennan et al. 2007; Strong et al. 2014" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000074 ;
+    heao:9000002 "HEMO-HOOK-18" .
+
+heao:0000077 a owl:Class ;
+    rdfs:label "EVSI estimate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value of information estimate of the expected gain in net benefit per person from deciding after a study of stated design and sample size reports."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "expected value of sample information estimate"@en ;
+    obo:IAO_0000119 "Ades et al. 2004" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000074 ;
+    heao:9000002 "HEMO-HOOK-19" .
+
+heao:0000078 a owl:Class ;
+    rdfs:label "population EVPI estimate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value of information estimate equal to the EVPI per person multiplied by the discounted number of people expected to be affected by the decision over its expected lifetime, which bounds the value of further research on that decision."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "population expected value of perfect information"@en ;
+    obo:IAO_0000119 "Claxton 1999; Briggs et al. 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000074 ;
+    heao:9000002 "HEMO-HOOK-20" .
+
+heao:0000085 a owl:Class ;
+    rdfs:label "well-being valuation method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which a non-market effect, such as providing informal care, is valued at the income that would leave a person's well-being unchanged, estimated from the relation between well-being, income and the effect."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "compensating income method"@en ;
+    obo:IAO_0000119 "Koopmanschap et al. 2008" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 .
+
+heao:0000086 a owl:Class ;
+    rdfs:label "accounting cost method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which a resource or a care process is valued at its average cost from accounts, including a share of overheads and capital, as in tables of reference unit costs."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "average accounting cost method"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-08" .
+
+heao:0000091 a owl:Class ;
+    rdfs:label "size of benefit weighting rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A decision modifier rule that sets the weight given to QALYs by the size of the incremental QALY gain per patient over a lifetime horizon, such as the weights from 1 to 3 in table 6.2 of the NICE manual for highly specialised technologies."@en ;
+    obo:IAO_0000116 "NICE applies it only to highly specialised technologies, and only with compelling evidence of significant QALY gains (PMG36 section 6.2.23)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.20 to 6.2.24 and table 6.2, checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000090 ;
+    heao:9000002 "HEMO-HOOK-25" .
+
+heao:0000099 a owl:Class ;
+    rdfs:label "MCDA criterion weighting method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method stating how MCDA criterion weights are elicited from decision makers or stakeholders, such as by swing weighting, direct rating or pairwise comparison."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Thokala et al. 2016; Marsh et al. 2016" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 .
+
+heao:0000100 a owl:Class ;
+    rdfs:label "population EVSI estimate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value of information estimate equal to the EVSI per person multiplied by the discounted number of people expected to be affected by the decision over its expected lifetime."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "population expected value of sample information"@en ;
+    obo:IAO_0000119 "Ades et al. 2004; Conti and Claxton 2009" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000074 ;
+    heao:9000002 "HEMO-HOOK-21" .
+
+heao:0000101 a owl:Class ;
+    rdfs:label "ENBS estimate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value of information estimate equal to the population EVSI of a proposed study minus the expected cost of the study, which is maximised over sample sizes and allocations to choose the design of further research."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "expected net benefit of sampling estimate"@en ;
+    obo:IAO_0000119 "Conti and Claxton 2009" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000074 ;
+    heao:9000002 "HEMO-HOOK-22" .
+
+heao:0000105 a owl:Class ;
+    rdfs:label "relative inequality aversion parameter"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An inequality aversion parameter of a relative, Atkinson, social welfare function, in which concern about inequality depends on proportional differences in health between people."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "Atkinson inequality aversion parameter"@en ;
+    obo:IAO_0000119 "Atkinson 1970; Robson et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000053 ;
+    heao:9000002 "HEMO-HOOK-15" .
+
+heao:0000106 a owl:Class ;
+    rdfs:label "absolute inequality aversion parameter"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An inequality aversion parameter of an absolute, Kolm, social welfare function, in which concern about inequality depends on absolute differences in health between people."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "Kolm inequality aversion parameter"@en ;
+    obo:IAO_0000119 "Kolm 1976; Robson et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000053 ;
+    heao:9000002 "HEMO-HOOK-24" .
+
+heao:1000004 a owl:ObjectProperty ;
+    rdfs:label "is weight applied in"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation weight to a valuation that applies it. The inverse of applies weight."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000035 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000001 ;
+    heao:9000001 heao:4000005 .
+
+heao:1000022 a owl:ObjectProperty ;
+    rdfs:label "derived from valuation parameter"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation weight to a valuation parameter it was calculated from, such as a discount factor from a discount rate."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000035 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000051 ;
+    rdfs:subPropertyOf prov:wasDerivedFrom ;
+    heao:9000001 heao:4000003 .
+
+<https://orcid.org/0000-0001-9502-4678> rdfs:label "Darrin Baines" .
+
+heao:0000004 a owl:Class ;
+    rdfs:label "resource valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which a quantity of resource use, or of time, is converted into money by applying a unit cost or price, or by a statistical or accounting costing method."@en ;
+    obo:IAO_0000116 "RHEO keeps the quantity (the resource use record) and the result (the cost record). HEAO records the weight, the method and the judgement that join them. The same quantity may be valued by different methods, such as market price and opportunity cost, giving coexisting valuations."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "costing valuation"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-08" .
+
+heao:0000006 a owl:Class ;
+    rdfs:label "monetary revaluation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which an amount already valued in money is re-expressed in another price year, in another currency or on another price basis, such as charges converted to costs by a cost-to-charge ratio, by applying a monetary adjustment factor, without changing the quantity that was valued."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "price adjustment"@en ;
+    obo:IAO_0000119 "Turner et al. 2019; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000003 ;
+            owl:someValuesFrom heao:0000040 ],
+        heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-09" .
+
+heao:0000017 a owl:Class ;
+    rdfs:label "equity weighting rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A decision modifier rule stating which groups, conditions or circumstances receive which equity weight, and the criteria that decide it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Cookson et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000090 .
+
+heao:0000020 a owl:Class ;
+    rdfs:label "market price method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method in which a resource is valued at the price paid for it in a market, such as a wage rate or a purchase price."@en ;
+    obo:IAO_0000116 "A market price equals the opportunity cost of a resource only in a competitive market without distortion. Recording the method lets the two be told apart."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 .
+
+heao:0000041 a owl:Class ;
+    rdfs:label "price index ratio"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A monetary adjustment factor equal to the value of a price index in the target price year divided by its value in the original price year, used to inflate or deflate amounts of money."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "inflation factor"@en ;
+    obo:IAO_0000119 "Turner et al. 2019; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000040 ;
+    heao:9000002 "HEMO-HOOK-09" .
+
+heao:0000043 a owl:Class ;
+    rdfs:label "purchasing power parity conversion factor"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A monetary adjustment factor equal to the number of units of a country's currency needed to buy the same quantity of goods and services in that country as one unit of a reference currency buys in the reference country."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "PPP conversion factor"@en ;
+    obo:IAO_0000119 "Turner et al. 2019; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000040 ;
+    heao:9000002 "HEMO-HOOK-10" .
+
+heao:0000049 a owl:Class ;
+    rdfs:label "equity weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A decision modifier QALY weight applied according to the group, condition or circumstance of the people who gain or lose, expressing a social value judgement about distribution rather than an individual's preference for a health state."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "distributional weight"@en ;
+    obo:IAO_0000119 "Cookson et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000092 ;
+    heao:9000002 "HEMO-HOOK-13" .
+
+heao:0000053 a owl:Class ;
+    rdfs:label "inequality aversion parameter"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation parameter expressing how much total health a social decision maker would give up for a more equal distribution, as in the Atkinson index and the equally distributed equivalent."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "epsilon"@en ;
+    obo:IAO_0000119 "Atkinson 1970; Cookson et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000051 ;
+    heao:9000002 "HEMO-HOOK-15" .
+
+heao:0000079 a owl:Class ;
+    rdfs:label "health state scoring"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which a health state description, or a person's responses to an instrument, is given a weight on a weight scale, such as a preference-based utility or a capability index value, by applying a weight function."@en ;
+    obo:IAO_0000116 "Split from health-adjusted time valuation in the fix pass. Scoring gives a weight for a state; health-adjusted time valuation applies weights to time."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "state scoring"@en ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-03" .
+
+heao:0000088 a owl:Class ;
+    rdfs:label "decision modifier weighting"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation in which health or money already valued is weighted, or aggregated, according to a social value judgement of a decision-making body rather than individual preferences for health states, such as for the severity of the condition, the size of the benefit or who gains."@en ;
+    obo:IAO_0000116 "NICE's manual names its severity and size of benefit weights decision modifiers."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.20 to 6.2.24 and table 6.2, checked 18 October 2026; Cookson et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000001 ;
+    heao:9000002 "HEMO-HOOK-13" .
+
+heao:0000090 a owl:Class ;
+    rdfs:label "decision modifier rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation specification stating when and how a decision-making body weights health gains for reasons other than individual preferences for health states, such as severity, size of benefit or who gains."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.20 to 6.2.24 and table 6.2, checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000016 .
+
+heao:0000093 a owl:Class ;
+    rdfs:label "size of benefit weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A decision modifier QALY weight applied according to the size of the incremental QALY gain per patient, such as the weight of 1 at 10 QALYs or fewer, 3 at 30 QALYs or more and equal increments between, in table 6.2 of the NICE manual."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.20 to 6.2.24 and table 6.2, checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000092 ;
+    heao:9000002 "HEMO-HOOK-25" .
+
+heao:0000102 a owl:Class ;
+    rdfs:label "non-constant rate discounting method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A discounting method in which the discount rate changes with the time from the base year, so that the discount factor is not 1/(1+r)^t for one constant rate r."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "declining rate discounting method"@en ;
+    obo:IAO_0000119 "Attema et al. 2018; Frederick et al. 2002" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000026 ;
+    heao:9000002 "HEMO-HOOK-02" .
+
+heao:1000002 a owl:ObjectProperty ;
+    rdfs:label "is valued quantity of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a quantity record to a valuation that values it. The inverse of has valued quantity."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain obo:IAO_0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000001 ;
+    heao:9000001 heao:4000005 .
+
+heao:1000005 a owl:ObjectProperty ;
+    rdfs:label "applies weight function"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation to a weight function it applies to look up or compute its weight, such as a value set applied to a health state profile."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000055 ;
+    rdfs:subPropertyOf obo:OBI_0000293 ;
+    heao:9000001 heao:4000005 .
+
+heao:1000007 a owl:ObjectProperty ;
+    rdfs:label "is target of valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates an entity to a valuation whose value is about it. The inverse of has valuation target."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000001 ;
+    heao:9000001 heao:4000005 .
+
+heao:1000013 a owl:ObjectProperty ;
+    rdfs:label "is result of valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a record to the valuation that produced it. The inverse of has valuation result."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain obo:IAO_0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000001 ;
+    heao:9000001 heao:4000005 .
+
+heao:4000001 a owl:NamedIndividual,
+        heao:0000107 ;
+    rdfs:label "definitional relationship"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A kind of cross-ontology relationship in which one term defines or classifies another, such as a subclass bridge axiom or a mapping from a HEO concept to the HEAO class it explains."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:0000026 a owl:Class ;
+    rdfs:label "discounting method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method stating how discount factors are derived from a discount rate and the time of an amount, such as constant exponential or hyperbolic discounting."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-01" .
+
+heao:0000032 a owl:Class ;
+    rdfs:label "value of information calculation method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation method stating how a value of information estimate is calculated from a probabilistic analysis, such as by Monte Carlo averaging over the draws of a probabilistic sensitivity analysis."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Claxton 1999; Briggs et al. 2006" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000019 ;
+    heao:9000002 "HEMO-HOOK-17" .
+
+heao:0000039 a owl:Class ;
+    rdfs:label "unit cost or price weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight that is an amount of money per unit of a resource or a care process, in a stated currency and price year, on a stated price basis such as market price, administered price or opportunity cost, and as an average or a marginal cost."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "price per unit"@en,
+        "unit cost"@en ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-08" .
+
+heao:0000045 a owl:Class ;
+    rdfs:label "monetary value of health"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight that is an amount of money per unit of health or of risk reduction, used to convert health into money or money into health."@en ;
+    obo:IAO_0000116 "OHEO's value of a statistical life and value of a statistical life year estimates, which are amounts per unit of risk or of life, are bridged here. A willingness to pay for a stated benefit as a whole is the result of a monetary benefit valuation, not a rate, so OHEO's monetary valuation estimate is not bridged."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-11" .
+
+heao:0000050 a owl:Class ;
+    rdfs:label "severity weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An equity weight applied to QALYs according to the severity of the condition, as measured by absolute or proportional QALY shortfall, such as the QALY weights of 1.2 and 1.7 in table 6.1 of the NICE manual."@en ;
+    obo:IAO_0000116 "Replaces the OHEO 0.3.0 data property 'has QALY weight' (OHEO_2000025), which carried severity weights as a bare number on an analysis. A severity weight is a social judgement about whose QALYs count for more, not outcome measurement, so it is a weight applied by a severity weighting under a severity weighting rule. The OHEO property is left unchanged in OHEO 0.3.0 and proposed for obsolescence in OHEO 0.2.1 (oheo-0.2.1-proposal.md)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "QALY weight for severity"@en,
+        "severity modifier weight"@en ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.13 to 6.2.18 and table 6.1, checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000049 ;
+    heao:9000002 "HEMO-HOOK-14" .
+
+heao:0000052 a owl:Class ;
+    rdfs:label "discount rate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation parameter that is the rate per period by which the value of a future cost or health outcome is reduced for each period it lies beyond the base time, from which discount factors are derived."@en ;
+    obo:IAO_0000116 "A rate stated by a decision-making body, such as the 3.5% a year of NICE PMG36 section 4.5.1, is part of a RHEO discounting specification. Applies to stream says whether a rate is for costs or for health effects, and differential discounting is a discounting specification with two rates."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015; Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000051 ;
+    heao:9000002 "HEMO-HOOK-01" .
+
+heao:0000073 a owl:Class ;
+    rdfs:label "equity-weighted value record"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording health or money after an equity weight has been applied, on an equity-weighted value scale, kept apart from the unweighted QALY record or cost record it was calculated from."@en ;
+    obo:IAO_0000116 "Disjoint from RHEO QALY record and cost record, so equity-weighted QALYs are never added to unweighted ones by mistake. Keeping them apart is a HEAO design decision."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Cookson et al. 2017; Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000074,
+        rheo:0000092 ;
+    heao:9000002 "HEMO-HOOK-13" .
+
+heao:1000008 a owl:ObjectProperty ;
+    rdfs:label "follows valuation specification"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation to the valuation specification that states the judgement it applies, such as a discounting specification, a decision threshold specification, a tariff or a severity weighting rule. It shortens the OBI chain in which a planned process realises a plan that concretizes a directive information entity."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000016 ;
+    heao:9000001 heao:4000002 .
+
+heao:1000012 a owl:ObjectProperty ;
+    rdfs:label "has valuation result"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation to the information content entity recording the value it produced, such as a cost record, a QALY record, a present value or a value of information estimate."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range obo:IAO_0000030 ;
+    rdfs:subPropertyOf obo:OBI_0000299 ;
+    owl:inverseOf heao:1000013 ;
+    heao:9000001 heao:4000005 .
+
+heao:0000046 a owl:Class ;
+    rdfs:label "money value of a QALY"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A monetary value of health that is an amount of money per QALY, used as the exchange rate between health and money in net benefit and in comparison with an incremental cost-effectiveness ratio."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "lambda"@en,
+        "value of a QALY"@en ;
+    obo:IAO_0000119 "Stinnett and Mullahy 1998; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000045 ;
+    heao:9000002 "HEMO-HOOK-11" .
+
+heao:0000056 a owl:Class ;
+    rdfs:label "valuation function"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity stating how a valuation combines its valued quantity, its weights and any parameters into a value, with a stated functional form, such as the product of a quantity and a weight or a discounted sum over a time profile."@en ;
+    obo:IAO_0000116 "The expression of each function belongs to HEMO, the planned mathematics ontology. HEAO records which function and form a valuation used and points to a HEMO hook (hemo-hooks.md)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+heao:0000059 a owl:Class ;
+    rdfs:label "health value scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value scale on which health is expressed in units of healthy time, gained or lost, such as QALYs, DALYs or equity-weighted QALYs."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015; Murray 1994" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000058 .
+
+heao:0000036 a owl:Class ;
+    rdfs:label "preference-based utility weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight that expresses the preference for a health state on a scale on which full health is 1 and dead is 0, with values below 0 for states worse than dead, used to weight time lived in that state."@en ;
+    obo:IAO_0000116 "RHEO utility estimates are not bridged here, because not every utility estimate is applied as a weight (a trial may report a mean utility as an outcome). A utility record or estimate that a valuation applies is inferred a valuation weight from the range of applies weight."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "health state utility weight"@en,
+        "utility weight"@en ;
+    obo:IAO_0000119 "Torrance 1986; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-04" .
+
+heao:0000040 a owl:Class ;
+    rdfs:label "monetary adjustment factor"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight that is a ratio converting an amount of money from one price year or currency to another, such as a price index ratio, a market exchange rate or a purchasing power parity conversion factor."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Turner et al. 2019" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-09" .
+
+heao:0000055 a owl:Class ;
+    rdfs:label "weight function"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity that assigns a valuation weight to each member of a set of descriptions, such as a value set that assigns a utility to every health state of a classification system, so that the weight for any described case can be looked up or computed."@en ;
+    obo:IAO_0000116 "OHEO's utility functions, value sets and capability or care-related index value sets are classified here through the bridge. They keep their OHEO identifiers. OHEO says how a weight function was obtained and HEAO says how it is applied."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    heao:9000002 "HEMO-HOOK-03" .
+
+heao:0000061 a owl:Class ;
+    rdfs:label "weight scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A value scale on which valuation weights themselves are expressed, such as the utility scale anchored at full health 1 and dead 0, the disability weight scale anchored at full health 0 and death 1, or a dimensionless multiplier."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Torrance 1986; Murray 1994" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000058 .
+
+heao:0000068 a owl:Class ;
+    rdfs:label "valuation appropriateness assessment"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity recording whether the weights, specification, perspective and value scale of a valuation fit its valuation context, such as whether the preference source of a value set matches the jurisdiction of the decision."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+heao:0000082 a owl:Class ;
+    rdfs:label "monetary value of wellbeing"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight that is an amount of money per WELLBY, used to convert wellbeing into money in social cost-benefit analysis."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "money value of a WELLBY"@en ;
+    obo:IAO_0000119 "HM Treasury 2021 (Wellbeing guidance for appraisal, supplementary Green Book guidance, July 2021), checked 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-27" .
+
+heao:4000003 a owl:NamedIndividual,
+        heao:0000107 ;
+    rdfs:label "computational relationship"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A kind of cross-ontology relationship in which one value is calculated from another by a formula, such as a discount factor from a discount rate, to be formalised in HEMO."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:0000016 a owl:Class ;
+    rdfs:label "valuation specification"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity stating the value judgement a valuation is to apply, such as a discount rate, equity weights for groups or conditions, a money value of health or the prices and tariffs to use, so that the judgement can be identified, attributed and contested apart from the quantities it is applied to."@en ;
+    obo:IAO_0000116 "The judgement (this class) and the act (valuation) are separate classes, following the IAO and OBI pattern in which a planned process realises a plan that a directive information entity specifies. The act of judging, such as a body choosing its discount rate, is a separate planned process upstream that produces the specification. RHEO's discounting specification, decision threshold specification, tariff, price agreement and international reference pricing rule are bridged here as payer and decision-maker valuation specifications."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "valuation judgement"@en ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+heao:0000067 a owl:Class ;
+    rdfs:label "valuation provenance record"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording who made or adopted a valuation, a valuation weight or a valuation specification, from which source and version, and on what date, so that coexisting valuations of the same target can be told apart and attributed."@en ;
+    obo:IAO_0000116 "Aligned with PROV-O. The agent is linked by the PROV-O property was attributed to."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Lebo et al. 2013 (W3C PROV-O)" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+heao:0000069 a owl:Class ;
+    rdfs:label "valuation change record"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording that a valuation was replaced by a later valuation of the same valued quantity with a different weight, weight function, specification, method, perspective or context, while the quantity itself was unchanged."@en ;
+    obo:IAO_0000116 "A sibling of RHEO's knowledge change record and possibility change record. Those record changes of reality or of what is known. This records a change of valuation, so diagnostics can count valuation drift and reality drift separately."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+heao:0000096 a owl:Class ;
+    rdfs:label "MCDA criterion weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight expressing the relative importance a decision maker gives to one criterion of a multi-criteria decision analysis, used to combine the scores of an option on several criteria into one value."@en ;
+    obo:IAO_0000116 "Disjoint from preference-based utility weight and from decision modifier QALY weight."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "MCDA weight"@en ;
+    obo:IAO_0000119 "Thokala et al. 2016; Marsh et al. 2016" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-29" .
+
+heao:0000109 a owl:Class ;
+    rdfs:label "cost increment basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification naming whether a unit cost or price weight is an average cost or a marginal cost."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heao:0000112 a owl:Class ;
+    rdfs:label "discounted stream"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification naming what a discount rate is applied to, costs or health effects."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heao:0000044 a owl:Class ;
+    rdfs:label "discount factor"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight equal to the present value of one unit of cost or health occurring at a stated time, derived from a discount rate and the time from the base year, such as 1/(1+r)^t under constant rate discounting."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015; Attema et al. 2018" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000022 ;
+            owl:someValuesFrom heao:0000052 ],
+        heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-01" .
+
+heao:0000051 a owl:Class ;
+    rdfs:label "valuation parameter"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity that is a number stated by a valuation specification or a valuation function, which determines the weights a valuation applies without itself being applied to a quantity, such as a discount rate or an inequality aversion parameter."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Attema et al. 2018; Atkinson 1970" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+heao:0000062 a owl:Class ;
+    rdfs:label "valuation perspective"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity stating whose values supply the weights a valuation applies, such as the preferences of a general population or of patients, the prices a payer pays, or the social value judgements of a decision-making body."@en ;
+    obo:IAO_0000116 "There are two kinds of perspective. The valuation perspective (this class) says whose values are used. The analytic perspective of a study says whose costs and outcomes are counted, and is RHEO's perspective specification. The bridge declares the two disjoint, and HEAO links each with its own property ('from valuation perspective' here, RHEO 'under perspective' there)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Brouwer et al. 2008; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+heao:0000066 a owl:Class ;
+    rdfs:label "valuation context"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity stating the setting for which a valuation is made, namely the jurisdiction, the decision maker, the decision problem, the currency and price year, the reference case claimed and the date, against which the appropriateness of its weights and perspective can be judged."@en ;
+    obo:IAO_0000116 "A model can be conceptually right and empirically accurate yet economically inappropriate because of the valuation applied. That can only be seen if the context of each valuation is recorded with it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+heao:0000092 a owl:Class ;
+    rdfs:label "decision modifier QALY weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A valuation weight that a decision-making body applies to QALYs or other health value for reasons other than individual preferences for health states, such as the severity of the condition, the size of the benefit or who gains."@en ;
+    obo:IAO_0000116 "Disjoint from preference-based utility weight, so a social judgement can never be read as a health gain. OHEO's has QALY weight is proposed for obsolescence with consider this class."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "NICE 2022 (PMG36, last updated 13 October 2026), sections 6.2.20 to 6.2.24 and table 6.2, checked 18 October 2026; Cookson et al. 2017" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf heao:0000035 ;
+    heao:9000002 "HEMO-HOOK-13" .
+
+heao:0000111 a owl:Class ;
+    rdfs:label "appropriateness verdict"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification naming the verdict of a valuation appropriateness assessment, appropriate, inappropriate or not assessable."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heao:0000107 a owl:Class ;
+    rdfs:label "cross-ontology relationship kind"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity naming the kind of a relationship that one ontology of the healtheconomics.wiki family makes to another, one of definitional, representational, computational, causal or valuational."@en ;
+    obo:IAO_0000116 "The values of has linking kind are individuals of this class."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+heao:0000108 a owl:Class ;
+    rdfs:label "price basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification naming the basis on which a unit cost or price weight values a resource, market price, administered price, accounting cost or opportunity cost."@en ;
+    obo:IAO_0000116 "Each value names the valuation method of the same name."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heao:0000058 a owl:Class ;
+    rdfs:label "value scale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity stating the scale on which a value is expressed, with its unit and its anchors, such as QALYs with full health at 1 and dead at 0, DALYs counting health lost, or money in a stated currency at a stated price year."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015; Murray 1994" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+heao:1000003 a owl:ObjectProperty ;
+    rdfs:label "applies weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a valuation to a valuation weight it applies to its valued quantity, such as a unit cost, a utility, a discount factor, a money value of a QALY or an equity weight."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain heao:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:range heao:0000035 ;
+    rdfs:subPropertyOf obo:OBI_0000293 ;
+    owl:inverseOf heao:1000004 ;
+    heao:9000001 heao:4000005 .
+
+heao:4000005 a owl:NamedIndividual,
+        heao:0000107 ;
+    rdfs:label "valuational relationship"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A kind of cross-ontology relationship in which a value is assigned to something, such as a valuation applying a weight to a quantity."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:0000110 a owl:Class ;
+    rdfs:label "valuation component"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A categorical value specification naming a component of a valuation that can change while its valued quantity stays the same, the weight, the weight function, the specification, the method, the perspective or the context."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:OBI_0001930 .
+
+heao:0000057 a owl:Class ;
+    rdfs:label "valuation functional form"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity naming the way a valuation combines its inputs, such as multiplicative, additive, multiplicative over a time profile, division, multi-attribute, non-exponential in time, nonlinear aggregation, rule-based or the expected maximum over options."@en ;
+    obo:IAO_0000116 "The named forms are individuals of this class. Statistical derivation of weights, such as marginal willingness to pay from a choice model, is not a valuation form, because it derives a weight and does not apply one."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+heao:0000074 a owl:Class ;
+    rdfs:label "value of information estimate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording the expected value of reducing decision uncertainty, calculated by a value of information analysis at a stated money value of health, in money or in health per person affected or for a population."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Claxton 1999; Ades et al. 2004" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    heao:9000002 "HEMO-HOOK-17" .
+
+heao:0000035 a owl:Class ;
+    rdfs:label "valuation weight"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity that is a number applied in a valuation to convert a quantity into value, such as a utility, a unit cost, a discount factor, a money value of a QALY or an equity weight, stated with the value scale it converts to."@en ;
+    obo:IAO_0000116 "The kinds below are kept apart by meaning. A preference-based utility weight and an equity weight are disjoint siblings, so a social judgement can never be read as a health gain. The weight is information, apart from the valuation specification that states the judgement behind it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026; Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+heao:0000019 a owl:Class ;
+    rdfs:label "valuation method"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A plan specification stating how values are obtained or applied in a valuation, such as valuing resources at market prices or at their opportunity cost, valuing lost work time by the human capital or friction cost method, or discounting at a constant rate."@en ;
+    obo:IAO_0000116 "A method says how. The valuation specification says which judgement, such as which rate or which weight. OHEO's preference elicitation processes are how weights are derived, and they stay in OHEO. Uses valuation method shortens the OBI chain in which a planned process realises a plan that concretizes a plan specification."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf obo:IAO_0000104 .
+
+heao:4000002 a owl:NamedIndividual,
+        heao:0000107 ;
+    rdfs:label "representational relationship"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A kind of cross-ontology relationship in which one entity records, represents or describes another, such as a valuation context recording a jurisdiction or a provenance record describing who adopted a weight."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. HEAO 0.2.0 locked decisions (best practice), 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> .
+
+heao:0000001 a owl:Class ;
+    rdfs:label "valuation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A planned process in which a value on a stated value scale is assigned to a quantity, or to a valuation target, by applying a valuation weight, a weight function or a valuation function under a stated valuation specification, so that the quantity is expressed as health value, money or another value used in health economic evaluation."@en ;
+    obo:IAO_0000116 "The canonical form is V(x;c,m) = q(x) x w(x;c,m), a quantity q of x multiplied by a weight w that depends on the context c and the method m. The form is not universal. Some valuations are nonlinear, such as inequality-averse aggregation or the expected maximum in value of information, so the functional form is recorded on each valuation and never assumed. Deriving a weight, for example eliciting preferences for a value set, is preference elicitation and stays in OHEO. Adding or subtracting values already made, such as cost aggregation, cost comparison or an ICER, is arithmetic and stays in RHEO. Coexisting valuations of the same quantity or target are allowed, each with its own provenance. The kinds of valuation below are not declared disjoint, because one real process can carry out several valuation steps, as a RHEO QALY calculation that also discounts does. The record rules ask each recorded valuation for one functional form."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "valuation act"@en ;
+    obo:IAO_0000119 "Baines D. Scope of HEAO, anything turned from a unit into a value, HEAO stage 1 design, 17 October 2026; Bandrowski et al. 2016 (OBI planned process pattern); COB planned process (COB_0000082); Drummond et al. 2015" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/heao> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty heao:1000012 ;
+            owl:someValuesFrom obo:IAO_0000030 ],
+        obo:COB_0000082 .
+
+obo:IAO_0000125 a owl:NamedIndividual ;
+    rdfs:label "pending final vetting"@en .
+
+<https://healtheconomics.wiki/ontologies/heao> a owl:Ontology ;
+    dcterms:bibliographicCitation "Baines D, Ashley M. Health Economics Axiology Ontology (HEAO), version 0.1.0. Intelligent Parameters Ltd; 2026. https://healtheconomics.wiki/ontologies/heao/0.2.0/heao.owl. Licence CC BY 4.0." ;
+    dcterms:created "2026-10-18"^^xsd:date ;
+    dcterms:creator <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    dcterms:description "HEAO, the Health Economics Axiology Ontology, describes how health economics turns quantities into values. Its scope, set by Darrin Baines, is anything turned from a unit into a value and anything that creates value. Health becomes QALYs or DALYs, resources become costs, a future amount becomes a present value, a QALY becomes a sum of money, and a QALY in one group can be counted as more than a QALY in another. HEAO keeps the quantity apart from its valuation. The quantity is a fact recorded in RHEO or OHEO. The valuation is a planned process (an OBI planned process) that applies a valuation weight or a weight function to that quantity under a valuation specification (an IAO directive information entity), from a stated valuation perspective, in a stated valuation context, by a stated valuation method, with a recorded provenance, producing a valuation result on a value scale. The canonical form is V(x;c,m) = q(x) x w(x;c,m), the quantity multiplied by a weight that depends on context and method. It is not universal, so each valuation records its functional form, and nonlinear forms such as inequality-averse aggregation and the expected value of perfect information are named. Discounting is the valuation of time, and value of information is the valuation of reducing decision uncertainty. HEAO imports OHEO 0.3.0 and RHEO 0.4.0 and keeps their classes where they are. The bridge module heao-bridge.owl classifies the existing OHEO and RHEO terms under HEAO parents and creates nothing that already exists. HEO concepts are linked only through heao-mappings.sssom.tsv, and no row states identity. Every relationship HEAO makes across ontologies is typed with one of five kinds, definitional, representational, computational, causal or valuational, for the linking layer planned across HEO, RHEO, HEMO, HETO, OHEO and HEAO."@en ;
+    dcterms:issued "2026-10-18"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:modified "2026-10-18"^^xsd:date ;
+    dcterms:publisher "Intelligent Parameters Ltd" ;
+    dcterms:title "Health Economics Axiology Ontology (HEAO)"@en ;
+    vann:preferredNamespacePrefix "heao" ;
+    vann:preferredNamespaceUri "https://healtheconomics.wiki/ontologies/heao/HEAO_" ;
+    rdfs:comment "First release (status alpha) for review by its creators and three independent reviewers. HEAO imports OHEO 0.3.0 and RHEO 0.4.0 with its uncertainty module, which imports BFO 2020 (ISO/IEC 21838-2). The BFO, IAO, COB, OBI and PROV terms RHEO declares are reused and not declared again, apart from PROV-O was attributed to, which RHEO does not declare. Load heao-bridge.owl to see the OHEO and RHEO terms classified under HEAO. Term IRIs follow the family pattern https://healtheconomics.wiki/ontologies/heao/HEAO_ and seven digits, as RHEO, OHEO and HETO do, a choice made in the fix pass of 18 October 2026 for Darrin Baines to confirm."@en ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/heo>,
+        <https://healtheconomics.wiki/ontologies/heto>,
+        <https://healtheconomics.wiki/ontologies/oheo>,
+        <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:imports <https://healtheconomics.wiki/ontologies/oheo/0.3.0/oheo.owl>,
+        <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo-uncertainty.owl>,
+        <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl> ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/heao/0.2.0/heao.owl> ;
+    owl:versionInfo "0.2.0 (alpha)" ;
+    foaf:homepage <https://healtheconomics.wiki/ontologies/heao> .
+
+<https://orcid.org/0009-0006-0231-3731> rdfs:label "Michelle Ashley" .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000016 heao:0000019 heao:0000051 heao:0000056 heao:0000057 heao:0000058 heao:0000062 heao:0000066 heao:0000067 heao:0000068 heao:0000069 heao:0000073 heao:0000074 heao:0000107 heao:0000108 heao:0000109 heao:0000110 heao:0000111 heao:0000112 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000059 heao:0000060 heao:0000061 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000036 heao:0000092 heao:0000096 heao:0000044 heao:0000082 heao:0000037 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000036 heao:0000092 heao:0000096 heao:0000044 heao:0000082 heao:0000045 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000035 heao:0000019 heao:0000051 heao:0000056 heao:0000057 heao:0000058 heao:0000062 heao:0000066 heao:0000067 heao:0000068 heao:0000069 heao:0000073 heao:0000074 heao:0000107 heao:0000108 heao:0000109 heao:0000110 heao:0000111 heao:0000112 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000049 heao:0000093 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000047 heao:0000048 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000036 heao:0000092 heao:0000096 heao:0000044 heao:0000082 heao:0000038 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000055 heao:0000019 heao:0000051 heao:0000056 heao:0000057 heao:0000058 heao:0000062 heao:0000066 heao:0000067 heao:0000068 heao:0000069 heao:0000073 heao:0000074 heao:0000107 heao:0000108 heao:0000109 heao:0000110 heao:0000111 heao:0000112 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000075 heao:0000076 heao:0000077 heao:0000078 heao:0000100 heao:0000101 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000041 heao:0000042 heao:0000043 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000063 heao:0000064 heao:0000065 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000105 heao:0000106 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000020 heao:0000021 heao:0000022 heao:0000086 heao:0000023 heao:0000024 heao:0000025 heao:0000026 heao:0000029 heao:0000030 heao:0000031 heao:0000032 heao:0000085 heao:0000099 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000036 heao:0000092 heao:0000096 heao:0000044 heao:0000082 heao:0000039 ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( heao:0000036 heao:0000092 heao:0000096 heao:0000044 heao:0000082 heao:0000040 ) .
+
+
+<https://healtheconomics.wiki/ontologies/heao> <http://www.w3.org/2002/07/owl#priorVersion> <https://healtheconomics.wiki/ontology/heao/0.1.0/heao.owl> ;
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Version 0.2.0 moves every HEAO address from https://healtheconomics.wiki/ontology/heao to https://healtheconomics.wiki/ontologies/heao, so the ontology identifier, its version identifier and its terms match the ontology page on the site. Every class, property, definition and axiom is the same as in 0.1.0, and the imports now point to the family releases made at the same time (HEO 2.0.0, RHEO 0.4.0, OHEO 0.3.0, HETO 0.3.0, HEAO 0.2.0, HEMO 0.2.0, HELO 0.2.0, HEIRO 0.2.0). The old /ontology/ addresses are retired and are not redirected."@en .

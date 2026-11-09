@@ -1,0 +1,197 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix helo: <https://healtheconomics.wiki/ontologies/helo/HELO_> .
+@prefix heto: <https://healtheconomics.wiki/ontologies/heto/HETO_> .
+@prefix hs: <https://healtheconomics.wiki/ontologies/helo/shapes/> .
+
+<https://healtheconomics.wiki/ontologies/helo/shapes> a owl:Ontology ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/helo/0.2.0/helo-shapes.ttl> ;
+    owl:versionInfo "0.2.0" ;
+    dcterms:title "HELO 0.2.0 record rules"@en ;
+    dcterms:issued "2026-10-19"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:description "Rules for HELO records in plain SHACL. Load the records with helo.ttl, helo-pathways.ttl and the files of imports/ in one data graph and run pyshacl with no inference. The rules check that a pathway has steps whose positions run from 1 without gaps or repeats, that the next-step relationships follow the positions inside one pathway and form no cycle, that every concept a step, goal, module or prerequisite names is a live HEO concept, that a pathway has only concept understanding goals and is never typed as a HETO task specification, and that every proposal carries its basis. HELO here is the Health Economics Learning Ontology of HealthEconomics.wiki. It is not the HypothEsis and Law Ontology, also called HELO (Soldatova et al. 2013), and is unrelated to it."@en ;
+    sh:declare [ sh:prefix "helo" ; sh:namespace "https://healtheconomics.wiki/ontologies/helo/HELO_"^^xsd:anyURI ] ,
+        [ sh:prefix "owl" ; sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ] ,
+        [ sh:prefix "skos" ; sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ] ,
+        [ sh:prefix "dcterms" ; sh:namespace "http://purl.org/dc/terms/"^^xsd:anyURI ] ,
+        [ sh:prefix "heao" ; sh:namespace "https://healtheconomics.wiki/ontologies/heao/HEAO_"^^xsd:anyURI ] ,
+        [ sh:prefix "obo" ; sh:namespace "http://purl.obolibrary.org/obo/"^^xsd:anyURI ] ,
+        [ sh:prefix "rdfs" ; sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ] .
+
+# ---------------------------------------------------------------- learning pathway
+hs:PathwayShape a sh:NodeShape ;
+    rdfs:label "learning pathway rules"@en ;
+    sh:targetClass helo:0000001 ;
+    sh:property [ sh:path helo:1000001 ; sh:minCount 1 ; sh:class helo:0000002 ;
+        sh:message "A learning pathway needs at least one learning step."@en ] ,
+      [ sh:path rdfs:label ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A learning pathway needs exactly one label."@en ] ,
+      [ sh:path helo:1000027 ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( helo:4000010 helo:4000011 ) ;
+        sh:message "A learning pathway needs one publication status, published or draft."@en ] ,
+      [ sh:path helo:1000012 ; sh:class helo:0000007 ;
+        sh:message "A learning pathway may only have concept understanding goals. Pathways build understanding, not hands-on skills."@en ] ,
+      [ sh:path helo:1000008 ; sh:class skos:Concept ; sh:message "A concept a pathway builds on must be a HEO concept."@en ] ,
+      [ sh:path helo:1000009 ; sh:class skos:Concept ; sh:message "An onward concept of a pathway must be a HEO concept."@en ] ,
+      [ sh:path helo:1000028 ; sh:maxCount 1 ; sh:class skos:Concept ; sh:message "A pathway covers at most one subdomain, a HEO concept."@en ] ,
+      [ sh:path helo:1000010 ; sh:class helo:0000002 ; sh:message "A pathway leads into a learning step."@en ] ,
+      [ sh:path [ sh:inversePath helo:1000011 ] ; sh:maxCount 1 ; sh:message "A learning pathway has at most one pathway framework."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "Two learning steps of this pathway share one position."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000001 ?s , ?t . FILTER (?s != ?t) ?s helo:2000001 ?p . ?t helo:2000001 ?q . FILTER (?p = ?q) }""" ] ,
+      [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "The step positions of this pathway leave a gap, or do not start at 1."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000001 ?s . ?s helo:2000001 ?p .
+            FILTER ( (?p > 1 && NOT EXISTS { $this helo:1000001 ?t . ?t helo:2000001 ?q . FILTER (?q = ?p - 1) })
+                || NOT EXISTS { $this helo:1000001 ?f . ?f helo:2000001 ?one . FILTER (?one = 1) } ) }""" ] ,
+      [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "This pathway leads into a step of its own."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000010 ?s . $this helo:1000001 ?s . }""" ] .
+
+hs:PathwayNotTaskShape a sh:NodeShape ;
+    rdfs:label "a learning pathway is not a HETO task"@en ;
+    sh:targetClass helo:0000001 ;
+    sh:not [ sh:class heto:0000001 ] ;
+    sh:message "A learning pathway may not also be a HETO task specification. It prepares for tasks and does not train them."@en .
+
+# ---------------------------------------------------------------- learning step
+hs:StepShape a sh:NodeShape ;
+    rdfs:label "learning step rules"@en ;
+    sh:targetClass helo:0000002 ;
+    sh:property [ sh:path helo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ;
+        sh:message "A learning step needs one position, a whole number from 1."@en ] ,
+      [ sh:path [ sh:alternativePath ( [ sh:inversePath helo:1000001 ] helo:1000002 ) ] ; sh:minCount 1 ; sh:maxCount 1 ; sh:class helo:0000001 ;
+        sh:message "A learning step belongs to exactly one learning pathway."@en ] ,
+      [ sh:path helo:1000005 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class helo:0000003 ; sh:message "A learning step names exactly one learning topic."@en ] ,
+      [ sh:path helo:1000003 ; sh:maxCount 1 ; sh:class helo:0000002 ; sh:message "A learning step has at most one next step, itself a learning step."@en ] ,
+      [ sh:path helo:1000006 ; sh:class skos:Concept ; sh:message "A core concept of a step must be a live HEO concept (load HEO or imports/heo-1.3.1-extract.ttl)."@en ] ,
+      [ sh:path helo:1000007 ; sh:class skos:Concept ; sh:message "An optional concept of a step must be a live HEO concept (load HEO or imports/heo-1.3.1-extract.ttl)."@en ] ,
+      [ sh:path helo:1000012 ; sh:class helo:0000007 ; sh:message "A learning step may only have concept understanding goals."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "The step order runs in a cycle back to this step."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000003+ $this . }""" ] ,
+      [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "The next step of this step is not at the following position."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000003 ?n ; helo:2000001 ?p . ?n helo:2000001 ?q . FILTER (?q != ?p + 1) }""" ] ,
+      [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "The next step of this step belongs to another pathway."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000003 ?n . ?a helo:1000001 $this . ?b helo:1000001 ?n . FILTER (?a != ?b)
+            FILTER NOT EXISTS { ?a helo:1000001 ?n } }""" ] ,
+      [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "A later step of the same pathway follows this step, but it has no next step."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { ?pw helo:1000001 $this , ?t . $this helo:2000001 ?p . ?t helo:2000001 ?q . FILTER (?q = ?p + 1)
+            FILTER NOT EXISTS { $this helo:1000003 ?any } }""" ] ,
+      [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "This step names a HEO concept that HEO has made obsolete."@en ;
+        sh:select """SELECT DISTINCT $this ?value WHERE { $this helo:1000006|helo:1000007 ?value . ?value owl:deprecated true . }""" ] ,
+      [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "This step names one concept as both core and optional."@en ;
+        sh:select """SELECT DISTINCT $this ?value WHERE { $this helo:1000006 ?value ; helo:1000007 ?value . }""" ] .
+
+# ---------------------------------------------------------------- pathway framework, goals, profiles
+hs:FrameworkShape a sh:NodeShape ;
+    rdfs:label "pathway framework rules"@en ;
+    sh:targetClass helo:0000004 ;
+    sh:property [ sh:path helo:1000011 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class helo:0000001 ;
+        sh:message "A pathway framework lays out exactly one learning pathway."@en ] .
+
+hs:UnderstandingGoalShape a sh:NodeShape ;
+    rdfs:label "concept understanding goal rules"@en ;
+    sh:targetClass helo:0000007 ;
+    sh:property [ sh:path helo:1000013 ; sh:minCount 1 ; sh:or ( [ sh:class skos:Concept ] [ sh:class helo:0000003 ] ) ;
+        sh:message "A concept understanding goal names at least one HEO concept or learning topic to understand."@en ] .
+
+hs:ProfileShape a sh:NodeShape ;
+    rdfs:label "intended learner profile rules"@en ;
+    sh:targetClass helo:0000005 ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:message "An intended learner profile needs a label."@en ] .
+
+# ---------------------------------------------------------------- prerequisite relationships
+hs:PrerequisiteShape a sh:NodeShape ;
+    rdfs:label "prerequisite relationship rules"@en ;
+    sh:targetClass helo:0000009 ;
+    sh:property [ sh:path helo:1000016 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class skos:Concept ; sh:message "A prerequisite relationship names exactly one HEO concept to understand first."@en ] ,
+      [ sh:path helo:1000017 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class skos:Concept ; sh:message "A prerequisite relationship names exactly one dependent HEO concept."@en ] ,
+      [ sh:path helo:1000018 ; sh:minCount 1 ; sh:class helo:0000010 ; sh:message "A prerequisite relationship names the derivation rule it follows."@en ] ,
+      [ sh:path helo:2000004 ; sh:minCount 1 ; sh:datatype xsd:string ; sh:pattern "^HEO-L-[0-9a-f]{12}$" ;
+        sh:message "A prerequisite relationship names the HEO relationship it was derived from, by its HEO-L- identifier."@en ] ,
+      [ sh:path helo:1000019 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class helo:0000014 ; sh:message "A prerequisite relationship has exactly one prerequisite status."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "A prerequisite relationship accepted or rejected by a curator needs the curator (dcterms:contributor) and the date (dcterms:date)."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000019 ?st . FILTER (?st IN (helo:4000021, helo:4000022))
+            FILTER (NOT EXISTS { $this dcterms:contributor ?who } || NOT EXISTS { $this dcterms:date ?d }) }""" ] ,
+      [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "A prerequisite relationship relates two different concepts."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000016 ?a ; helo:1000017 ?a . }""" ] .
+
+# ---------------------------------------------------------------- curricula and course modules
+hs:CurriculumShape a sh:NodeShape ;
+    rdfs:label "curriculum rules"@en ;
+    sh:targetClass helo:0000011 ;
+    sh:property [ sh:path helo:1000023 ; sh:minCount 1 ; sh:class helo:0000012 ; sh:message "A curriculum needs at least one course module."@en ] ,
+      [ sh:path helo:1000027 ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( helo:4000010 helo:4000011 ) ; sh:message "A curriculum needs one publication status."@en ] ,
+      [ sh:path helo:1000012 ; sh:class helo:0000006 ; sh:message "A goal of a curriculum is a learning goal."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "The module positions of this curriculum repeat, leave a gap or do not start at 1."@en ;
+        sh:select """SELECT DISTINCT $this WHERE { $this helo:1000023 ?s . ?s helo:2000003 ?p .
+            FILTER ( EXISTS { $this helo:1000023 ?t . FILTER (?s != ?t) ?t helo:2000003 ?p2 . FILTER (?p2 = ?p) }
+                || (?p > 1 && NOT EXISTS { $this helo:1000023 ?u . ?u helo:2000003 ?q . FILTER (?q = ?p - 1) })
+                || NOT EXISTS { $this helo:1000023 ?f . ?f helo:2000003 ?one . FILTER (?one = 1) } ) }""" ] .
+
+hs:ModuleShape a sh:NodeShape ;
+    rdfs:label "course module rules"@en ;
+    sh:targetClass helo:0000012 ;
+    sh:property [ sh:path helo:2000003 ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:message "A course module needs one position, a whole number from 1."@en ] ,
+      [ sh:path [ sh:alternativePath ( [ sh:inversePath helo:1000023 ] helo:1000024 ) ] ; sh:minCount 1 ; sh:maxCount 1 ; sh:class helo:0000011 ;
+        sh:message "A course module belongs to exactly one curriculum."@en ] ,
+      [ sh:path rdfs:label ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "A course module needs exactly one label."@en ] ,
+      [ sh:path helo:1000026 ; sh:class skos:Concept ; sh:message "A concept a module uses must be a HEO concept."@en ] ,
+      [ sh:path helo:1000005 ; sh:class helo:0000003 ; sh:message "A module covers learning topics."@en ] .
+
+# ---------------------------------------------------------------- proposals
+hs:TaskProposalShape a sh:NodeShape ;
+    rdfs:label "proposed task preparation rules"@en ;
+    sh:targetSubjectsOf helo:9000006 ;
+    sh:property [ sh:path helo:9000006 ; sh:class heto:0000001 ; sh:nodeKind sh:IRI ;
+        sh:message "A pathway is proposed to prepare only for a HETO task specification (load imports/heto-0.2.0-extract.ttl)."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "A proposed task preparation needs its axiom with a coverage between 0 and 1, a basis, a linking kind and a curation status."@en ;
+        sh:select """SELECT DISTINCT $this ?value WHERE { $this helo:9000006 ?value .
+            FILTER NOT EXISTS { ?a owl:annotatedSource $this ; owl:annotatedProperty helo:9000006 ; owl:annotatedTarget ?value ;
+                helo:9000009 ?c ; helo:9000010 ?b ; heao:9000001 ?k ; obo:IAO_0000114 ?st . FILTER (?c >= 0 && ?c <= 1) } }""" ] .
+
+hs:TaskProposalSubjectShape a sh:NodeShape ;
+    rdfs:label "only a pathway prepares for a task"@en ;
+    sh:targetSubjectsOf helo:9000006 ;
+    sh:class helo:0000001 ;
+    sh:message "Only a learning pathway is proposed to prepare for a task."@en .
+
+hs:TopicProposalShape a sh:NodeShape ;
+    rdfs:label "proposed module topic rules"@en ;
+    sh:targetSubjectsOf helo:9000015 ;
+    sh:property [ sh:path helo:9000015 ; sh:class helo:0000003 ; sh:message "A module is proposed to cover only a learning topic."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "A proposed module topic needs a course module as its subject and its axiom with a basis and a curation status."@en ;
+        sh:select """SELECT DISTINCT $this ?value WHERE { $this helo:9000015 ?value .
+            FILTER (NOT EXISTS { $this a helo:0000012 } || NOT EXISTS { ?a owl:annotatedSource $this ; owl:annotatedProperty helo:9000015 ; owl:annotatedTarget ?value ; helo:9000010 ?b ; obo:IAO_0000114 ?st . }) }""" ] .
+
+hs:TopicOrderProposalShape a sh:NodeShape ;
+    rdfs:label "proposed topic order rules"@en ;
+    sh:targetSubjectsOf helo:9000023 ;
+    sh:property [ sh:path helo:9000023 ; sh:class helo:0000003 ; sh:message "A topic is proposed to follow only another learning topic."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "A proposed topic order needs its axiom with a basis and a curation status."@en ;
+        sh:select """SELECT DISTINCT $this ?value WHERE { $this helo:9000023 ?value .
+            FILTER NOT EXISTS { ?a owl:annotatedSource $this ; owl:annotatedProperty helo:9000023 ; owl:annotatedTarget ?value ; helo:9000010 ?b ; obo:IAO_0000114 ?st . } }""" ] .
+
+hs:LearnerProposalShape a sh:NodeShape ;
+    rdfs:label "proposed intended learner rules"@en ;
+    sh:targetSubjectsOf helo:9000007 ;
+    sh:property [ sh:path helo:9000007 ; sh:class helo:0000005 ; sh:message "A proposed intended learner is an intended learner profile."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes <https://healtheconomics.wiki/ontologies/helo/shapes> ;
+        sh:message "A proposed intended learner needs its axiom with a basis and a curation status."@en ;
+        sh:select """SELECT DISTINCT $this ?value WHERE { $this helo:9000007 ?value .
+            FILTER NOT EXISTS { ?a owl:annotatedSource $this ; owl:annotatedProperty helo:9000007 ; owl:annotatedTarget ?value ; helo:9000010 ?b ; obo:IAO_0000114 ?st . } }""" ] .

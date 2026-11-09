@@ -1,0 +1,818 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_> .
+@prefix heirosh: <https://healtheconomics.wiki/ontologies/heiro/shapes/> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_> .
+
+<https://healtheconomics.wiki/ontologies/heiro/shapes> a owl:Ontology ;
+    dcterms:title "HEIRO record rules (SHACL)"@en ;
+    dcterms:description "Record rules for HEIRO 0.2.0. Core SHACL targets and SHACL-SPARQL constraints only, so plain SHACL runs every rule. They apply only to HEIRO terms."@en ;
+    dcterms:issued "2026-10-19"^^xsd:date ;
+    owl:versionInfo "0.2.0 (alpha)" .
+
+heirosh:GuidanceVersionShape a sh:NodeShape ;
+    sh:targetClass heiro:0000009 ; sh:targetSubjectsOf heiro:1000001, heiro:1000002 ;
+    sh:property [ sh:path heiro:1000001 ; sh:minCount 1 ; sh:class heiro:0000007 ;
+        sh:message "A guidance version names exactly one guidance document."@en ] ;
+    sh:property [ sh:path heiro:2000001 ; sh:minCount 1 ;
+        sh:message "A guidance version has a version date, written YYYY-MM-DD, YYYY-MM or YYYY."@en ] ;
+    sh:property [ sh:path heiro:2000005 ; sh:minCount 1 ;
+        sh:message "A guidance version gives the address it was read at."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "No check record reports on this guidance version."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { FILTER NOT EXISTS { ?c heiro:1000011 $this } BIND($this AS ?value) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A check record reports this version current on a date when a later version was already in force."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { ?c heiro:1000011 $this ; heiro:1000006 heiro:4000001 ; heiro:2000008 ?cd . ?value heiro:1000002 $this ; heiro:2000028 ?f . FILTER (STR(?f) <= STR(?cd)) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A check record reports this version superseded, but no version supersedes it."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { ?c heiro:1000011 $this ; heiro:1000006 heiro:4000002 . FILTER NOT EXISTS { ?n heiro:1000002 $this } BIND(?c AS ?value) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A guidance version supersedes a version of another guidance document."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000002 ?value ; heiro:1000001 ?d1 . ?value heiro:1000001 ?d2 . FILTER (?d1 != ?d2) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A guidance version supersedes a version with a later or equal version date."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000002 ?value ; heiro:2000001 ?a . ?value heiro:2000001 ?b . FILTER (STR(?b) >= SUBSTR(STR(?a), 1, STRLEN(STR(?b)))) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A guidance version is in force from a date not after an older version it supersedes, so their periods overlap."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000002 ?value ; heiro:2000028 ?a . ?value heiro:2000028 ?b . FILTER (STR(?a) <= STR(?b)) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A guidance version is in force before its own version date."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000028 ?value ; heiro:2000001 ?d . FILTER (STR(?value) < SUBSTR(STR(?d), 1, STRLEN(STR(?value)))) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "The last updated date of a version differs from its version date."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000002 ?value ; heiro:2000001 ?d . FILTER (STR(?value) != STR(?d)) }""" ] ;
+
+    .
+
+heirosh:GuidanceDocumentShape a sh:NodeShape ;
+    sh:targetClass heiro:0000007 ;
+    sh:property [ sh:path heiro:1000015 ; sh:minCount 1 ; sh:class obo:OBI_0000245 ;
+        sh:message "A guidance document names the organization that issued it."@en ] ;
+    sh:property [ sh:path heiro:1000016 ; sh:in ( heiro:4000005 heiro:4000006 ) ;
+        sh:message "A binding force is binding or advisory."@en ] ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:message "A guidance document has a label."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "No check record reports any version of this guidance document current."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { FILTER NOT EXISTS { ?v heiro:1000001 $this . ?c heiro:1000011 ?v ; heiro:1000006 heiro:4000001 } BIND($this AS ?value) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "Two versions of this guidance document are reported current by check records of the same date."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { ?v1 heiro:1000001 $this . ?value heiro:1000001 $this . ?c1 heiro:1000011 ?v1 ; heiro:1000006 heiro:4000001 ; heiro:2000008 ?d . ?c2 heiro:1000011 ?value ; heiro:1000006 heiro:4000001 ; heiro:2000008 ?d . FILTER (?v1 != ?value) }""" ] ;
+
+    .
+
+heirosh:GuidanceProvisionShape a sh:NodeShape ;
+    sh:targetClass heiro:0000010 ; sh:targetSubjectsOf heiro:1000004 ;
+    sh:property [ sh:path heiro:1000004 ; sh:minCount 1 ; sh:class heiro:0000009 ;
+        sh:message "A guidance provision is part of exactly one guidance version."@en ] ;
+    sh:property [ sh:path heiro:2000006 ; sh:minCount 1 ;
+        sh:message "A guidance provision has exactly one section, paragraph, table or figure number."@en ] ;
+    sh:property [ sh:path heiro:2000007 ; sh:minCount 1 ;
+        sh:message "A guidance provision quotes the text it was read from."@en ] .
+
+heirosh:StatedDecisionRuleShape a sh:NodeShape ;
+    sh:targetClass heiro:0000011 ; sh:targetSubjectsOf heiro:1000005 ;
+    sh:property [ sh:path heiro:1000005 ; sh:minCount 1 ; sh:class heiro:0000010 ;
+        sh:message "A stated decision rule names the guidance provision, and so the version, it comes from."@en ] ;
+    sh:property [ sh:path heiro:1000015 ; sh:minCount 1 ; sh:class obo:OBI_0000245 ;
+        sh:message "A stated decision rule names the organization that issued it."@en ] ;
+    sh:property [ sh:path heiro:2000030 ; sh:minCount 1 ;
+        sh:message "A stated decision rule gives the version date of the earliest version read that states it."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A stated decision rule is stated only in superseded versions, and no rule supersedes it and no date ends it."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { FILTER NOT EXISTS { $this heiro:1000005 ?p . ?p heiro:1000004 ?v . FILTER NOT EXISTS { ?w heiro:1000002 ?v } } FILTER NOT EXISTS { ?n heao:1000026 $this } FILTER NOT EXISTS { $this heiro:2000029 ?e } $this heiro:1000005 ?value }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A rule that another rule supersedes has no date on which it stopped being in force."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { ?value heao:1000026 $this . FILTER NOT EXISTS { $this heiro:2000029 ?e } }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A rule stops being in force before it starts."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000028 ?s ; heiro:2000029 ?value . FILTER (STR(?value) < STR(?s)) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A rule stopped being in force before a version that states it came into force."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000029 ?u ; heiro:1000005 ?p . ?p heiro:1000004 ?value . ?value heiro:2000028 ?f . FILTER (SUBSTR(STR(?f), 1, STRLEN(STR(?u))) > STR(?u)) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A rule's first-read version date is not the date of a version that states it."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000030 ?value . FILTER NOT EXISTS { $this heiro:1000005 ?p . ?p heiro:1000004 ?v . ?v heiro:2000001 ?vd . FILTER (STR(?vd) = STR(?value)) } }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A rule states a money value or range but no currency code."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { { $this rheo:2000001 ?value } UNION { $this heiro:2000011 ?value } UNION { $this heiro:2000012 ?value } { $this a rheo:0000117 } UNION { $this a heiro:0000019 } FILTER NOT EXISTS { $this rheo:2000003 ?c } }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A discount rate is not a proportion from 0 to below 1, such as 0.035."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { { $this rheo:2000030 ?value } UNION { $this rheo:2000031 ?value } FILTER (?value < 0 || ?value >= 1) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "The lower end of a range is above its upper end."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000011 ?value ; heiro:2000012 ?u . FILTER (?value > ?u) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A rule applies to topics started after a date that is not before the date before which they must have started."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000031 ?value ; heiro:2000032 ?b . FILTER (STR(?value) >= STR(?b)) }""" ] ;
+
+    .
+
+heirosh:ComparatorRuleShape a sh:NodeShape ;
+    sh:targetClass heiro:0000012 ; sh:targetSubjectsOf heiro:1000024 ;
+    sh:property [ sh:path heiro:1000023 ; sh:minCount 1 ; sh:in ( heiro:4000014 heiro:4000015 heiro:4000016 ) ;
+        sh:message "A comparator rule states whether it requires, permits or forbids."@en ] ;
+    sh:property [ sh:path heiro:1000024 ; sh:minCount 1 ; sh:in ( heiro:4000017 heiro:4000018 heiro:4000019 heiro:4000020 ) ;
+        sh:message "A comparator rule states its selection basis."@en ] .
+
+heirosh:ListedAmendmentShape a sh:NodeShape ;
+    sh:targetClass heiro:0000018 ; sh:targetSubjectsOf heiro:1000017 ;
+    sh:property [ sh:path heiro:1000017 ; sh:minCount 1 ; sh:class heiro:0000009 ; sh:message "A listed amendment names the version in force when the change was made."@en ] ;
+    sh:property [ sh:path heiro:2000034 ; sh:minCount 1 ; sh:message "A listed amendment has a month."@en ] ;
+    sh:property [ sh:path heiro:2000014 ; sh:minCount 1 ; sh:message "A listed amendment keeps the body's own summary."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A listed amendment is dated before the version it amends."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000034 ?value ; heiro:1000017 ?v . ?v heiro:2000001 ?d . FILTER (STR(?value) < SUBSTR(STR(?d), 1, STRLEN(STR(?value)))) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A listed amendment is dated on or after the version that superseded the version it amends."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000034 ?value ; heiro:1000017 ?v . ?n heiro:1000002 ?v ; heiro:2000001 ?d . FILTER (STR(?value) >= SUBSTR(STR(?d), 1, STRLEN(STR(?value)))) }""" ] ;
+
+    .
+
+heirosh:CheckRecordShape a sh:NodeShape ;
+    sh:targetClass heiro:0000015 ; sh:targetSubjectsOf heiro:1000011 ;
+    sh:property [ sh:path heiro:1000010 ; sh:minCount 1 ; sh:class heiro:0000007 ; sh:message "A check record names the guidance document whose page was read."@en ] ;
+    sh:property [ sh:path heiro:1000011 ; sh:minCount 1 ; sh:class heiro:0000009 ; sh:message "A check record names the version it reports on."@en ] ;
+    sh:property [ sh:path heiro:2000008 ; sh:minCount 1 ; sh:message "A check record has a check date."@en ] ;
+    sh:property [ sh:path heiro:1000018 ; sh:minCount 1 ; sh:in ( heiro:4000007 heiro:4000008 ) ; sh:message "A check record says whether the live page or an archived copy was read."@en ] ;
+    sh:property [ sh:path heiro:1000006 ; sh:minCount 1 ; sh:in ( heiro:4000001 heiro:4000002 heiro:4000003 heiro:4000004 ) ; sh:message "A check record reports one version status."@en ] ;
+    sh:property [ sh:path heiro:2000010 ; sh:minCount 1 ; sh:message "A check record gives the SHA-256 of the copy that was read."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A check record names a version of another guidance document."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000010 ?d ; heiro:1000011 ?value . ?value heiro:1000001 ?d2 . FILTER (?d != ?d2) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "An archived copy can show only that a version was the latest when captured."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000018 heiro:4000008 ; heiro:1000006 ?value . FILTER (?value != heiro:4000004) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "An archived copy needs its capture date."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000018 heiro:4000008 . FILTER NOT EXISTS { $this heiro:2000033 ?x } BIND($this AS ?value) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "An archived copy was captured after the date it was read."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000033 ?value ; heiro:2000008 ?d . FILTER (STR(?value) > STR(?d)) }""" ] ;
+
+    .
+
+heirosh:JurisdictionShape a sh:NodeShape ;
+    sh:targetClass heiro:0000006 ; sh:targetObjectsOf heiro:1000009 ;
+    sh:property [ sh:path rheo:2000005 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^([A-Z]{2}(-[A-Z0-9]{1,3})?|INT)$" ;
+        sh:message "A jurisdiction has exactly one ISO 3166 code, or RHEO's INT."@en ] .
+
+heirosh:PerspectiveRecordShape a sh:NodeShape ;
+    sh:targetClass heiro:0000016 ; sh:targetSubjectsOf heiro:1000012 ;
+    sh:property [ sh:path heiro:1000012 ; sh:class obo:OBI_0000245 ; sh:message "A perspective record relates to organizations."@en ] ;
+    sh:property [ sh:path heiro:9000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^https://healtheconomics.wiki/concept/" ;
+        sh:message "A perspective record concerns exactly one wiki concept."@en ] ;
+    sh:property [ sh:path heiro:2000015 ; sh:minCount 1 ; sh:message "A perspective record keeps the Institution field as shown."@en ] ;
+    sh:property [ sh:path heiro:2000016 ; sh:minCount 1 ; sh:message "A perspective record has a title."@en ] ;
+    sh:property [ sh:path heiro:2000019 ; sh:minCount 1 ; sh:minInclusive 1 ; sh:message "A perspective record has one display order from 1."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A perspective record names no body and no guidance document, and has no editor note saying why."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { FILTER NOT EXISTS { $this heiro:1000012 ?b } FILTER NOT EXISTS { $this heiro:1000019 ?d } FILTER NOT EXISTS { $this obo:IAO_0000116 ?n } $this heiro:2000015 ?value }""" ] ;
+
+    .
+
+heirosh:CitationRecordShape a sh:NodeShape ;
+    sh:targetClass heiro:0000017 ; sh:targetSubjectsOf heiro:1000013 ;
+    sh:property [ sh:path heiro:1000013 ; sh:minCount 1 ; sh:class heiro:0000007 ; sh:message "A citation record names exactly one guidance document."@en ] ;
+    sh:property [ sh:path heiro:1000014 ; sh:class heiro:0000009 ; sh:message "A citation record resolves to a guidance version."@en ] ;
+    sh:property [ sh:path heiro:1000025 ; sh:minCount 1 ; sh:in ( heiro:4000009 heiro:4000010 heiro:4000011 heiro:4000012 heiro:4000013 ) ;
+        sh:message "A citation record has one staleness verdict."@en ] ;
+    sh:property [ sh:path heiro:2000026 ; sh:minCount 1 ; sh:message "A citation record says why it has its verdict."@en ] ;
+    sh:property [ sh:path heiro:2000037 ; sh:minCount 1 ; sh:message "A citation record gives its verdict date."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A citation record is about neither a wiki concept nor a HEMO record."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { FILTER NOT EXISTS { $this heiro:9000001 ?c } FILTER NOT EXISTS { $this heiro:9000002 ?m } BIND($this AS ?value) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A citation record resolves to a version superseded by its verdict date, but its verdict is current."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000014 ?value ; heiro:1000025 heiro:4000010 ; heiro:2000037 ?vd . ?n heiro:1000002 ?value ; heiro:2000028 ?f . FILTER (STR(?f) <= STR(?vd)) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A citation record resolves to a version not superseded by its verdict date, but its verdict is stale."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000014 ?value ; heiro:1000025 heiro:4000009 ; heiro:2000037 ?vd . FILTER NOT EXISTS { ?n heiro:1000002 ?value ; heiro:2000028 ?f . FILTER (STR(?f) <= STR(?vd)) } }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A citation record resolves to a version of another guidance document."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000013 ?d ; heiro:1000014 ?value . ?value heiro:1000001 ?d2 . FILTER (?d != ?d2) }""" ] ;
+
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "A citation record cites a full version date that differs from the version it resolves to, without saying the date falls between versions."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:1000014 ?value ; heiro:2000023 ?c ; heiro:2000026 ?r . ?value heiro:2000001 ?vd . FILTER (STRLEN(STR(?c)) = 10 && STR(?c) != STR(?vd) && !CONTAINS(STR(?r), 'not a version date')) }""" ] ;
+
+    .
+
+heirosh:Value_version_date a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000001 ;
+    sh:property [ sh:path heiro:2000001 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$" ;
+        sh:message "has version date, at most one value, written YYYY-MM-DD, YYYY-MM or YYYY."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "has version date is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000001 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_last_updated a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000002 ;
+    sh:property [ sh:path heiro:2000002 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" ;
+        sh:message "has last updated date, at most one value, written YYYY-MM-DD."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "has last updated date is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000002 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_title_shown a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000027 ;
+    sh:property [ sh:path heiro:2000027 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has title as shown, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_in_force_from a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000028 ;
+    sh:property [ sh:path heiro:2000028 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$" ;
+        sh:message "is in force from, at most one value, written YYYY-MM-DD, YYYY-MM or YYYY."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "is in force from is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000028 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_in_force_until a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000029 ;
+    sh:property [ sh:path heiro:2000029 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$" ;
+        sh:message "is in force until, at most one value, written YYYY-MM-DD, YYYY-MM or YYYY."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "is in force until is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000029 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_first_read a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000030 ;
+    sh:property [ sh:path heiro:2000030 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$" ;
+        sh:message "has first-read version date, at most one value, written YYYY-MM-DD, YYYY-MM or YYYY."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "has first-read version date is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000030 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_topics_after a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000031 ;
+    sh:property [ sh:path heiro:2000031 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" ;
+        sh:message "applies to topics started after, at most one value, written YYYY-MM-DD."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "applies to topics started after is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000031 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_topics_before a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000032 ;
+    sh:property [ sh:path heiro:2000032 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" ;
+        sh:message "applies to topics started before, at most one value, written YYYY-MM-DD."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "applies to topics started before is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000032 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_version_label a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000003 ;
+    sh:property [ sh:path heiro:2000003 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has version label, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_document_reference a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000004 ;
+    sh:property [ sh:path heiro:2000004 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has document reference, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_page_url a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000005 ;
+    sh:property [ sh:path heiro:2000005 ; sh:datatype xsd:anyURI ;
+        sh:message "has page URL, of type xsd:anyURI."@en ] ;
+    .
+
+heirosh:Value_section a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000006 ;
+    sh:property [ sh:path heiro:2000006 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has section number, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_quoted_text a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000007 ;
+    sh:property [ sh:path heiro:2000007 ; sh:datatype xsd:string ;
+        sh:message "has quoted text, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_check_date a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000008 ;
+    sh:property [ sh:path heiro:2000008 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" ;
+        sh:message "has check date, at most one value, written YYYY-MM-DD."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "has check date is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000008 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_capture_date a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000033 ;
+    sh:property [ sh:path heiro:2000033 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" ;
+        sh:message "has capture date, at most one value, written YYYY-MM-DD."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "has capture date is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000033 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_evidence_sha a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000010 ;
+    sh:property [ sh:path heiro:2000010 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9a-f]{64}$" ;
+        sh:message "has evidence SHA-256, at most one value, written as 64 hexadecimal characters."@en ] ;
+    .
+
+heirosh:Value_lower_value a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000011 ;
+    sh:property [ sh:path heiro:2000011 ; sh:datatype xsd:decimal ; sh:maxCount 1 ;
+        sh:message "has threshold lower value, at most one value, of type xsd:decimal."@en ] ;
+    .
+
+heirosh:Value_upper_value a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000012 ;
+    sh:property [ sh:path heiro:2000012 ; sh:datatype xsd:decimal ; sh:maxCount 1 ;
+        sh:message "has threshold upper value, at most one value, of type xsd:decimal."@en ] ;
+    .
+
+heirosh:Value_condition a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000013 ;
+    sh:property [ sh:path heiro:2000013 ; sh:datatype xsd:string ;
+        sh:message "has applicability condition, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_change_summary a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000014 ;
+    sh:property [ sh:path heiro:2000014 ; sh:datatype xsd:string ;
+        sh:message "has change summary, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_amendment_month a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000034 ;
+    sh:property [ sh:path heiro:2000034 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$" ;
+        sh:message "has amendment month, at most one value, written YYYY-MM-DD, YYYY-MM or YYYY."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "has amendment month is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000034 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_amended_sections a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000035 ;
+    sh:property [ sh:path heiro:2000035 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has amended sections, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_site_label a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000015 ;
+    sh:property [ sh:path heiro:2000015 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has institution label as shown, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_p_title a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000016 ;
+    sh:property [ sh:path heiro:2000016 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has perspective title, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_p_summary a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000017 ;
+    sh:property [ sh:path heiro:2000017 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has perspective summary, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_source_label a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000018 ;
+    sh:property [ sh:path heiro:2000018 ; sh:datatype xsd:string ;
+        sh:message "has primary source label, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_display_order a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000019 ;
+    sh:property [ sh:path heiro:2000019 ; sh:datatype xsd:integer ; sh:maxCount 1 ;
+        sh:message "has display order, at most one value, of type xsd:integer."@en ] ;
+    .
+
+heirosh:Value_record_id a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000020 ;
+    sh:property [ sh:path heiro:2000020 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has wiki record identifier, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_citation_field a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000021 ;
+    sh:property [ sh:path heiro:2000021 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has citation field, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_cited_text a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000022 ;
+    sh:property [ sh:path heiro:2000022 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has cited version text, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_cited_date a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000023 ;
+    sh:property [ sh:path heiro:2000023 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$" ;
+        sh:message "has cited version date, at most one value, written YYYY-MM-DD, YYYY-MM or YYYY."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "has cited version date is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000023 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_cited_sections a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000024 ;
+    sh:property [ sh:path heiro:2000024 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has cited sections, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_mentions a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000036 ;
+    sh:property [ sh:path heiro:2000036 ; sh:datatype xsd:integer ; sh:maxCount 1 ;
+        sh:message "has mention count, at most one value, of type xsd:integer."@en ] ;
+    .
+
+heirosh:Value_verdict_date a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000037 ;
+    sh:property [ sh:path heiro:2000037 ; sh:datatype xsd:string ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" ;
+        sh:message "has verdict date, at most one value, written YYYY-MM-DD."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "has verdict date is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this heiro:2000037 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:Value_text_changed a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000038 ;
+    sh:property [ sh:path heiro:2000038 ; sh:datatype xsd:boolean ; sh:maxCount 1 ;
+        sh:message "cited text changed since the version cited, at most one value, of type xsd:boolean."@en ] ;
+    .
+
+heirosh:Value_verdict_reason a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:2000026 ;
+    sh:property [ sh:path heiro:2000026 ; sh:datatype xsd:string ; sh:maxCount 1 ;
+        sh:message "has staleness reason, at most one value, of type xsd:string."@en ] ;
+    .
+
+heirosh:Value_version_of a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000001 ;
+    sh:property [ sh:path heiro:1000001 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "is version of guidance document has at most one value."@en ] .
+
+heirosh:Value_provision_of a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000004 ;
+    sh:property [ sh:path heiro:1000004 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "is provision of has at most one value."@en ] .
+
+heirosh:Value_has_status a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000006 ;
+    sh:property [ sh:path heiro:1000006 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "reports version status has at most one value."@en ] .
+
+heirosh:Value_has_binding_force a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000016 ;
+    sh:property [ sh:path heiro:1000016 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "has binding force has at most one value."@en ] .
+
+heirosh:Value_amends_version a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000017 ;
+    sh:property [ sh:path heiro:1000017 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "is amendment of version has at most one value."@en ] .
+
+heirosh:Value_checks_document a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000010 ;
+    sh:property [ sh:path heiro:1000010 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "checks guidance document has at most one value."@en ] .
+
+heirosh:Value_found_version a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000011 ;
+    sh:property [ sh:path heiro:1000011 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "found guidance version has at most one value."@en ] .
+
+heirosh:Value_has_check_method a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000018 ;
+    sh:property [ sh:path heiro:1000018 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "has check method has at most one value."@en ] .
+
+heirosh:Value_modality a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000023 ;
+    sh:property [ sh:path heiro:1000023 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "has deontic modality has at most one value."@en ] .
+
+heirosh:Value_cites_document a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000013 ;
+    sh:property [ sh:path heiro:1000013 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "cites guidance document has at most one value."@en ] .
+
+heirosh:Value_resolves_to a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000014 ;
+    sh:property [ sh:path heiro:1000014 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "resolves to guidance version has at most one value."@en ] .
+
+heirosh:Value_verdict a sh:NodeShape ;
+    sh:targetSubjectsOf heiro:1000025 ;
+    sh:property [ sh:path heiro:1000025 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "has staleness verdict has at most one value."@en ] .
+
+heirosh:RheoValuesOnDocuments a sh:NodeShape ;
+    sh:targetClass heiro:0000007 ;
+    sh:property [ sh:path rheo:2000035 ; sh:maxCount 1 ; sh:pattern "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" ; sh:message "RHEO's has publication date, at most one, written YYYY-MM-DD."@en ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:severity sh:Violation ;
+        sh:message "RHEO's has publication date is not a date in the calendar."@en ;
+        sh:select """PREFIX heiro: <https://healtheconomics.wiki/ontologies/heiro/HEIRO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE { $this rheo:2000035 ?value . FILTER (STRLEN(STR(?value)) = 10) BIND (xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?y) BIND (SUBSTR(STR(?value), 6, 2) AS ?m) BIND (xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?d) FILTER ((?m IN ('04', '06', '09', '11') && ?d > 30) || (?m = '02' && ?d > 29) || (?m = '02' && ?d = 29 && !((?y - 4 * FLOOR(?y / 4) = 0 && ?y - 100 * FLOOR(?y / 100) != 0) || ?y - 400 * FLOOR(?y / 400) = 0))) }""" ] ;
+    .
+
+heirosh:RheoValuesOnRules a sh:NodeShape ;
+    sh:targetClass heiro:0000011 ; sh:targetSubjectsOf heiro:1000005 ;
+    sh:property [ sh:path rheo:2000003 ; sh:maxCount 1 ; sh:pattern "^[A-Z]{3}$" ; sh:message "RHEO's has currency code, one ISO 4217 code."@en ] ;
+    sh:property [ sh:path rheo:2000030 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:message "One cost discount rate, a decimal."@en ] ;
+    sh:property [ sh:path rheo:2000031 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:message "One outcome discount rate, a decimal."@en ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:datatype xsd:decimal ; sh:message "A value as a decimal."@en ] .

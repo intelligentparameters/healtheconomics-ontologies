@@ -1,0 +1,249 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix heto: <https://healtheconomics.wiki/ontologies/heto/HETO_> .
+@prefix hsh: <https://healtheconomics.wiki/ontologies/heto/shapes#> .
+
+# HETO 0.3.0 record rules, edited by hand.
+#
+# Validate with plain SHACL (pyshacl with advanced=False and no inference), with heto.ttl, RHEO 0.4.0 (core and
+# uncertainty module), OHEO 0.3.0 and BFO 2020 in the data graph, so that class declarations and rdfs:subClassOf are
+# visible. The rules use only core targets (sh:targetClass, sh:targetNode, sh:targetSubjectsOf, sh:targetObjectsOf)
+# and SHACL-SPARQL constraints, which are part of the W3C Recommendation, and no SHACL advanced feature (no SPARQL
+# target, rule or function), so a pass under plain SHACL means the rules ran.
+#
+# Every rule targets HETO's own records only. A shape targets a HETO class, the subjects of a HETO property, the
+# objects of a HETO property or a HETO term, never a class or property of another ontology. In particular the
+# objective and action specifications checked are the values of HETO's two part properties (has objective
+# specification, HETO_1000005, and has action specification, HETO_1000006), not every IAO objective or
+# action specification, so the learning goals of HELO and the records of other ontologies are not touched (HELO
+# 0.1.0 build and review C, 19 October 2026). An objective or step that is part of no task is stopped by the build,
+# not by a rule here.
+#
+# Every rule keys on structure (types, links and identifiers), never on free text. Every rule is a Violation except
+# the two marked Warning. No rule depends on a figure, a date or a claim about what any body requires.
+
+# ------------------------------------------------------------------ task specifications (the catalogue)
+hsh:TaskSpecificationShape a sh:NodeShape ;
+    sh:targetClass heto:0000001 ;
+    sh:property hsh:TS-label, hsh:TS-definition, hsh:TS-source, hsh:TS-objective, hsh:TS-action, hsh:TS-inputs,
+        hsh:TS-output, hsh:TS-role, hsh:TS-guidance .
+
+hsh:TS-label a sh:PropertyShape ; sh:path rdfs:label ; sh:minCount 1 ; sh:uniqueLang true ;
+    sh:message "A task specification needs a name (rdfs:label), with at most one name in each language." .
+hsh:TS-definition a sh:PropertyShape ; sh:path obo:IAO_0000115 ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:message "A task specification needs exactly one definition." .
+hsh:TS-source a sh:PropertyShape ; sh:path obo:IAO_0000119 ; sh:minCount 1 ; sh:severity sh:Warning ;
+    sh:message "The task specification does not cite a definition source." .
+hsh:TS-objective a sh:PropertyShape ; sh:path heto:1000005 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class obo:IAO_0000005 ;
+    sh:message "A task specification needs exactly one objective specification (its intended result) as a part." .
+hsh:TS-action a sh:PropertyShape ; sh:path heto:1000006 ; sh:minCount 1 ; sh:class obo:IAO_0000007 ;
+    sh:message "A task specification needs at least one action specification as a part." .
+hsh:TS-inputs a sh:PropertyShape ; sh:path heto:3000007 ; sh:minCount 1 ;
+    sh:message "A task specification needs a statement of its usual inputs." .
+hsh:TS-output a sh:PropertyShape ; sh:path heto:3000008 ; sh:minCount 1 ;
+    sh:message "A task specification needs a statement of its expected output." .
+hsh:TS-role a sh:PropertyShape ; sh:path heto:3000006 ; sh:minCount 1 ; sh:nodeKind sh:IRI ;
+    sh:message "A task specification needs at least one practitioner role." .
+hsh:TS-guidance a sh:PropertyShape ; sh:path heto:3000009 ; sh:nodeKind sh:IRI ;
+    sh:message "A guidance resource must be given as the resource's URL." .
+
+# 0.2.0 (Darrin Baines, 17 Oct 2026): HETO links to real things. Every task names a RHEO or OHEO input or output type,
+# and no task carries a HEO concept link in the ontology (HEO links are secondary, in the SSSOM file only).
+hsh:RealTypeLinkShape a sh:NodeShape ;
+    sh:targetClass heto:0000001 ;
+    sh:sparql [
+        sh:message "A task specification must name at least one RHEO or OHEO type as an input or an output. HETO describes work on real things, so HEO concepts or a general IAO document alone are not enough." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            SELECT $this WHERE {
+                FILTER NOT EXISTS {
+                    $this heto:3000003|heto:3000004 ?t .
+                    FILTER (STRSTARTS(STR(?t), "https://healtheconomics.wiki/ontologies/rheo/") || STRSTARTS(STR(?t), "https://healtheconomics.wiki/ontologies/oheo/"))
+                }
+            }""" ] .
+
+hsh:NoHEOLinkShape a sh:NodeShape ;
+    sh:targetClass heto:0000001 ;
+    sh:targetObjectsOf heto:1000005, heto:1000006 ;
+    sh:targetNode heto:0000001 , heto:0000002 , heto:0000010 , heto:0000011 , heto:0000012 , heto:0000013 , heto:0000014 , heto:0000015 , heto:0000016 , heto:0000017 , heto:0000030 , heto:0000040 , heto:0000041 ;
+    sh:sparql [
+        sh:message "This HETO term links the HEO concept {?value} in the ontology. HEO concepts are not real things, so HETO's logical links go to RHEO and OHEO; a related HEO concept belongs only in heto-mappings.sssom.tsv, as a secondary row." ;
+        sh:select """
+            SELECT $this ?value WHERE {
+                $this ?p ?value .
+                FILTER (isIRI(?value) && STRSTARTS(STR(?value), "https://healtheconomics.wiki/concept/"))
+            }""" ] .
+
+hsh:InvolvedTypeShape a sh:NodeShape ;
+    sh:targetClass heto:0000001 ;
+    sh:sparql [
+        sh:message "The involved type {?value} is not a class. Input, output, process and other involved types must be classes from RHEO, OHEO or a reused ontology, never a HEO concept or an individual." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            PREFIX owl: <http://www.w3.org/2002/07/owl#>
+            SELECT $this ?value WHERE {
+                $this heto:3000002|heto:3000003|heto:3000004|heto:3000005 ?value .
+                FILTER NOT EXISTS { ?value a owl:Class }
+            }""" ] ;
+    sh:sparql [
+        sh:message "The involved type {?value} is deprecated in its source ontology; use its replacement." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            PREFIX owl: <http://www.w3.org/2002/07/owl#>
+            SELECT $this ?value WHERE {
+                $this heto:3000002|heto:3000003|heto:3000004|heto:3000005 ?value .
+                ?value a owl:Class ; owl:deprecated true .
+            }""" ] .
+
+hsh:ProcessTypeShape a sh:NodeShape ;
+    sh:targetClass heto:0000001 ;
+    sh:sparql [
+        sh:message "The process type {?value} is a class but not a kind of process (BFO_0000015). A process type names how the work happens; inputs and outputs use has input type and has output type." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            PREFIX owl: <http://www.w3.org/2002/07/owl#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+                $this heto:3000005 ?value . ?value a owl:Class .
+                FILTER NOT EXISTS { ?value rdfs:subClassOf* obo:BFO_0000015 }
+            }""" ] .
+
+hsh:PractitionerRoleShape a sh:NodeShape ;
+    sh:targetClass heto:0000001 ;
+    sh:sparql [
+        sh:message "The practitioner role {?value} is not a health economics practitioner role (HETO_0000040 or a subclass). People, organisations and roles are kept apart, so link the role, not the person or the organisation." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE {
+                $this heto:3000006 ?value .
+                FILTER NOT EXISTS { ?value rdfs:subClassOf* heto:0000040 }
+            }""" ] .
+
+# Classification is not decomposition: a task that is part of a larger task is not a subclass of it.
+hsh:NotASuperclassShape a sh:NodeShape ;
+    sh:targetClass heto:0000001 ;
+    sh:sparql [
+        sh:message "{?value} is declared a subclass of this task specification. A catalogue task is an individual. A smaller piece of its work is linked with has subtask specification (decomposition), and a kind of task is a subclass of task specification (classification)." ;
+        sh:select """
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE { ?value rdfs:subClassOf $this }""" ] .
+
+# ------------------------------------------------------------------ decomposition
+hsh:DecompositionShape a sh:NodeShape ;
+    sh:targetSubjectsOf heto:1000001 ;
+    sh:class heto:0000001 ;
+    sh:message "Only a task specification has subtask specifications. Parts of a performance are linked with has part (BFO_0000051)." ;
+    sh:property hsh:DEC-values .
+hsh:DEC-values a sh:PropertyShape ; sh:path heto:1000001 ; sh:class heto:0000001 ;
+    sh:message "A subtask must be a task specification." .
+hsh:DecompositionInverseShape a sh:NodeShape ;
+    sh:targetSubjectsOf heto:1000002 ;
+    sh:class heto:0000001 ;
+    sh:message "Only a task specification is a subtask specification of another. Parts of a performance are linked with part of (BFO_0000050)." ;
+    sh:property hsh:DECINV-values .
+hsh:DECINV-values a sh:PropertyShape ; sh:path heto:1000002 ; sh:class heto:0000001 ;
+    sh:message "A task specification can only be a subtask of another task specification." .
+# Loops are followed through both directions of decomposition, has subtask specification and its inverse.
+hsh:DecompositionAcyclicShape a sh:NodeShape ;
+    sh:targetSubjectsOf heto:1000001, heto:1000002 ;
+    sh:targetObjectsOf heto:1000001, heto:1000002 ;
+    sh:sparql [
+        sh:message "Decomposition loops back. This task specification is, through its subtasks, a subtask of itself." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            SELECT $this WHERE { $this (heto:1000001|^heto:1000002)+ $this }""" ] .
+
+# ------------------------------------------------------------------ ordering
+hsh:OrderingShape a sh:NodeShape ;
+    sh:targetSubjectsOf heto:1000003 ;
+    sh:class heto:0000001 ;
+    sh:message "Only task specifications are ordered with normally precedes. The order of particular performances uses BFO precedes (BFO_0000063)." ;
+    sh:property hsh:ORD-values .
+hsh:ORD-values a sh:PropertyShape ; sh:path heto:1000003 ; sh:class heto:0000001 ;
+    sh:message "A task specification can only normally precede another task specification." .
+hsh:OrderingInverseShape a sh:NodeShape ;
+    sh:targetSubjectsOf heto:1000004 ;
+    sh:class heto:0000001 ;
+    sh:message "Only task specifications are ordered with normally preceded by. The order of particular performances uses BFO preceded by (BFO_0000062)." ;
+    sh:property hsh:ORDINV-values .
+hsh:ORDINV-values a sh:PropertyShape ; sh:path heto:1000004 ; sh:class heto:0000001 ;
+    sh:message "A task specification can only be normally preceded by another task specification." .
+# Ordering and part and whole are followed through both directions of each relation.
+hsh:OrderingAcyclicShape a sh:NodeShape ;
+    sh:targetSubjectsOf heto:1000003, heto:1000004 ;
+    sh:targetObjectsOf heto:1000003, heto:1000004 ;
+    sh:sparql [
+        sh:message "Ordering loops back. Following normally precedes from this task specification returns to it." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            SELECT $this WHERE { $this (heto:1000003|^heto:1000004)+ $this }""" ] .
+hsh:OrderingNotWithinWholeShape a sh:NodeShape ;
+    sh:targetSubjectsOf heto:1000003, heto:1000004 ;
+    sh:sparql [
+        sh:message "This task specification is ordered against {?value}, which is its own part or whole. Ordering holds between separate pieces of work; part and whole are decomposition." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            SELECT $this ?value WHERE {
+                $this heto:1000003|heto:1000004 ?value .
+                { $this (heto:1000001|^heto:1000002)+ ?value } UNION { ?value (heto:1000001|^heto:1000002)+ $this }
+            }""" ] .
+
+# ------------------------------------------------------------------ objective and action specifications
+hsh:ObjectiveLabelShape a sh:NodeShape ;
+    sh:targetObjectsOf heto:1000005 ;
+    sh:property hsh:OBJ-label .
+hsh:OBJ-label a sh:PropertyShape ; sh:path rdfs:label ; sh:minCount 1 ;
+    sh:message "An objective specification of a task needs its text as a label." .
+hsh:ActionLabelShape a sh:NodeShape ;
+    sh:targetObjectsOf heto:1000006 ;
+    sh:property hsh:ACT-label .
+hsh:ACT-label a sh:PropertyShape ; sh:path rdfs:label ; sh:minCount 1 ;
+    sh:message "An action specification of a task needs its text as a label." .
+
+# ------------------------------------------------------------------ performances (records of work done)
+hsh:PerformanceShape a sh:NodeShape ;
+    sh:targetClass heto:0000030 ;
+    sh:property hsh:PERF-prescribed .
+hsh:PERF-prescribed a sh:PropertyShape ; sh:path obo:RO_0017010 ; sh:minCount 1 ; sh:class heto:0000001 ;
+    sh:message "A task performance must name the HETO task specification that prescribes it (specified by information, RO_0017010)." .
+hsh:PerformanceObjectiveShape a sh:NodeShape ;
+    sh:targetClass heto:0000030 ;
+    sh:sparql [
+        sh:message "The performance claims to achieve {?value}, which is not the objective of the task specification it follows." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+                $this obo:OBI_0000417 ?value .
+                FILTER NOT EXISTS { $this obo:RO_0017010 ?t . ?t heto:1000005 ?value }
+            }""" ] .
+hsh:PerformancePartShape a sh:NodeShape ;
+    sh:targetClass heto:0000030 ;
+    sh:sparql [
+        sh:message "This performance is part of {?value}, but the task it follows is not a subtask of the task {?value} follows. Performances are parts of each other only as the catalogue decomposes their tasks." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            SELECT $this ?value WHERE {
+                { $this obo:BFO_0000050 ?value } UNION { ?value obo:BFO_0000051 $this }
+                ?value a heto:0000030 .
+                FILTER NOT EXISTS { $this obo:RO_0017010 ?t . ?value obo:RO_0017010 ?w . ?w heto:1000001+ ?t }
+            }""" ] .
+hsh:PerformanceParticipantShape a sh:NodeShape ;
+    sh:targetClass heto:0000030 ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        sh:message "No participant of this performance is recorded as bearing a health economics practitioner role." ;
+        sh:select """
+            PREFIX heto: <https://healtheconomics.wiki/ontologies/heto/HETO_>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE {
+                FILTER NOT EXISTS { $this obo:RO_0000057 ?p . ?p obo:RO_0000087 ?r . ?r a ?rc . ?rc rdfs:subClassOf* heto:0000040 }
+            }""" ] .

@@ -1,0 +1,218 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix rheo:    <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix obo:     <http://purl.obolibrary.org/obo/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rnishape: <https://healtheconomics.wiki/ontologies/rheo/rni/shapes#> .
+
+# Record rules of the RNI module (adopted reading for version 0.3.0, kept apart from the core). Written by
+# src/rni_module.py; do not edit by hand. Use with rheo-shapes.ttl and with rheo.ttl and rheo-rni.ttl loaded
+# (run_demo.py does this). The RNI computation is the same text as cq/rni-rules.rq.
+<https://healtheconomics.wiki/ontologies/rheo/rni/shapes> a owl:Ontology ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo-rni-shapes.ttl> ;
+    owl:versionInfo "0.4.0 (adopted reading, separate module)" ;
+    dcterms:title "RHEO RNI module record rules"@en .
+
+rnishape:AssertedTypeShape a sh:NodeShape ;
+    sh:targetClass rheo:0000067 ;
+    sh:sparql [ sh:message "The asserted RNI type of this transition contradicts its observations and the recorded changes in possibilities." ;
+        sh:select """      PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+      PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX obo:  <http://purl.obolibrary.org/obo/>
+
+            SELECT $this ?value WHERE { 
+  $this rheo:1000045 ?a ; rheo:1000046 ?b .   # a transition record (the domain of both relations), however it is typed
+  ?a rheo:1000043 ?sa ; rheo:1000042 ?xa ; rheo:2000040 ?da ; rheo:1000040 ?ent . ?b rheo:1000042 ?xb ; rheo:2000040 ?db .
+  # the later state related back to the earlier one through recorded refinements, renamings and mergers (a classification revision is neutralised);
+  # the comparison is made at the coarser of the two levels of detail
+  BIND (?xb = ?xa || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xa } || EXISTS { ?xa (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xb } AS ?same)
+  BIND (?same && ?xa != ?xb AS ?coarse)
+  # recorded possibility changes that opened the later state (or a state it refines or renames) for this entity: an opening
+  # that names an area counts only for entities located in it
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o1 . ?pc1 a rheo:0000128 ; rheo:1000091 ?o1 ; rheo:2000071 ?e1 .
+        FILTER NOT EXISTS { ?pc1 rheo:1000116 ?ar1 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar1 } } FILTER (STR(?e1) > STR(?da) && STR(?e1) <= STR(?db)) } AS ?opened)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o2 . ?pc2 a rheo:0000128 ; rheo:1000091 ?o2 ; rheo:2000071 ?e2 .
+        FILTER NOT EXISTS { ?pc2 rheo:1000116 ?ar2 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar2 } } FILTER (STR(?e2) <= STR(?da)) } AS ?openedBefore)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o3 . ?pc3 a rheo:0000128 ; rheo:1000091 ?o3 ; rheo:2000071 ?e3 .
+        FILTER NOT EXISTS { ?pc3 rheo:1000116 ?ar3 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar3 } } FILTER (STR(?e3) > STR(?db)) } AS ?openedLater)
+  # listed in the scheme version of the earlier observation (or refines a state that was); listing counts as open only if
+  # no recorded opening of the state is dated after the later observation
+  BIND (EXISTS { ?xb rheo:1000044 ?sa } || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?ante . ?ante rheo:1000044 ?sa } AS ?listed)
+  BIND (?openedBefore || (?listed && !?openedLater) AS ?wasOpen)
+  # the later observation records a change in knowledge, not in the entity
+  BIND (EXISTS { ?k a rheo:0000130 ; rheo:1000095 ?b } AS ?known)
+  # state maintenance resource use whose date, or period, overlaps the interval between the two observations
+  BIND (EXISTS { $this rheo:1000110 ?ev . ?ev rheo:2000040 ?de . FILTER (STR(?de) >= STR(?da) && STR(?de) <= STR(?db)) }
+        || EXISTS { $this rheo:1000110 ?ev2 . ?ev2 rheo:2000041 ?ps . FILTER (STR(?ps) <= STR(?db))
+                     FILTER NOT EXISTS { ?ev2 rheo:2000042 ?pe . FILTER (STR(?pe) < STR(?da)) } } AS ?maintained)
+  BIND (IF(?same, rheo:0000068, IF(?known, rheo:0000131, IF(?opened, rheo:0000070, IF(?wasOpen, rheo:0000069, rheo:0000131)))) AS ?computed)
+  BIND (IF(?computed = rheo:0000068 && ?maintained, rheo:0000133, ?none) AS ?reading)
+  BIND (IF(?computed = rheo:0000131, IF(?known, "knowledge change: the later observation records what was learnt, not a change in the entity",
+           IF(?listed && ?openedLater, "entered before the recorded opening: the state is listed, but the change in possibilities that opened it is dated after the later observation",
+              "classification only: the later state is new to the classification and no change in possibilities is recorded")), ?none) AS ?why)
+
+              $this a ?value . FILTER (?value IN (rheo:0000068, rheo:0000069, rheo:0000070, rheo:0000131) && ?value != ?computed) }""" ] .
+
+rnishape:InnovationEvidenceShape a sh:NodeShape ;
+    sh:targetClass rheo:0000070 ;
+    sh:sparql [ sh:message "An innovation needs a recorded possibility change that opened the later state between the two observations; a new category in a classification, or a classification revision, is not enough." ;
+        sh:select """      PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+      PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX obo:  <http://purl.obolibrary.org/obo/>
+
+            SELECT $this WHERE { 
+  $this rheo:1000045 ?a ; rheo:1000046 ?b .   # a transition record (the domain of both relations), however it is typed
+  ?a rheo:1000043 ?sa ; rheo:1000042 ?xa ; rheo:2000040 ?da ; rheo:1000040 ?ent . ?b rheo:1000042 ?xb ; rheo:2000040 ?db .
+  # the later state related back to the earlier one through recorded refinements, renamings and mergers (a classification revision is neutralised);
+  # the comparison is made at the coarser of the two levels of detail
+  BIND (?xb = ?xa || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xa } || EXISTS { ?xa (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xb } AS ?same)
+  BIND (?same && ?xa != ?xb AS ?coarse)
+  # recorded possibility changes that opened the later state (or a state it refines or renames) for this entity: an opening
+  # that names an area counts only for entities located in it
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o1 . ?pc1 a rheo:0000128 ; rheo:1000091 ?o1 ; rheo:2000071 ?e1 .
+        FILTER NOT EXISTS { ?pc1 rheo:1000116 ?ar1 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar1 } } FILTER (STR(?e1) > STR(?da) && STR(?e1) <= STR(?db)) } AS ?opened)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o2 . ?pc2 a rheo:0000128 ; rheo:1000091 ?o2 ; rheo:2000071 ?e2 .
+        FILTER NOT EXISTS { ?pc2 rheo:1000116 ?ar2 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar2 } } FILTER (STR(?e2) <= STR(?da)) } AS ?openedBefore)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o3 . ?pc3 a rheo:0000128 ; rheo:1000091 ?o3 ; rheo:2000071 ?e3 .
+        FILTER NOT EXISTS { ?pc3 rheo:1000116 ?ar3 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar3 } } FILTER (STR(?e3) > STR(?db)) } AS ?openedLater)
+  # listed in the scheme version of the earlier observation (or refines a state that was); listing counts as open only if
+  # no recorded opening of the state is dated after the later observation
+  BIND (EXISTS { ?xb rheo:1000044 ?sa } || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?ante . ?ante rheo:1000044 ?sa } AS ?listed)
+  BIND (?openedBefore || (?listed && !?openedLater) AS ?wasOpen)
+  # the later observation records a change in knowledge, not in the entity
+  BIND (EXISTS { ?k a rheo:0000130 ; rheo:1000095 ?b } AS ?known)
+  # state maintenance resource use whose date, or period, overlaps the interval between the two observations
+  BIND (EXISTS { $this rheo:1000110 ?ev . ?ev rheo:2000040 ?de . FILTER (STR(?de) >= STR(?da) && STR(?de) <= STR(?db)) }
+        || EXISTS { $this rheo:1000110 ?ev2 . ?ev2 rheo:2000041 ?ps . FILTER (STR(?ps) <= STR(?db))
+                     FILTER NOT EXISTS { ?ev2 rheo:2000042 ?pe . FILTER (STR(?pe) < STR(?da)) } } AS ?maintained)
+  BIND (IF(?same, rheo:0000068, IF(?known, rheo:0000131, IF(?opened, rheo:0000070, IF(?wasOpen, rheo:0000069, rheo:0000131)))) AS ?computed)
+  BIND (IF(?computed = rheo:0000068 && ?maintained, rheo:0000133, ?none) AS ?reading)
+  BIND (IF(?computed = rheo:0000131, IF(?known, "knowledge change: the later observation records what was learnt, not a change in the entity",
+           IF(?listed && ?openedLater, "entered before the recorded opening: the state is listed, but the change in possibilities that opened it is dated after the later observation",
+              "classification only: the later state is new to the classification and no change in possibilities is recorded")), ?none) AS ?why)
+ FILTER (!?opened) }""" ] .
+
+rnishape:ActiveReproductionShape a sh:NodeShape ;
+    sh:targetClass rheo:0000133 ;
+    sh:sparql [ sh:message "An actively reproduced replacement must be a replacement with linked state maintenance resource use (a process, intervention or resource use) dated between the two observations." ;
+        sh:select """      PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+      PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX obo:  <http://purl.obolibrary.org/obo/>
+
+            SELECT $this WHERE { 
+  $this rheo:1000045 ?a ; rheo:1000046 ?b .   # a transition record (the domain of both relations), however it is typed
+  ?a rheo:1000043 ?sa ; rheo:1000042 ?xa ; rheo:2000040 ?da ; rheo:1000040 ?ent . ?b rheo:1000042 ?xb ; rheo:2000040 ?db .
+  # the later state related back to the earlier one through recorded refinements, renamings and mergers (a classification revision is neutralised);
+  # the comparison is made at the coarser of the two levels of detail
+  BIND (?xb = ?xa || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xa } || EXISTS { ?xa (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xb } AS ?same)
+  BIND (?same && ?xa != ?xb AS ?coarse)
+  # recorded possibility changes that opened the later state (or a state it refines or renames) for this entity: an opening
+  # that names an area counts only for entities located in it
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o1 . ?pc1 a rheo:0000128 ; rheo:1000091 ?o1 ; rheo:2000071 ?e1 .
+        FILTER NOT EXISTS { ?pc1 rheo:1000116 ?ar1 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar1 } } FILTER (STR(?e1) > STR(?da) && STR(?e1) <= STR(?db)) } AS ?opened)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o2 . ?pc2 a rheo:0000128 ; rheo:1000091 ?o2 ; rheo:2000071 ?e2 .
+        FILTER NOT EXISTS { ?pc2 rheo:1000116 ?ar2 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar2 } } FILTER (STR(?e2) <= STR(?da)) } AS ?openedBefore)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o3 . ?pc3 a rheo:0000128 ; rheo:1000091 ?o3 ; rheo:2000071 ?e3 .
+        FILTER NOT EXISTS { ?pc3 rheo:1000116 ?ar3 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar3 } } FILTER (STR(?e3) > STR(?db)) } AS ?openedLater)
+  # listed in the scheme version of the earlier observation (or refines a state that was); listing counts as open only if
+  # no recorded opening of the state is dated after the later observation
+  BIND (EXISTS { ?xb rheo:1000044 ?sa } || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?ante . ?ante rheo:1000044 ?sa } AS ?listed)
+  BIND (?openedBefore || (?listed && !?openedLater) AS ?wasOpen)
+  # the later observation records a change in knowledge, not in the entity
+  BIND (EXISTS { ?k a rheo:0000130 ; rheo:1000095 ?b } AS ?known)
+  # state maintenance resource use whose date, or period, overlaps the interval between the two observations
+  BIND (EXISTS { $this rheo:1000110 ?ev . ?ev rheo:2000040 ?de . FILTER (STR(?de) >= STR(?da) && STR(?de) <= STR(?db)) }
+        || EXISTS { $this rheo:1000110 ?ev2 . ?ev2 rheo:2000041 ?ps . FILTER (STR(?ps) <= STR(?db))
+                     FILTER NOT EXISTS { ?ev2 rheo:2000042 ?pe . FILTER (STR(?pe) < STR(?da)) } } AS ?maintained)
+  BIND (IF(?same, rheo:0000068, IF(?known, rheo:0000131, IF(?opened, rheo:0000070, IF(?wasOpen, rheo:0000069, rheo:0000131)))) AS ?computed)
+  BIND (IF(?computed = rheo:0000068 && ?maintained, rheo:0000133, ?none) AS ?reading)
+  BIND (IF(?computed = rheo:0000131, IF(?known, "knowledge change: the later observation records what was learnt, not a change in the entity",
+           IF(?listed && ?openedLater, "entered before the recorded opening: the state is listed, but the change in possibilities that opened it is dated after the later observation",
+              "classification only: the later state is new to the classification and no change in possibilities is recorded")), ?none) AS ?why)
+ FILTER (!BOUND(?reading)) }""" ] .
+
+rnishape:CoarseReplacementWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000067 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "Replacement judged at the coarser of two levels of detail (through a refinement, renaming or merger): progression within the refined or merged state cannot be detected." ;
+        sh:select """      PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+      PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX obo:  <http://purl.obolibrary.org/obo/>
+
+            SELECT $this WHERE { 
+  $this rheo:1000045 ?a ; rheo:1000046 ?b .   # a transition record (the domain of both relations), however it is typed
+  ?a rheo:1000043 ?sa ; rheo:1000042 ?xa ; rheo:2000040 ?da ; rheo:1000040 ?ent . ?b rheo:1000042 ?xb ; rheo:2000040 ?db .
+  # the later state related back to the earlier one through recorded refinements, renamings and mergers (a classification revision is neutralised);
+  # the comparison is made at the coarser of the two levels of detail
+  BIND (?xb = ?xa || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xa } || EXISTS { ?xa (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xb } AS ?same)
+  BIND (?same && ?xa != ?xb AS ?coarse)
+  # recorded possibility changes that opened the later state (or a state it refines or renames) for this entity: an opening
+  # that names an area counts only for entities located in it
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o1 . ?pc1 a rheo:0000128 ; rheo:1000091 ?o1 ; rheo:2000071 ?e1 .
+        FILTER NOT EXISTS { ?pc1 rheo:1000116 ?ar1 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar1 } } FILTER (STR(?e1) > STR(?da) && STR(?e1) <= STR(?db)) } AS ?opened)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o2 . ?pc2 a rheo:0000128 ; rheo:1000091 ?o2 ; rheo:2000071 ?e2 .
+        FILTER NOT EXISTS { ?pc2 rheo:1000116 ?ar2 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar2 } } FILTER (STR(?e2) <= STR(?da)) } AS ?openedBefore)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o3 . ?pc3 a rheo:0000128 ; rheo:1000091 ?o3 ; rheo:2000071 ?e3 .
+        FILTER NOT EXISTS { ?pc3 rheo:1000116 ?ar3 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar3 } } FILTER (STR(?e3) > STR(?db)) } AS ?openedLater)
+  # listed in the scheme version of the earlier observation (or refines a state that was); listing counts as open only if
+  # no recorded opening of the state is dated after the later observation
+  BIND (EXISTS { ?xb rheo:1000044 ?sa } || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?ante . ?ante rheo:1000044 ?sa } AS ?listed)
+  BIND (?openedBefore || (?listed && !?openedLater) AS ?wasOpen)
+  # the later observation records a change in knowledge, not in the entity
+  BIND (EXISTS { ?k a rheo:0000130 ; rheo:1000095 ?b } AS ?known)
+  # state maintenance resource use whose date, or period, overlaps the interval between the two observations
+  BIND (EXISTS { $this rheo:1000110 ?ev . ?ev rheo:2000040 ?de . FILTER (STR(?de) >= STR(?da) && STR(?de) <= STR(?db)) }
+        || EXISTS { $this rheo:1000110 ?ev2 . ?ev2 rheo:2000041 ?ps . FILTER (STR(?ps) <= STR(?db))
+                     FILTER NOT EXISTS { ?ev2 rheo:2000042 ?pe . FILTER (STR(?pe) < STR(?da)) } } AS ?maintained)
+  BIND (IF(?same, rheo:0000068, IF(?known, rheo:0000131, IF(?opened, rheo:0000070, IF(?wasOpen, rheo:0000069, rheo:0000131)))) AS ?computed)
+  BIND (IF(?computed = rheo:0000068 && ?maintained, rheo:0000133, ?none) AS ?reading)
+  BIND (IF(?computed = rheo:0000131, IF(?known, "knowledge change: the later observation records what was learnt, not a change in the entity",
+           IF(?listed && ?openedLater, "entered before the recorded opening: the state is listed, but the change in possibilities that opened it is dated after the later observation",
+              "classification only: the later state is new to the classification and no change in possibilities is recorded")), ?none) AS ?why)
+ FILTER (?computed = rheo:0000068 && ?coarse) }""" ] .
+
+rnishape:UnclassifiedWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000067 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "RNI leaves this transition unclassified: {?value}." ;
+        sh:select """      PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+      PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX obo:  <http://purl.obolibrary.org/obo/>
+
+            SELECT $this ?value WHERE { 
+  $this rheo:1000045 ?a ; rheo:1000046 ?b .   # a transition record (the domain of both relations), however it is typed
+  ?a rheo:1000043 ?sa ; rheo:1000042 ?xa ; rheo:2000040 ?da ; rheo:1000040 ?ent . ?b rheo:1000042 ?xb ; rheo:2000040 ?db .
+  # the later state related back to the earlier one through recorded refinements, renamings and mergers (a classification revision is neutralised);
+  # the comparison is made at the coarser of the two levels of detail
+  BIND (?xb = ?xa || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xa } || EXISTS { ?xa (rheo:1000081|rheo:1000082|rheo:1000087)+ ?xb } AS ?same)
+  BIND (?same && ?xa != ?xb AS ?coarse)
+  # recorded possibility changes that opened the later state (or a state it refines or renames) for this entity: an opening
+  # that names an area counts only for entities located in it
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o1 . ?pc1 a rheo:0000128 ; rheo:1000091 ?o1 ; rheo:2000071 ?e1 .
+        FILTER NOT EXISTS { ?pc1 rheo:1000116 ?ar1 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar1 } } FILTER (STR(?e1) > STR(?da) && STR(?e1) <= STR(?db)) } AS ?opened)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o2 . ?pc2 a rheo:0000128 ; rheo:1000091 ?o2 ; rheo:2000071 ?e2 .
+        FILTER NOT EXISTS { ?pc2 rheo:1000116 ?ar2 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar2 } } FILTER (STR(?e2) <= STR(?da)) } AS ?openedBefore)
+  BIND (EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)* ?o3 . ?pc3 a rheo:0000128 ; rheo:1000091 ?o3 ; rheo:2000071 ?e3 .
+        FILTER NOT EXISTS { ?pc3 rheo:1000116 ?ar3 . FILTER NOT EXISTS { ?ent obo:RO_0001025 ?ar3 } } FILTER (STR(?e3) > STR(?db)) } AS ?openedLater)
+  # listed in the scheme version of the earlier observation (or refines a state that was); listing counts as open only if
+  # no recorded opening of the state is dated after the later observation
+  BIND (EXISTS { ?xb rheo:1000044 ?sa } || EXISTS { ?xb (rheo:1000081|rheo:1000082|rheo:1000087)+ ?ante . ?ante rheo:1000044 ?sa } AS ?listed)
+  BIND (?openedBefore || (?listed && !?openedLater) AS ?wasOpen)
+  # the later observation records a change in knowledge, not in the entity
+  BIND (EXISTS { ?k a rheo:0000130 ; rheo:1000095 ?b } AS ?known)
+  # state maintenance resource use whose date, or period, overlaps the interval between the two observations
+  BIND (EXISTS { $this rheo:1000110 ?ev . ?ev rheo:2000040 ?de . FILTER (STR(?de) >= STR(?da) && STR(?de) <= STR(?db)) }
+        || EXISTS { $this rheo:1000110 ?ev2 . ?ev2 rheo:2000041 ?ps . FILTER (STR(?ps) <= STR(?db))
+                     FILTER NOT EXISTS { ?ev2 rheo:2000042 ?pe . FILTER (STR(?pe) < STR(?da)) } } AS ?maintained)
+  BIND (IF(?same, rheo:0000068, IF(?known, rheo:0000131, IF(?opened, rheo:0000070, IF(?wasOpen, rheo:0000069, rheo:0000131)))) AS ?computed)
+  BIND (IF(?computed = rheo:0000068 && ?maintained, rheo:0000133, ?none) AS ?reading)
+  BIND (IF(?computed = rheo:0000131, IF(?known, "knowledge change: the later observation records what was learnt, not a change in the entity",
+           IF(?listed && ?openedLater, "entered before the recorded opening: the state is listed, but the change in possibilities that opened it is dated after the later observation",
+              "classification only: the later state is new to the classification and no change in possibilities is recorded")), ?none) AS ?why)
+ FILTER (BOUND(?why)) BIND (?why AS ?value) }""" ] .

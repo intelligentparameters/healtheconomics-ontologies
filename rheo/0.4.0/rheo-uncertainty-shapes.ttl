@@ -1,0 +1,122 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix rheo:    <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix ushape:  <https://healtheconomics.wiki/ontologies/rheo/uncertainty/shapes#> .
+
+# Record rules of the uncertainty extension module, version 0.3.0. Written by src/uncertainty_module.py; do not edit by hand.
+<https://healtheconomics.wiki/ontologies/rheo/uncertainty/shapes> a owl:Ontology ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo-uncertainty-shapes.ttl> ;
+    owl:versionInfo "0.4.0" ;
+    dcterms:title "RHEO uncertainty extension record rules"@en .
+
+ushape:Numeric a sh:NodeShape ; sh:or ( [ sh:datatype xsd:decimal ] [ sh:datatype xsd:integer ] ) .
+
+ushape:DistributionParameterShape a sh:NodeShape ;
+    sh:targetClass rheo:0000140 ;
+    sh:property [ sh:path rheo:2000081 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( "alpha" "beta" "shape" "scale" "rate" "mean" "sd" "meanlog" "sdlog" ) ;
+        sh:message "A distribution parameter needs one name: alpha, beta, shape, scale, rate, mean, sd, meanlog or sdlog." ] ;
+    sh:property [ sh:path rheo:2000001 ; sh:minCount 1 ; sh:maxCount 1 ; sh:node ushape:Numeric ;
+        sh:message "A distribution parameter needs exactly one numeric value." ] ;
+    sh:sparql [ sh:message "This parameter must be greater than zero (alpha, beta, shape, scale, rate, sd and sdlog are positive)." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:2000081 ?n ; rheo:2000001 ?value . FILTER (?n IN ("alpha", "beta", "shape", "scale", "rate", "sd", "sdlog") && ?value <= 0) }""" ] .
+
+ushape:StructuredDistributionShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:1000111 ;
+    sh:sparql [ sh:message "The structured parameters do not match the distribution family: beta needs alpha and beta; Gamma needs shape and scale or rate; log normal needs meanlog and sdlog; normal needs mean and sd." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE {
+              $this rheo:2000014 ?fam .
+              BIND (STR(?fam) AS ?f)
+              BIND (EXISTS { $this rheo:1000111/rheo:2000081 "alpha" } && EXISTS { $this rheo:1000111/rheo:2000081 "beta" } AS ?beta)
+              BIND (EXISTS { $this rheo:1000111/rheo:2000081 "shape" } && (EXISTS { $this rheo:1000111/rheo:2000081 "scale" } || EXISTS { $this rheo:1000111/rheo:2000081 "rate" }) AS ?gamma)
+              BIND (EXISTS { $this rheo:1000111/rheo:2000081 "meanlog" } && EXISTS { $this rheo:1000111/rheo:2000081 "sdlog" } AS ?lnorm)
+              BIND (EXISTS { $this rheo:1000111/rheo:2000081 "mean" } && EXISTS { $this rheo:1000111/rheo:2000081 "sd" } AS ?norm)
+              FILTER ((STRENDS(?f, "STATO_0000177") && !?beta) || (STRENDS(?f, "STATO_0000268") && !?gamma)
+                   || (STRENDS(?f, "STATO_0000438") && !?lnorm) || (STRENDS(?f, "STATO_0000227") && !?norm))
+            }""" ] ;
+    sh:sparql [ sh:message "Structured distribution parameters need the distribution family." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this rheo:2000014 ?fam } }""" ] ;
+    sh:sparql [ sh:message "The same parameter name is given twice." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { $this rheo:1000111 ?p1, ?p2 . ?p1 rheo:2000081 ?n . ?p2 rheo:2000081 ?n . FILTER (?p1 != ?p2) }""" ] .
+
+ushape:TextCopyShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:1000111 ;
+    sh:sparql [ sh:message "The text copy of the distribution parameters disagrees with the structured parameters, which are authoritative ({?value})." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT $this ?value WHERE {
+              $this rheo:2000015 ?txt ; rheo:1000111 ?p . ?p rheo:2000081 ?value ; rheo:2000001 ?v .
+              BIND (STRAFTER(CONCAT(";", REPLACE(STR(?txt), " ", "")), CONCAT(";", ?value, "=")) AS ?rest)
+              BIND (xsd:decimal(STRBEFORE(CONCAT(?rest, ";"), ";")) AS ?tv)
+              FILTER (?rest = "" || !BOUND(?tv) || ABS(?tv - ?v) > 0.000001)
+            }""" ] .
+
+ushape:DrawnDistributionShape a sh:NodeShape ;
+    sh:targetSubjectsOf rheo:1000114 ;
+    sh:property [ sh:path rheo:2000014 ; sh:minCount 1 ; sh:message "A quantity drawn in a draw set needs its distribution family." ] ;
+    sh:property [ sh:path rheo:1000111 ; sh:minCount 1 ; sh:message "A quantity drawn in a draw set needs its structured distribution parameters." ] .
+
+ushape:PSACoverageShape a sh:NodeShape ;
+    sh:targetObjectsOf rheo:1000115 ;
+    sh:sparql [ sh:message "This probabilistic run neither draws, nor derives from drawn quantities, the value assigned by {?value}, and gives no reason for holding it fixed." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE {
+              ?ds rheo:1000115 $this . $this rheo:1000018 ?value . ?value rheo:1000010|rheo:1000011 ?b .
+              FILTER NOT EXISTS { ?b rheo:1000006/rheo:1000114 ?ds }
+              FILTER NOT EXISTS { ?b rheo:1000026 ?d0 . FILTER NOT EXISTS { ?b rheo:1000026 ?d . FILTER NOT EXISTS { ?d rheo:1000006/rheo:1000114 ?ds } } }
+              FILTER NOT EXISTS { ?value rheo:2000091 ?why }
+            }""" ] .
+
+ushape:JointShape a sh:NodeShape ;
+    sh:targetClass rheo:0000141 ;
+    sh:property [ sh:path rheo:2000090 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( "independent sampling" "Cholesky decomposition" "Gaussian copula" "Iman-Conover" "bootstrap" "joint posterior sample" ) ;
+        sh:message "A joint uncertainty specification must state its dependence method: independent sampling, Cholesky decomposition, Gaussian copula, Iman-Conover, bootstrap or joint posterior sample." ] ;
+    sh:sparql [ sh:message "The correlations stated for three of these quantities cannot hold together: the correlation matrix is not positive semi-definite." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE {
+              ?c12 rheo:1000118 $this ; rheo:1000113 ?u1, ?u2 ; rheo:2000082 ?r12 .
+              ?c13 rheo:1000118 $this ; rheo:1000113 ?u1, ?u3 ; rheo:2000082 ?r13 .
+              ?c23 rheo:1000118 $this ; rheo:1000113 ?u2, ?u3 ; rheo:2000082 ?r23 .
+              FILTER (STR(?u1) < STR(?u2) && STR(?u2) < STR(?u3))
+              FILTER (1 + 2 * ?r12 * ?r13 * ?r23 - ?r12 * ?r12 - ?r13 * ?r13 - ?r23 * ?r23 < -0.000000001)
+            }""" ] ;
+    sh:property [ sh:path rheo:1000112 ; sh:minCount 2 ; sh:class rheo:0000019 ;
+        sh:message "A joint uncertainty specification covers at least two quantities, each given by its own uncertainty specification." ] ;
+    sh:property [ sh:path rheo:2000087 ; sh:minCount 1 ; sh:message "A joint uncertainty specification must state its form, such as Dirichlet, multivariate normal or independent." ] .
+
+ushape:CorrelationShape a sh:NodeShape ;
+    sh:targetClass rheo:0000142 ;
+    sh:property [ sh:path rheo:1000113 ; sh:minCount 2 ; sh:maxCount 2 ; sh:class rheo:0000019 ;
+        sh:message "A correlation specification relates exactly two uncertainty specifications." ] ;
+    sh:property [ sh:path rheo:2000082 ; sh:maxCount 1 ; sh:minInclusive -1 ; sh:maxInclusive 1 ;
+        sh:message "A correlation coefficient lies between -1 and 1." ] ;
+    sh:property [ sh:path rheo:2000083 ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "Pearson" "Spearman rank" "covariance" ) ;
+        sh:message "A correlation specification must say whether it is a Pearson correlation, a Spearman rank correlation or a covariance." ] ;
+    sh:or ( [ sh:path rheo:2000082 ; sh:minCount 1 ] [ sh:path rheo:2000084 ; sh:minCount 1 ] ) ;
+    sh:message "A correlation specification needs a correlation coefficient or a covariance." ;
+    sh:property [ sh:path rheo:2000016 ; sh:minCount 1 ; sh:message "A correlation specification must state where the value comes from or why it was imposed." ] ;
+    sh:property [ sh:path rheo:1000118 ; sh:minCount 1 ; sh:maxCount 1 ; sh:class rheo:0000141 ;
+        sh:message "A correlation specification must belong to one joint uncertainty specification, which states how the correlated draws are produced." ] ;
+    sh:sparql [ sh:message "Both correlated quantities must be marginals of the joint uncertainty specification the correlation belongs to." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?value WHERE { $this rheo:1000118 ?j ; rheo:1000113 ?value . FILTER NOT EXISTS { ?j rheo:1000112 ?value } }""" ] .
+
+ushape:DrawSetShape a sh:NodeShape ;
+    sh:targetClass rheo:0000143 ;
+    sh:property [ sh:path rheo:2000085 ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:positiveInteger ;
+        sh:message "A draw set needs its number of draws, a positive whole number (xsd:positiveInteger)." ] ;
+    sh:property [ sh:path rheo:2000086 ; sh:minCount 1 ; sh:severity sh:Warning ;
+        sh:message "No random seed recorded: the draw set cannot be reproduced." ] .
+ushape:DrawSetWarning a sh:NodeShape ;
+    sh:targetClass rheo:0000143 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "A draw set with fewer than two quantities drawn in it cannot show joint sampling." ;
+        sh:select """PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { ?u1 rheo:1000114 $this . ?u2 rheo:1000114 $this . FILTER (?u1 != ?u2) } }""" ] .

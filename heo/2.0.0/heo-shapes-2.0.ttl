@@ -1,0 +1,39 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix heo: <https://healtheconomics.wiki/ontologies/heo#> .
+@prefix heos: <https://healtheconomics.wiki/ontologies/heo/shapes#> .
+
+# Quality rules for HEO 1.0 (12 Oct 2026). They replace heo-shapes-v0.1.ttl, which targeted the 0.1.x OWL classes.
+# The HEO 1.0 plan uses these instead of domain and range axioms.
+
+heos:ConceptShape a sh:NodeShape ;
+    sh:targetClass skos:Concept ;
+    sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:uniqueLang true ; sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ;
+                  sh:message "Every concept has one English preferred label." ] ;
+    sh:property [ sh:path skos:inScheme ; sh:minCount 1 ; sh:message "Every concept belongs to a concept scheme." ] ;
+    sh:property [ sh:path skos:broader ; sh:class skos:Concept ; sh:message "skos:broader points to a concept." ] ;
+    sh:property [ sh:path skos:related ; sh:class skos:Concept ; sh:message "skos:related points to a concept." ] ;
+    sh:property [ sh:path heo:partOf ; sh:class skos:Concept ; sh:message "part of points to a concept." ] ;
+    sh:property [ sh:path heo:measures ; sh:class skos:Concept ; sh:message "measures points to a concept." ] ;
+    sh:property [ sh:path heo:usedToCalculate ; sh:class skos:Concept ; sh:message "used to calculate points to a concept." ] ;
+    sh:property [ sh:path heo:treats ; sh:class skos:Concept ; sh:message "treats points to a concept." ] ;
+    sh:property [ sh:path heo:riskFactorFor ; sh:class skos:Concept ; sh:message "risk factor for points to a concept." ] ;
+    sh:property [ sh:path heo:precedes ; sh:class skos:Concept ; sh:message "precedes points to a concept." ] .
+
+# A live (not retired) concept has a definition; a retired one says so and is not a target of new links.
+heos:LiveConceptShape a sh:NodeShape ;
+    sh:targetClass skos:Concept ;
+    sh:or ( [ sh:path owl:deprecated ; sh:hasValue true ]
+            [ sh:path skos:definition ; sh:minCount 1 ] ) ;
+    sh:message "A concept that is not retired has a definition." .
+
+heos:NoLinksToRetired a sh:NodeShape ;
+    sh:targetObjectsOf skos:broader, skos:related, heo:partOf, heo:measures, heo:usedToCalculate, heo:treats, heo:riskFactorFor, heo:precedes ;
+    sh:not [ sh:path owl:deprecated ; sh:hasValue true ] ;
+    sh:message "Links point to live concepts, not retired ones." .
+
+heos:NoSelfLinks a sh:NodeShape ;
+    sh:targetSubjectsOf skos:broader ;
+    sh:property [ sh:path skos:broader ; sh:disjoint skos:related ; sh:message "A pair is not both broader and related." ] .

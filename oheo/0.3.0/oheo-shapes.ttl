@@ -1,0 +1,260 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix oheo:    <https://healtheconomics.wiki/ontologies/oheo/OHEO_> .
+@prefix rheo:    <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix obo:     <http://purl.obolibrary.org/obo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix oshape:  <https://healtheconomics.wiki/ontologies/oheo/shapes#> .
+
+# OHEO record rules (SHACL), version 0.2.0. The ontology says what a record MEANS; these rules say whether it is complete
+# and consistent. Severity: Violation = the record cannot be used; Warning = usable, but an analyst must know.
+#
+# Use them together with the RHEO 0.4.0 record rules (imports/rheo-0.3.0-shapes.ttl), which check the RHEO parts of the
+# same records (dates, persons, QALY record fields). Validate WITHOUT inference, with oheo.ttl and RHEO 0.4.0 added to
+# the data graph (run_demo.py does this with pyshacl inference="none"), so that the rules can follow rdfs:subClassOf and
+# read the class restrictions of named instruments and value sets, such as the number of levels of the EQ-5D-3L or the
+# instrument a value set scores (stated on the named class itself). Each query binds the focus node first, in its own
+# group, because rdflib reorders the patterns of a group before the focus node is bound. pyshacl does not copy annotation assertions from ont_graph, so the class labels and the
+# 'names a published artefact' flags (OHEO_9000002) must also be added to the data graph; run_demo.py does this.
+#
+# The three identifiers Darrin Baines asked to be kept apart are checked here: the instrument (a named instrument class),
+# the instrument version (an instance of that class) and the value set (an instance of a named value set class). Text
+# labels for them (RHEO has instrument, has instrument version, has value set) are kept for people to read; where they
+# disagree with the identifiers, the identifiers are authoritative and the record is rejected until the text is corrected.
+
+<https://healtheconomics.wiki/ontologies/oheo/shapes> a owl:Ontology ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/oheo/0.3.0/oheo-shapes.ttl> ;
+    owl:versionInfo "0.3.0" ;
+    dcterms:title "OHEO record rules"@en ;
+    dcterms:issued "2026-10-16" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/oheo/0.3.0/oheo.owl>, <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo-shapes.ttl> ;
+    rdfs:comment "First release of the OHEO record rules. OHEO 0.1.0 had none."@en .
+
+# ------------------------------------------------------------------ instrument, instrument version and value set
+oshape:InstrumentVersionValue a sh:NodeShape ;
+    sh:targetObjectsOf oheo:1000013 ;
+    sh:not [ sh:class oheo:0000105 ] ;
+    sh:message "A value set is not an instrument version: record the instrument version and the value set separately." ;
+    sh:sparql [ sh:message "An instrument version must be an instance of a named instrument, such as the EQ-5D-5L; {$this} is not." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { FILTER NOT EXISTS { { $this a ?c . } { ?c oheo:9000002 true . } FILTER EXISTS { ?c rdfs:subClassOf* oheo:0000082 } } }""" ] ;
+    sh:sparql [ sh:message "An instrument version is a version of one named instrument; {$this} is an instance of both {?a} and {?b}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?a ?b WHERE { { $this a ?a . } { $this a ?b . } { ?a oheo:9000002 true . } { ?b oheo:9000002 true . }
+                FILTER (STR(?a) < STR(?b))
+                FILTER EXISTS { ?a rdfs:subClassOf* oheo:0000082 } FILTER EXISTS { ?b rdfs:subClassOf* oheo:0000082 } }""" ] .
+
+oshape:ValueSetValue a sh:NodeShape ;
+    sh:targetObjectsOf oheo:1000014 ;
+    sh:not [ sh:class oheo:0000082 ] ;
+    sh:message "An instrument version is not a value set: the value set is a valuation, kept apart from the instrument it values." ;
+    sh:sparql [ sh:message "A value set must be an instance (a release) of a named value set or index value set, such as the EQ-5D-3L UK value set (Dolan 1997); {$this} is not." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { FILTER NOT EXISTS { { $this a ?c . } { ?c oheo:9000002 true . } FILTER EXISTS { ?c rdfs:subClassOf* ?k . FILTER (?k IN (oheo:0000105, oheo:0000400)) } } }""" ] .
+
+oshape:ValueSetScoresTheInstrument a sh:NodeShape ;
+    sh:targetSubjectsOf oheo:1000014 ;
+    sh:sparql [ sh:message "The value set scores the {?il}, but the responses were obtained with the {?vl}. Use a value set for that instrument, or record the mapping function that converts between them." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+            SELECT $this ?value ?inst ?il ?vl WHERE {
+                { $this oheo:1000014 ?vs ; oheo:1000013 ?v . }
+                FILTER NOT EXISTS { $this oheo:1000038 ?f }
+                { ?vs a ?vsc . } { ?vsc oheo:9000002 true . } { ?vsc rdfs:subClassOf ?r . }
+                { ?r owl:onProperty oheo:1000010 ; owl:someValuesFrom ?inst . } { ?inst oheo:9000002 true . }
+                { ?v a ?value . } { ?value oheo:9000002 true . }
+                FILTER NOT EXISTS { ?value rdfs:subClassOf* ?inst }
+                { ?inst rdfs:label ?il . } { ?value rdfs:label ?vl . }
+            }""" ] ;
+    sh:sparql [ sh:message "The mapping function {?f} does not convert from the instrument used ({?value}) to the instrument the value set scores." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+            SELECT $this ?f ?value WHERE {
+                { $this oheo:1000038 ?f ; oheo:1000014 ?vs ; oheo:1000013 ?v . }
+                { ?v a ?value . } { ?value oheo:9000002 true . }
+                { ?f a ?fc . } { ?fc oheo:9000002 true . }
+                { ?fc rdfs:subClassOf ?r1 . } { ?r1 owl:onProperty oheo:1000011 ; owl:someValuesFrom ?from . }
+                { ?fc rdfs:subClassOf ?r2 . } { ?r2 owl:onProperty oheo:1000012 ; owl:someValuesFrom ?to . }
+                { ?vs a ?vsc . } { ?vsc oheo:9000002 true . } { ?vsc rdfs:subClassOf ?r3 . }
+                { ?r3 owl:onProperty oheo:1000010 ; owl:someValuesFrom ?inst . } { ?inst oheo:9000002 true . }
+                FILTER (NOT EXISTS { ?value rdfs:subClassOf* ?from } || NOT EXISTS { ?to rdfs:subClassOf* ?inst })
+            }""" ] .
+
+oshape:UtilityWithinTheValueSet a sh:NodeShape ;
+    sh:targetSubjectsOf oheo:1000014 ;
+    sh:sparql [ sh:message "The utility {?value} is below the worst health state utility of its value set ({?min}), so no response profile can give it." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+            SELECT $this ?value ?min WHERE {
+                { $this rheo:2000001 ?value ; oheo:1000014 ?vs . }
+                { ?vs a ?c . } FILTER (?c IN (oheo:0000176, oheo:0000178, oheo:0000297))
+                { ?c rdfs:subClassOf ?r . } { ?r owl:onProperty oheo:2000009 ; owl:hasValue ?min . }
+                FILTER (?value < ?min - 0.0000001)
+            }""" ] .
+
+# The worst-state utilities of the other value sets were carried over from 0.1.0 and not checked against their papers,
+# so a utility below them is only a Warning. The three above (Dolan 1997, Devlin 2018, Rowen 2026) were checked.
+oshape:UtilityWithinUncheckedValueSet a sh:NodeShape ;
+    sh:targetSubjectsOf oheo:1000014 ;
+    sh:severity sh:Warning ;
+    sh:sparql [ sh:message "The utility {?value} is below the worst health state utility recorded for its value set ({?min}). That figure has not been checked against the paper, so check both." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+            SELECT $this ?value ?min WHERE {
+                { $this rheo:2000001 ?value ; oheo:1000014 ?vs . }
+                { ?vs a ?c . } FILTER (?c NOT IN (oheo:0000176, oheo:0000178, oheo:0000297))
+                { ?c rdfs:subClassOf ?r . } { ?r owl:onProperty oheo:2000009 ; owl:hasValue ?min . }
+                FILTER (?value < ?min - 0.0000001)
+            }""" ] .
+
+# ------------------------------------------------------------------ responses: the health state profile
+oshape:ProfileFitsTheInstrument a sh:NodeShape ;
+    sh:targetSubjectsOf oheo:1000013 ;
+    sh:sparql [ sh:message "The profile {?value} does not fit the {?cl}, which has {?dv} dimensions of {?lv} levels each." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+            SELECT $this ?value ?c ?cl ?dv ?lv WHERE {
+                { $this oheo:1000013 ?v ; rheo:1000042 ?p . } { ?p oheo:2000030 ?value . }
+                { ?v a ?c . } { ?c oheo:9000002 true . }
+                { ?c rdfs:subClassOf ?a . } { ?a owl:onProperty oheo:2000003 ; owl:hasValue ?lv . }
+                { ?c rdfs:subClassOf ?b . } { ?b owl:onProperty oheo:2000002 ; owl:hasValue ?dv . } { ?c rdfs:label ?cl . }
+                FILTER (!REGEX(STR(?value), CONCAT("^[1-", STR(?lv), "]{", STR(?dv), "}$")))
+            }""" ] .
+
+oshape:ProfileCode a sh:NodeShape ;
+    sh:targetSubjectsOf oheo:2000030 ;
+    sh:property [ sh:path oheo:2000030 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^[0-9]+$" ;
+        sh:message "A health state profile code is one string of digits, one digit for each dimension, such as 21121." ] .
+
+# ------------------------------------------------------------------ utilities
+oshape:IndirectUtility a sh:NodeShape ;
+    sh:targetClass rheo:0000090 ;
+    sh:property [ sh:path oheo:1000013 ; sh:maxCount 1 ; sh:message "A utility record names at most one instrument version." ] ;
+    sh:property [ sh:path oheo:1000014 ; sh:maxCount 1 ; sh:message "A utility record names at most one value set." ] ;
+    sh:property [ sh:path oheo:1000032 ; sh:maxCount 1 ; sh:class obo:IAO_0000109 ; sh:message "A utility record is scored from one record of responses, a measurement datum such as a RHEO state observation." ] ;
+    sh:sparql [ sh:message "An indirect utility needs its instrument version and its value set, each as an identifier rather than text, and the record of the responses it was scored from." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            SELECT $this WHERE {
+                { $this oheo:1000013 ?v . }
+                FILTER (NOT EXISTS { $this oheo:1000014 ?vs } || NOT EXISTS { $this oheo:1000032 ?o })
+            }""" ] ;
+    sh:sparql [ sh:message "A utility that names a value set must also name the instrument version whose responses were scored with it." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            SELECT $this WHERE { { $this oheo:1000014 ?vs . } FILTER NOT EXISTS { $this oheo:1000013 ?v } }""" ] .
+
+# A direct valuation (time trade-off, standard gamble and others) names neither an instrument version nor a value set,
+# and these rules do not ask for them. Whether a utility is indirect is read from the record's structure, not its text.
+
+oshape:ScoredFromTheSameResponses a sh:NodeShape ;
+    sh:targetSubjectsOf oheo:1000032 ;
+    sh:sparql [ sh:message "The utility names instrument version {?value}, but the responses it was scored from were obtained with another version." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            SELECT $this ?value WHERE { { $this oheo:1000032 ?o ; oheo:1000013 ?value . } { ?o oheo:1000013 ?v2 . } FILTER (?value != ?v2) }""" ] ;
+    sh:sparql [ sh:message "The utility and the responses it was scored from record different persons." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { { $this oheo:1000032 ?o ; rheo:1000040 ?p . } { ?o rheo:1000040 ?q . } FILTER (?p != ?q) }""" ] .
+
+oshape:TextAgreesWithIdentifiers a sh:NodeShape ;
+    sh:targetSubjectsOf oheo:1000013 ;
+    sh:sparql [ sh:message "The text says the instrument or its version is {?value}, but the instrument version identifier is a copy of the {?l}. The identifier is authoritative: correct the text." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value ?c ?l WHERE {
+                { $this oheo:1000013 ?v . } { $this rheo:2000076|rheo:2000077 ?value . } { ?v a ?c . } { ?c oheo:9000002 true . } { ?c rdfs:label ?l . }
+                FILTER NOT EXISTS { ?c rdfs:subClassOf* ?anc . ?anc rdfs:label ?al . FILTER (CONTAINS(LCASE(STR(?al)), LCASE(STR(?value)))) }
+                FILTER NOT EXISTS { ?v oheo:2000031 ?vl . FILTER (CONTAINS(LCASE(STR(?vl)), LCASE(STR(?value)))) }
+            }""" ] .
+
+# RHEO's text field 'has instrument version' (RHEO_2000077) holds what EuroQol calls a version (3L, 5L), which OHEO
+# models as the named instrument; OHEO's instrument version is one copy. The text passes if it names the instrument,
+# its family, or the copy's version label (OHEO_2000031).
+
+# ------------------------------------------------------------------ summary measures: QALYs
+oshape:QALYRecordTrace a sh:NodeShape ;
+    sh:targetClass rheo:0000092 ;
+    sh:property [ sh:path oheo:1000033 ; sh:class rheo:0000090 ;
+        sh:message "A QALY record is calculated from utility measurement records only." ] ;
+    sh:property [ sh:path oheo:1000014 ; sh:maxCount 0 ;
+        sh:message "A QALY is a summary measure, not a valuation: a QALY record has no value set of its own; its utility records name theirs." ] ;
+    sh:sparql [ sh:message "A QALY record must say where it comes from: at least one utility measurement record it was calculated from, the model run that produced it, or the source it was taken from." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { FILTER NOT EXISTS { $this oheo:1000033 ?u } FILTER NOT EXISTS { $this rheo:1000019 ?r } FILTER NOT EXISTS { $this rheo:1000025 ?s } }""" ] ;
+    sh:sparql [ sh:message "A QALY record and a utility record it was calculated from record different persons." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this WHERE { { $this oheo:1000033 ?u ; rheo:1000040 ?p . } { ?u rheo:1000040 ?q . } FILTER (?p != ?q) }""" ] ;
+    sh:sparql [ sh:message "The utility records behind one QALY record use different value sets ({?value}), so their utilities are on different scales." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            SELECT $this ?value WHERE { { $this oheo:1000033 ?u1 , ?u2 . } { ?u1 oheo:1000014 ?value . } { ?u2 oheo:1000014 ?b . } FILTER (?value != ?b) }""" ] ;
+    sh:sparql [ sh:message "The utility record {?u}, dated {?d}, lies outside the QALY record's period ({?s} to {?e})." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            SELECT $this ?u ?d ?s ?e WHERE { { $this oheo:1000033 ?u ; rheo:2000041 ?s ; rheo:2000042 ?e . } { ?u rheo:2000040 ?d . } FILTER (STR(?d) < STR(?s) || STR(?d) > STR(?e)) }""" ] ;
+    sh:sparql [ sh:message "The QALY record rests on {?u}, whose values come from a capability or care-related index value set, which is not anchored on dead and full health and cannot weight time in QALYs." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000033 ?u . } { ?u oheo:1000014 ?vs . } FILTER EXISTS { ?vs a/rdfs:subClassOf* oheo:0000400 } }""" ] .
+
+# Discounting convention used by the worked example and run_demo.py (the same as RHEO 0.4.0): QALYs are summed by the
+# trapezium rule over each interval between utility records, and each interval is discounted by (1 + r) raised to the
+# whole number of years at its start. For the worked example this gives 1.5550 at 3.5%; continuous discounting would
+# give a slightly lower figure. The rules here check the stated rate; the arithmetic is checked in run_demo.py.
+
+oshape:QALYCalculation a sh:NodeShape ;
+    sh:targetClass rheo:0000091 ;
+    sh:property [ sh:path obo:OBI_0000293 ; sh:class rheo:0000090 ;
+        sh:message "The inputs of a QALY calculation are utility measurement records; a DALY record, a cost record or a QALY record is not a utility." ] ;
+    sh:property [ sh:path obo:OBI_0000299 ; sh:class rheo:0000092 ;
+        sh:message "The outputs of a QALY calculation are QALY records." ] .
+
+# ------------------------------------------------------------------ other outcome records
+oshape:OutcomeMeasurementDatum a sh:NodeShape ;
+    sh:targetClass oheo:0000189 ;
+    sh:property [ sh:path rheo:1000040 ; sh:minCount 1 ; sh:maxCount 1 ; sh:message "An outcome measurement datum records exactly one person." ] .
+
+oshape:InstrumentScoreRecord a sh:NodeShape ;
+    sh:targetClass oheo:0000190 ;
+    sh:property [ sh:path oheo:1000013 ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "An instrument score record must name the one instrument version it was obtained with." ] .
+
+oshape:CriteriaRecord a sh:NodeShape ;
+    sh:targetClass oheo:0000192, oheo:0000193 ;
+    sh:property [ sh:path oheo:1000016 ; sh:minCount 1 ;
+        sh:message "A tumour response or adverse event record must name the classification criteria used, such as RECIST 1.1 or CTCAE version 5.0." ] .
+
+# A time-to-event record, such as one person's overall survival, needs neither an instrument nor criteria.

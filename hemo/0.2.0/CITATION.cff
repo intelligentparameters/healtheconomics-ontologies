@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Health Economics Mathematics Ontology (HEMO)"
+version: "0.2.0"
+date-released: "2026-11-08"
+license: CC-BY-4.0
+url: "https://healtheconomics.wiki"
+repository: "https://bioportal.bioontology.org/ontologies/HEMO"
+abstract: "The Health Economics Mathematics Ontology (HEMO) describes the mathematics used across the ontologies of HealthEconomics.wiki. It covers formulas, mathematical functions, computational procedures and their implementations in Excel, R, Python and other languages, and gives every variable a role, a kind of quantity and a unit of measure. The formula catalogue is generated from the Functions and Formulae module of the wiki, with each expression stated in the Mathematical Markup Language (MathML) and OpenMath. HEMO holds no values from evidence and takes real values from the Real Health Economics Ontology (RHEO) and value weights from the Health Economics Axiology Ontology (HEAO). This is an alpha release for review."
+keywords:
+  - "health economics"
+  - "mathematics"
+  - "formulas"
+  - "economic modelling"
+  - "units of measure"
+  - "OpenMath"
+  - "ontology"
+  - "OWL"
+authors:
+  - family-names: "Baines"
+    given-names: "Darrin"
+    orcid: "https://orcid.org/0000-0001-9502-4678"
+  - family-names: "Ashley"
+    given-names: "Michelle"
+    orcid: "https://orcid.org/0009-0006-0231-3731"
+# After Zenodo publishes the record, add its DOI on a new line below in this form
+# doi: 10.5281/zenodo.0000000

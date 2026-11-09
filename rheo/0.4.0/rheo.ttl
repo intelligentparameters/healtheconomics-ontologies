@@ -1,0 +1,3283 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+obo:BFO_0000030 a owl:Class ;
+    rdfs:label "object"@en ;
+    obo:IAO_0000115 "An object is a material entity which manifests causal unity & is of a type instances of which are maximal relative to the sort of causal unity manifested."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000040 .
+
+obo:BFO_0000050 a owl:ObjectProperty ;
+    rdfs:label "part of"@en ;
+    obo:IAO_0000115 "a core relation that holds between a part and its whole"@en ;
+    obo:IAO_0000119 "RO (http://purl.obolibrary.org/obo/ro.owl)" .
+
+obo:BFO_0000055 a owl:ObjectProperty ;
+    rdfs:label "realizes"@en ;
+    obo:IAO_0000115 "realizes is a relation between a process b and realizable entity c such that c inheres in some d & for all t, if b has participant d then c exists & the type instantiated by b is correlated with the type instantiated by c."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> .
+
+obo:BFO_0000066 a owl:ObjectProperty ;
+    rdfs:label "occurs in"@en ;
+    obo:IAO_0000115 "b occurs in c =Def b is a process or a process boundary & c is a material entity or site & there exists a spatiotemporal region r & b occupies spatiotemporal region r & for all time t, if b exists at t then c exists at t & there exist spatial regions s and s' where b spatially projects onto s at t & c occupies spatial region s' at t & s is a continuant part of s' at t."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> .
+
+obo:IAO_0000112 a owl:AnnotationProperty ;
+    rdfs:label "example of usage"@en .
+
+obo:IAO_0000115 a owl:AnnotationProperty ;
+    rdfs:label "definition"@en .
+
+obo:IAO_0000116 a owl:AnnotationProperty ;
+    rdfs:label "editor note"@en .
+
+obo:IAO_0000117 a owl:AnnotationProperty ;
+    rdfs:label "term editor"@en .
+
+obo:IAO_0000118 a owl:AnnotationProperty ;
+    rdfs:label "alternative label"@en .
+
+obo:IAO_0000119 a owl:AnnotationProperty ;
+    rdfs:label "definition source"@en .
+
+obo:IAO_0000231 a owl:AnnotationProperty ;
+    rdfs:label "has obsolescence reason"@en .
+
+obo:IAO_0000412 a owl:AnnotationProperty ;
+    rdfs:label "imported from"@en .
+
+obo:IAO_0100001 a owl:AnnotationProperty ;
+    rdfs:label "term replaced by"@en .
+
+obo:OBI_0000293 a owl:ObjectProperty ;
+    rdfs:label "has specified input"@en ;
+    obo:IAO_0000115 "A relation between a planned process and a continuant participating in that process that is not created during the process (OBI; paraphrased)."@en ;
+    obo:IAO_0000119 "OBI (http://purl.obolibrary.org/obo/obi.owl)" .
+
+obo:OBI_0000299 a owl:ObjectProperty ;
+    rdfs:label "has specified output"@en ;
+    obo:IAO_0000115 "A relation between a planned process and a continuant participating in that process that is created during the process (OBI; paraphrased)."@en ;
+    obo:IAO_0000119 "OBI (http://purl.obolibrary.org/obo/obi.owl)" .
+
+obo:OGMS_0000031 a owl:Class ;
+    rdfs:label "disease"@en ;
+    obo:IAO_0000115 "A disposition (i) to undergo pathological processes that (ii) exists in an organism because of one or more disorders in that organism."@en ;
+    obo:IAO_0000119 "OGMS (http://purl.obolibrary.org/obo/ogms.owl)" ;
+    rdfs:isDefinedBy obo:ogms.owl ;
+    rdfs:subClassOf obo:BFO_0000016 .
+
+obo:OMRSE_00000011 a owl:Class ;
+    rdfs:label "patient role"@en ;
+    obo:IAO_0000115 "A health care role borne by an organism and that is realized by presenting to a health care provider in a clinical encounter."@en ;
+    obo:IAO_0000119 "OMRSE (http://purl.obolibrary.org/obo/omrse.owl)" ;
+    rdfs:isDefinedBy obo:omrse.owl ;
+    rdfs:subClassOf obo:OMRSE_00000010 .
+
+obo:OMRSE_00000012 a owl:Class ;
+    rdfs:label "health care provider role"@en ;
+    obo:IAO_0000115 "A health care role inhering in an organization or human being that is realized by a process of providing health care services to an organism."@en ;
+    obo:IAO_0000119 "OMRSE (http://purl.obolibrary.org/obo/omrse.owl)" ;
+    rdfs:isDefinedBy obo:omrse.owl ;
+    rdfs:subClassOf obo:OMRSE_00000010 .
+
+obo:RO_0000057 a owl:ObjectProperty ;
+    rdfs:label "has participant"@en ;
+    obo:IAO_0000115 "a relation between a process and a continuant, in which the continuant is somehow involved in the process"@en ;
+    obo:IAO_0000119 "RO (http://purl.obolibrary.org/obo/ro.owl)" .
+
+obo:RO_0000087 a owl:ObjectProperty ;
+    rdfs:label "has role"@en ;
+    obo:IAO_0000115 "a relation between an independent continuant (the bearer) and a role, in which the role specifically depends on the bearer for its existence"@en ;
+    obo:IAO_0000119 "RO (http://purl.obolibrary.org/obo/ro.owl)" .
+
+obo:RO_0001025 a owl:ObjectProperty ;
+    rdfs:label "located in"@en ;
+    obo:IAO_0000115 "a relation between two independent continuants, the target and the location, in which the target is entirely within the location"@en ;
+    obo:IAO_0000119 "RO (http://purl.obolibrary.org/obo/ro.owl)" .
+
+obo:RO_0002231 a owl:ObjectProperty ;
+    rdfs:label "has start location"@en ;
+    obo:IAO_0000115 "x 'has starts location' y if and only if there exists some process z such that x 'starts with' z and z 'occurs in' y"@en ;
+    obo:IAO_0000119 "RO (http://purl.obolibrary.org/obo/ro.owl)" .
+
+obo:RO_0002232 a owl:ObjectProperty ;
+    rdfs:label "has end location"@en ;
+    obo:IAO_0000115 "x 'has end location' y if and only if there exists some process z such that x 'ends with' z and z 'occurs in' y"@en ;
+    obo:IAO_0000119 "RO (http://purl.obolibrary.org/obo/ro.owl)" .
+
+obo:VO_0000002 a owl:Class ;
+    rdfs:label "vaccination"@en ;
+    obo:IAO_0000115 "Process of administering a vaccine in vivo to a recipient (e.g., a human), with the intent to invoke a protective or therapeutic adaptive immune response."@en ;
+    obo:IAO_0000119 "VO (http://purl.obolibrary.org/obo/vo.owl)" ;
+    rdfs:isDefinedBy obo:vo.owl ;
+    rdfs:subClassOf obo:OBI_0600007 .
+
+dcterms:bibliographicCitation a owl:AnnotationProperty .
+
+dcterms:created a owl:AnnotationProperty .
+
+dcterms:creator a owl:AnnotationProperty .
+
+dcterms:description a owl:AnnotationProperty .
+
+dcterms:identifier a owl:AnnotationProperty .
+
+dcterms:issued a owl:AnnotationProperty .
+
+dcterms:license a owl:AnnotationProperty .
+
+dcterms:modified a owl:AnnotationProperty .
+
+dcterms:publisher a owl:AnnotationProperty .
+
+dcterms:title a owl:AnnotationProperty .
+
+vann:preferredNamespacePrefix a owl:AnnotationProperty .
+
+vann:preferredNamespaceUri a owl:AnnotationProperty .
+
+oboInOwl:consider a owl:AnnotationProperty ;
+    rdfs:label "consider"@en .
+
+rheo:0000001 a owl:Class ;
+    rdfs:label "obsolete health care process"@en ;
+    obo:IAO_0000115 "OBSOLETE. A process in which health care is delivered to one or more persons, such as a consultation, an inpatient stay, an emergency admission or the administration of a medicine."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    obo:IAO_0000231 obo:IAO_0000228 ;
+    obo:IAO_0100001 obo:OGMS_0000096 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:deprecated true .
+
+rheo:0000002 a owl:Class ;
+    rdfs:label "health care resource role"@en ;
+    obo:IAO_0000115 "A role borne by a material entity, such as a medicine, a medical device or a hospital bed, that is realised when the entity is consumed or occupied in a health care, social care or informal care process."@en ;
+    obo:IAO_0000116 "Being a resource is a role, not a kind of thing: a bed is a material entity that bears this role in a care process. Staff time is represented through the participation of staff in a health care process."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000023 .
+
+rheo:0000003 a owl:Class ;
+    rdfs:label "clinical event"@en ;
+    obo:IAO_0000115 "A process in the health course of a person, such as a stroke, a fracture or the progression of a disease."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000006 a owl:Class ;
+    rdfs:label "obsolete care process or resource type specification"@en ;
+    obo:IAO_0000115 "OBSOLETE. An information content entity that identifies a kind of health care process or a kind of resource that cost and resource use estimates refer to, such as an emergency admission or a hospital bed day, optionally with a code from a classification."@en ;
+    obo:IAO_0000116 "Split in 0.2.2 into care process type specification (RHEO_0000122) and resource type specification (RHEO_0000123), under costed item type specification (RHEO_0000121). Use the subclass that fits."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    obo:IAO_0000231 obo:IAO_0000229 ;
+    obo:IAO_0100001 rheo:0000121 ;
+    oboInOwl:consider rheo:0000122,
+        rheo:0000123 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:deprecated true .
+
+rheo:0000014 a owl:Class ;
+    rdfs:label "unit cost estimate"@en ;
+    obo:IAO_0000115 "A cost estimate for one unit of a resource or of a health care process, such as one hospital bed day or one consultation."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000013 .
+
+rheo:0000016 a owl:Class ;
+    rdfs:label "probability estimate"@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the probability that a kind of clinical event occurs, either within a stated time interval or per event, in a stated population."@en ;
+    obo:IAO_0000116 "A probability over a time interval always needs that interval: the same rate gives different probabilities over different intervals."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000017 a owl:Class ;
+    rdfs:label "event rate estimate"@en ;
+    obo:IAO_0000112 "1.8 emergency admissions per patient-year among adults with moderate Merrow's disease (fictional)."@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the number of clinical events of a kind per unit of person-time in a stated population."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000018 a owl:Class ;
+    rdfs:label "relative effect estimate"@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the effect of an intervention relative to a comparator, expressed as a ratio or a difference, such as a hazard ratio or a relative risk."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000022 a owl:Class ;
+    rdfs:label "evidence source document"@en ;
+    obo:IAO_0000115 "A document from which an economic evaluation estimate is taken, such as a trial report, a published study, a national cost schedule or a registry report."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000310 .
+
+rheo:0000033 a owl:Class ;
+    rdfs:label "health state classification profile"@en ;
+    obo:IAO_0000112 "The EQ-5D-3L profile 21121."@en ;
+    obo:IAO_0000115 "A health state description given as a combination of levels on the dimensions of a health state classification system, such as the EQ-5D profile 21121."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000021 .
+
+rheo:0000035 a owl:Class ;
+    rdfs:label "evidence dataset"@en ;
+    obo:IAO_0000115 "An information content entity that is a collection of patient-level or aggregate data from which an economic evaluation estimate is calculated, such as a trial dataset or an extract of routine data."@en ;
+    obo:IAO_0000116 "Used when an estimate comes from an analysis of data rather than from a published document."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000040 a owl:Class ;
+    rdfs:label "payer role"@en ;
+    obo:IAO_0000112 "The payer role of a commissioner, realised when it pays a hospital trust for an emergency admission."@en ;
+    obo:IAO_0000115 "A role borne by an organization, a household or a person that is realised in paying for health care, social care or health insurance."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000023 .
+
+rheo:0000041 a owl:Class ;
+    rdfs:label "informal carer role"@en ;
+    obo:IAO_0000115 "A role borne by a person that is realised in providing unpaid care to someone because of illness, disability or age."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000023 .
+
+rheo:0000044 a owl:Class ;
+    rdfs:label "medicinal product"@en ;
+    obo:IAO_0000115 "A material entity, such as a pack of tablets or a dose of vaccine, that is or contains a substance intended for the prevention, diagnosis or treatment of disease."@en ;
+    obo:IAO_0000116 "The physical product. The product as a marketed type (what a price agreement or a marketing authorisation is about) is an intervention specification. Candidate for replacement by DRON clinical drug product."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000040 .
+
+rheo:0000045 a owl:Class ;
+    rdfs:label "obsolete medical device"@en ;
+    obo:IAO_0000115 "OBSOLETE. An object, other than a medicinal product, used in the prevention, diagnosis, monitoring or treatment of disease, such as a diagnostic test kit or an infusion pump."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    obo:IAO_0000231 obo:IAO_0000228 ;
+    obo:IAO_0100001 obo:COB_0001300 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:deprecated true .
+
+rheo:0000046 a owl:Class ;
+    rdfs:label "inpatient stay"@en ;
+    obo:IAO_0000115 "A health care process in which a person is admitted to a hospital bed and cared for until discharge."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:OGMS_0000096 .
+
+rheo:0000047 a owl:Class ;
+    rdfs:label "emergency department attendance"@en ;
+    obo:IAO_0000115 "A health care process in which a person is assessed or treated in an emergency department without, or before, admission."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:OGMS_0000096 .
+
+rheo:0000048 a owl:Class ;
+    rdfs:label "consultation"@en ;
+    obo:IAO_0000115 "A health care encounter in which a person is seen by a health professional in an outpatient, primary care or community setting, in person or remotely."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:OGMS_0000097 .
+
+rheo:0000049 a owl:Class ;
+    rdfs:label "diagnostic testing process"@en ;
+    obo:IAO_0000115 "A health care process in which a diagnostic test is carried out on a person or a specimen to detect or rule out a condition."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:OGMS_0000096 .
+
+rheo:0000050 a owl:Class ;
+    rdfs:label "medicine dispensing"@en ;
+    obo:IAO_0000115 "A health care process in which a medicinal product is supplied to a person or to those caring for them."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:OGMS_0000096 .
+
+rheo:0000051 a owl:Class ;
+    rdfs:label "patient transport"@en ;
+    obo:IAO_0000115 "A planned process in which a person is conveyed to, from or between care settings, such as an emergency ambulance journey."@en ;
+    obo:IAO_0000116 "Not placed under OGMS health care process, which requires direct treatment, diagnosis or prevention. A patient transport can have patient movements as parts."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000052 a owl:Class ;
+    rdfs:label "care episode"@en ;
+    obo:IAO_0000115 "A health care process made up of the health care processes delivered to one person for one health problem between a start and an end, such as an emergency admission from arrival to discharge."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:OGMS_0000096 .
+
+rheo:0000053 a owl:Class ;
+    rdfs:label "behavioural support session"@en ;
+    obo:IAO_0000115 "A health care process in which a person receives support to change a health-related behaviour, such as a stop smoking session."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:OGMS_0000096 .
+
+rheo:0000055 a owl:Class ;
+    rdfs:label "informal care process"@en ;
+    obo:IAO_0000115 "A process in which a person bearing an informal carer role provides unpaid care to another person."@en ;
+    obo:IAO_0000116 "Counted, and valued, only in perspectives that include informal care, such as a societal perspective."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000056 a owl:Class ;
+    rdfs:label "paid work process"@en ;
+    obo:IAO_0000115 "A process in which a person carries out work for pay."@en ;
+    obo:IAO_0000116 "Time lost from paid work because of ill health is an absence, not part of work: it is recorded by a work absence record and valued as a productivity loss in a societal perspective."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000057 a owl:Class ;
+    rdfs:label "resource use process"@en ;
+    obo:IAO_0000115 "A process, part of a health care, social care or informal care process, in which a material entity bearing a health care resource role is consumed or occupied, or in which a person takes part as staff or carer."@en ;
+    obo:IAO_0000116 "Resource use is a real process. A cost is the information produced when a costing process values recorded resource use: RHEO represents that valuation process and the cost record it produces, and records the perspective and the assumptions of the valuation with them (see costing process and cost record)."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000058 a owl:Class ;
+    rdfs:label "patient movement"@en ;
+    obo:IAO_0000115 "A process in which a person moves from one care setting to another, such as arriving at an emergency department from home or being discharged from a ward to home."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000059 a owl:Class ;
+    rdfs:label "payment process"@en ;
+    obo:IAO_0000115 "A planned process in which money is transferred from a payer to a payee, such as a reimbursement to a hospital, an insurance premium, a capitation payment or a payment made out of pocket by a household."@en ;
+    obo:IAO_0000116 "A payment is a flow of money between agents. It is not the cost of care: a tariff payment and the cost of the resources used can differ."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000118 "payment"@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000060 a owl:Class ;
+    rdfs:label "infection transmission"@en ;
+    obo:IAO_0000115 "A process in which an infectious agent passes from an infectious host to a susceptible host."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000061 a owl:Class ;
+    rdfs:label "health-related behaviour"@en ;
+    obo:IAO_0000115 "A process of a person's own conduct that affects their health, such as smoking, drinking alcohol or physical activity."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000062 a owl:Class ;
+    rdfs:label "health technology assessment decision process"@en ;
+    obo:IAO_0000115 "A planned process in which a decision-making body considers evidence, including economic evaluations, and decides whether a health technology should be funded and on what terms."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000063 a owl:Class ;
+    rdfs:label "death"@en ;
+    obo:IAO_0000115 "A process boundary at which the life of an organism ends."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000035 .
+
+rheo:0000084 a owl:Class ;
+    rdfs:label "test accuracy estimate"@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of how well a diagnostic test classifies people, such as its sensitivity or specificity, in a stated population against a stated reference standard."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000091 a owl:Class ;
+    rdfs:label "QALY calculation process"@en ;
+    obo:IAO_0000115 "A planned process in which quality-adjusted life years are calculated from utility values and the time over which they apply, with or without discounting."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000095 a owl:Class ;
+    rdfs:label "disability weight estimate"@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the severity of a health state on a scale on which 0 is full health and 1 is equivalent to death, used to calculate years lived with disability."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Murray 1994" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000096 a owl:Class ;
+    rdfs:label "public health programme"@en ;
+    obo:IAO_0000115 "A planned process in which an organization delivers an intervention to a population rather than to individual patients, such as distributing insecticide-treated bed nets or running a vaccination campaign."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000101 a owl:Class ;
+    rdfs:label "care home stay"@en ;
+    obo:IAO_0000115 "A social care process in which a person lives in a care home and receives personal care there."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000054 .
+
+rheo:0000102 a owl:Class ;
+    rdfs:label "home care visit"@en ;
+    obo:IAO_0000115 "A social care process in which a care worker visits a person at home to help with personal care or daily living."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000054 .
+
+rheo:0000107 a owl:Class ;
+    rdfs:label "regulatory decision process"@en ;
+    obo:IAO_0000115 "A planned process in which a regulatory body decides whether a health technology may be marketed, on the evidence of its quality, safety and efficacy."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000111 a owl:Class ;
+    rdfs:label "state change process"@en ;
+    obo:IAO_0000112 "A person's disease progressing from stable to progressed between two clinic visits."@en ;
+    obo:IAO_0000115 "An entity change process in which a person or other entity changes so that it passes from one state to another, such as progressing from stable to progressed disease or becoming immune after vaccination."@en ;
+    obo:IAO_0000116 "The real change in the entity. A transition record is information about it. A difference between two recorded states is evidence of a state change only when it is not explained by a classification revision or a change in knowledge."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000125 .
+
+rheo:0000115 a owl:Class ;
+    rdfs:label "case-mix grouping process"@en ;
+    obo:IAO_0000115 "A planned process in which the coded record of a care episode or spell is assigned to a case-mix group by a grouping algorithm."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000124 a owl:Class ;
+    rdfs:label "possibility change process"@en ;
+    obo:IAO_0000115 "An entity change process in which a state becomes open, or ceases to be open, to an entity or to entities of a kind, such as a vaccine programme starting in an area or a new medicine becoming available to patients, whether or not any entity has yet entered the state."@en ;
+    obo:IAO_0000116 "A change in what can happen to the entity, not in how it is described: a new category in a classification is not a possibility change, and a possibility can open although the classification already had a category for it."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000125 .
+
+rheo:0000150 a owl:Class ;
+    rdfs:label "unit cost valuation process"@en ;
+    obo:IAO_0000115 "A costing process in which the quantity of each recorded resource use, or of a recorded absence from work, is multiplied by a stated unit cost, producing one cost record for each record valued."@en ;
+    obo:IAO_0000116 "Micro-costing (unit costs of individual items such as staff minutes and consumables) and gross costing (unit costs of whole care processes such as an admission) are both unit cost valuations; they differ in the level of the item valued (review B, 0.3.0)."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000073 .
+
+rheo:0000151 a owl:Class ;
+    rdfs:label "cost aggregation process"@en ;
+    obo:IAO_0000115 "A costing process in which cost records are added together into a total, such as the cost of a care episode, a patient's annual cost or the cost of a programme."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000073 .
+
+rheo:0000152 a owl:Class ;
+    rdfs:label "cost adjustment process"@en ;
+    obo:IAO_0000115 "A costing process in which a cost record is converted to another currency, inflated or deflated to another price year, or discounted to a base year, using a stated factor."@en ;
+    obo:IAO_0000116 "The kind of adjustment is stated with has adjustment kind (inflation, deflation, currency conversion or discounting); the record rules check that the currency, price year and discounting fit the kind."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000073 .
+
+rheo:0000153 a owl:Class ;
+    rdfs:label "cost comparison process"@en ;
+    obo:IAO_0000115 "A costing process in which the costs of two alternatives are compared, producing an incremental cost record, such as the difference in mean cost between a new treatment and standard care."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000073 .
+
+rheo:0000154 a owl:Class ;
+    rdfs:label "cost estimation process"@en ;
+    obo:IAO_0000115 "A costing process in which a cost is estimated by a statistical or accounting method rather than by multiplying one quantity by one unit cost, such as a regression of costs on patient characteristics, or an activity-based or step-down allocation of a budget to activities."@en ;
+    obo:IAO_0000116 "The method is stated with has estimation method. Micro-costing is not estimation: it is a unit cost valuation at the level of individual items."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000073 .
+
+rheo:1000001 a owl:ObjectProperty ;
+    rdfs:label "applies to population"@en ;
+    obo:IAO_0000115 "Relates an estimate, an assumption or an estimand to the population specification it is intended to apply to."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000004 .
+
+rheo:1000002 a owl:ObjectProperty ;
+    rdfs:label "values health state"@en ;
+    obo:IAO_0000115 "Relates a utility estimate or an assumed utility to the health state description it values. A utility measured in people values a clinical or classification state description, not a model state."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000021 .
+
+rheo:1000003 a owl:ObjectProperty ;
+    rdfs:label "concerns event type"@en ;
+    obo:IAO_0000115 "Relates a probability, rate or relative effect estimate, or an assumption, to the kind of clinical event it concerns."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000005 .
+
+rheo:1000004 a owl:ObjectProperty ;
+    rdfs:label "concerns costed item type"@en ;
+    obo:IAO_0000115 "Relates a cost, resource use or emission factor estimate, a resource use or work absence record, or an assumption, to the costed item type specification (a kind of care process or a kind of resource) that it values or counts."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000121 .
+
+rheo:1000005 a owl:ObjectProperty ;
+    rdfs:label "estimates"@en ;
+    obo:IAO_0000115 "Relates an economic evaluation estimate to the estimand it is an estimate of."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000011 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000010 .
+
+rheo:1000006 a owl:ObjectProperty ;
+    rdfs:label "has uncertainty specification"@en ;
+    obo:IAO_0000115 "Relates an estimate or an assumed value to the description of its uncertainty."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000019 .
+
+rheo:1000007 a owl:ObjectProperty ;
+    rdfs:label "reports investigation"@en ;
+    obo:IAO_0000115 "Relates a document to the investigation it reports."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain obo:IAO_0000310 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range obo:OBI_0000066 .
+
+rheo:1000008 a owl:ObjectProperty ;
+    rdfs:label "corrects"@en ;
+    obo:IAO_0000115 "Relates a correction notice to the document it corrects."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000023 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range obo:IAO_0000310 .
+
+rheo:1000009 a owl:ObjectProperty ;
+    rdfs:label "retracts"@en ;
+    obo:IAO_0000115 "Relates a retraction notice to the document it withdraws."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000024 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range obo:IAO_0000310 .
+
+rheo:1000010 a owl:ObjectProperty ;
+    rdfs:label "selects estimate"@en ;
+    obo:IAO_0000115 "Relates a parameter assignment to the economic evaluation estimate whose value it gives to the parameter."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000011 ;
+    rdfs:subPropertyOf rheo:1000098 .
+
+rheo:1000011 a owl:ObjectProperty ;
+    rdfs:label "adopts assumption"@en ;
+    obo:IAO_0000115 "Relates a parameter assignment to the modelling assumption whose value it gives to the parameter."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000020 ;
+    rdfs:subPropertyOf rheo:1000098 .
+
+rheo:1000014 a owl:ObjectProperty ;
+    rdfs:label "is version of"@en ;
+    obo:IAO_0000115 "Relates an economic model version to the economic model it is a version of."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000028 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000027 .
+
+rheo:1000015 a owl:AsymmetricProperty,
+        owl:IrreflexiveProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has previous version"@en ;
+    obo:IAO_0000115 "Relates an economic model version to the version it replaced."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000028 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000028 ;
+    rdfs:subPropertyOf prov:wasRevisionOf .
+
+rheo:1000016 a owl:ObjectProperty ;
+    rdfs:label "has parameter"@en ;
+    obo:IAO_0000115 "Relates an economic model version to a model parameter it takes as input."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000028 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000029 .
+
+rheo:1000018 a owl:ObjectProperty ;
+    rdfs:label "uses assignment"@en ;
+    obo:IAO_0000115 "Relates a model run to a parameter assignment whose value it used."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000031 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000030 ;
+    rdfs:subPropertyOf prov:used .
+
+rheo:1000020 a owl:ObjectProperty ;
+    rdfs:label "addresses decision problem"@en ;
+    obo:IAO_0000115 "Relates an economic model to the decision problem specification it addresses."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000027 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000025 .
+
+rheo:1000021 a owl:ObjectProperty ;
+    rdfs:label "has option"@en ;
+    obo:IAO_0000115 "Relates a decision problem specification to an intervention specification it compares."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000025 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000022 a owl:ObjectProperty ;
+    rdfs:label "has decision population"@en ;
+    obo:IAO_0000115 "Relates a decision problem specification to the population specification the decision concerns."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000025 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000004 .
+
+rheo:1000023 a owl:ObjectProperty ;
+    rdfs:label "has comparator"@en ;
+    obo:IAO_0000115 "Relates a decision problem specification to the intervention specification against which the other options are compared."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000025 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000024 a owl:ObjectProperty ;
+    rdfs:label "measured in population"@en ;
+    obo:IAO_0000115 "Relates an estimate to the population specification of the persons in whom it was measured, when this differs from the population it is applied to."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000004 .
+
+rheo:1000025 a owl:ObjectProperty ;
+    rdfs:label "taken from source"@en ;
+    obo:IAO_0000115 "Relates an estimate to the document or dataset it was taken from."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf prov:wasDerivedFrom .
+
+rheo:1000026 a owl:ObjectProperty ;
+    rdfs:label "derived from"@en ;
+    obo:IAO_0000115 "Relates an estimate to another estimate or an assumption it was calculated from, such as a treatment-arm probability calculated from a baseline probability and a hazard ratio."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf prov:wasDerivedFrom .
+
+rheo:1000027 a owl:AsymmetricProperty,
+        owl:IrreflexiveProperty,
+        owl:ObjectProperty ;
+    rdfs:label "supersedes"@en ;
+    obo:IAO_0000115 "Relates an estimate or an assumption to an earlier record of the same quantity that it replaces, for example after a correction to the source."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf prov:wasRevisionOf .
+
+rheo:1000028 a owl:ObjectProperty ;
+    rdfs:label "has estimand population"@en ;
+    obo:IAO_0000115 "Relates an estimand to the population specification it is defined for."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000010 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000004 .
+
+rheo:1000029 a owl:ObjectProperty ;
+    rdfs:label "has compared condition"@en ;
+    obo:IAO_0000115 "Relates an estimand to an intervention specification whose effect it concerns, where the estimand compares conditions."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000010 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000030 a owl:ObjectProperty ;
+    rdfs:label "for health state"@en ;
+    obo:IAO_0000115 "Relates a parameter assignment to the model state the parameter refers to, where it refers to one."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000034 .
+
+rheo:1000031 a owl:ObjectProperty ;
+    rdfs:label "concerns option"@en ;
+    obo:IAO_0000115 "Relates a model result to an intervention specification it is a result for, or one of the options it compares."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000032 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000042 a owl:ObjectProperty ;
+    rdfs:label "has state"@en ;
+    obo:IAO_0000115 "Relates a state observation to the state description that applied."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000066 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000043 a owl:ObjectProperty ;
+    rdfs:label "under scheme"@en ;
+    obo:IAO_0000115 "Relates a state observation to the classification scheme version used."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000066 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000065 .
+
+rheo:1000044 a owl:ObjectProperty ;
+    rdfs:label "belongs to scheme"@en ;
+    obo:IAO_0000115 "Relates a state description to a classification scheme version it is part of."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000064 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000065 .
+
+rheo:1000045 a owl:ObjectProperty ;
+    rdfs:label "from observation"@en ;
+    obo:IAO_0000115 "Relates a transition record to its earlier state observation."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000067 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000066 .
+
+rheo:1000046 a owl:ObjectProperty ;
+    rdfs:label "to observation"@en ;
+    obo:IAO_0000115 "Relates a transition record to its later state observation."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000067 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000066 .
+
+rheo:1000047 a owl:ObjectProperty ;
+    rdfs:label "values resource use"@en ;
+    obo:IAO_0000115 "Relates a cost record to the resource use record or work absence record it values."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:1000048 a owl:ObjectProperty ;
+    rdfs:label "uses unit cost"@en ;
+    obo:IAO_0000115 "Relates a cost record to the unit cost estimate it applies."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:1000049 a owl:ObjectProperty ;
+    rdfs:label "under perspective"@en ;
+    obo:IAO_0000115 "Relates a cost record, a costing process, a decision problem or an economic model to the perspective specification it follows."@en ;
+    obo:IAO_0000116 "Authoritative for perspective (0.3.0). The text property has perspective label is a label only."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000072 .
+
+rheo:1000050 a owl:ObjectProperty ;
+    rdfs:label "includes resource type"@en ;
+    obo:IAO_0000115 "Relates a perspective specification to a costed item type specification (a kind of resource or care process) that it counts."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000072 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000121 .
+
+rheo:1000051 a owl:ObjectProperty ;
+    rdfs:label "counts flow from"@en ;
+    obo:IAO_0000115 "Relates a flow measurement or a projected count to the member group, resource stock, workforce, care setting or organization that the counted entities left."@en ;
+    obo:IAO_0000116 "For counts only. The movement of a person from one care setting to another is recorded on the patient movement itself, with RO has start location (RO_0002231) and has end location (RO_0002232). An organization is admitted as the outside source or destination of a flow, such as a supplier of vaccine doses."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( rheo:0000080 rheo:0000112 ) ] ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( rheo:0000118 rheo:0000043 rheo:0000097 rheo:0000042 obo:OBI_0000245 ) ] .
+
+rheo:1000052 a owl:ObjectProperty ;
+    rdfs:label "counts flow to"@en ;
+    obo:IAO_0000115 "Relates a flow measurement or a projected count to the member group, resource stock, workforce, care setting or organization that the counted entities entered."@en ;
+    obo:IAO_0000116 "For counts only. The movement of a person from one care setting to another is recorded on the patient movement itself, with RO has start location (RO_0002231) and has end location (RO_0002232). An organization is admitted as the outside source or destination of a flow, such as a supplier of vaccine doses."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( rheo:0000080 rheo:0000112 ) ] ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( rheo:0000118 rheo:0000043 rheo:0000097 rheo:0000042 obo:OBI_0000245 ) ] .
+
+rheo:1000053 a owl:ObjectProperty ;
+    rdfs:label "records payer"@en ;
+    obo:IAO_0000115 "Relates a payment record to the organization, household or person that made the recorded payment."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000077 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf rheo:1000040 .
+
+rheo:1000054 a owl:ObjectProperty ;
+    rdfs:label "records payee"@en ;
+    obo:IAO_0000115 "Relates a payment record to the organization, household or person that received the recorded payment."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000077 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf rheo:1000040 .
+
+rheo:1000055 a owl:ObjectProperty ;
+    rdfs:label "records tariff applied"@en ;
+    obo:IAO_0000115 "Relates a payment record to the tariff that set the amount of the recorded payment."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000077 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000075 ;
+    rdfs:subPropertyOf obo:IAO_0000136 .
+
+rheo:1000056 a owl:ObjectProperty ;
+    rdfs:label "under payment mechanism"@en ;
+    obo:IAO_0000115 "Relates a payment record or a tariff to the payment mechanism specification it follows."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000076 .
+
+rheo:1000057 a owl:ObjectProperty ;
+    rdfs:label "issued by"@en ;
+    obo:IAO_0000115 "Relates a tariff, price agreement or recommendation to the organization that issued it."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:1000058 a owl:ObjectProperty ;
+    rdfs:label "sets price for"@en ;
+    obo:IAO_0000115 "Relates a tariff to the kind of care process whose payment it sets."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000075 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000122 .
+
+rheo:1000059 a owl:ObjectProperty ;
+    rdfs:label "applies to technology"@en ;
+    obo:IAO_0000115 "Relates a price agreement or a recommendation to the intervention specification it concerns."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000060 a owl:ObjectProperty ;
+    rdfs:label "counts members of"@en ;
+    obo:IAO_0000115 "Relates a stock measurement or a projected count to the member group, resource stock or workforce whose members it counts."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:1000061 a owl:ObjectProperty ;
+    rdfs:label "based on result"@en ;
+    obo:IAO_0000115 "Relates a recommendation to a model result the decision-making body relied on."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000083 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000032 .
+
+rheo:1000062 a owl:ObjectProperty ;
+    rdfs:label "records paid-for process"@en ;
+    obo:IAO_0000115 "Relates a payment record to the care process or programme that the recorded payment was made for."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000077 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf rheo:1000041 .
+
+rheo:1000063 a owl:ObjectProperty ;
+    rdfs:label "has member record"@en ;
+    obo:IAO_0000115 "Relates an evidence dataset to a record it contains."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf obo:RO_0002351 .
+
+rheo:1000070 a owl:ObjectProperty ;
+    rdfs:label "covers resource type"@en ;
+    obo:IAO_0000115 "Relates a benefit package specification to a costed item type specification (a kind of care process or resource) that it covers."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000103 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000121 .
+
+rheo:1000071 a owl:ObjectProperty ;
+    rdfs:label "records scheme enrolled in"@en ;
+    obo:IAO_0000115 "Relates an insurance enrolment record to the organization that runs the health insurance scheme or coverage programme in which the recorded person or household was enrolled."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000104 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf rheo:1000040 .
+
+rheo:1000072 a owl:ObjectProperty ;
+    rdfs:label "accounts for resource use"@en ;
+    obo:IAO_0000115 "Relates an emissions record to the resource use record whose emissions it records."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000106 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000071 .
+
+rheo:1000073 a owl:ObjectProperty ;
+    rdfs:label "uses emission factor"@en ;
+    obo:IAO_0000115 "Relates an emissions record to the emission factor estimate it applies."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000106 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000105 .
+
+rheo:1000074 a owl:ObjectProperty ;
+    rdfs:label "allocated to arm"@en ;
+    obo:IAO_0000115 "Relates an allocation record to the trial arm the participant was allocated to."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000100 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000099 .
+
+rheo:1000075 a owl:ObjectProperty ;
+    rdfs:label "authorises technology"@en ;
+    obo:IAO_0000115 "Relates a marketing authorisation to the intervention specification it permits."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000108 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000076 a owl:ObjectProperty ;
+    rdfs:label "requires"@en ;
+    obo:IAO_0000115 "Relates a funding rule to the class of document a technology must have to be funded, such as marketing authorisation or HTA recommendation (the class IRI is used as the value, which OWL 2 DL allows by punning)."@en ;
+    obo:IAO_0000116 "Operational meaning (0.3.0). Under the OWL 2 Direct Semantics the class used as a value is a separate individual, so this link does not make a reasoner require, or infer, any document. Application logic reads 'rule R requires class C' as: a technology satisfies R on a date only if, for every class C that R requires, a record of class C about that technology is dated on or before that date; for an HTA recommendation, the latest such recommendation must be positive. ops/funding-rule.rq implements this reading for any required classes; run_demo.py tests it, and the record rules reject a value that is not a declared class of directive record."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000109 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:1000077 a owl:ObjectProperty ;
+    rdfs:label "arm intervention"@en ;
+    obo:IAO_0000115 "Relates a trial arm specification to the intervention specification the arm receives."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000099 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000080 a owl:ObjectProperty ;
+    rdfs:label "is version of scheme"@en ;
+    obo:IAO_0000115 "Relates a classification scheme version to the classification scheme it is a version of."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000065 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000110 .
+
+rheo:1000081 a owl:ObjectProperty ;
+    rdfs:label "refines state"@en ;
+    obo:IAO_0000115 "Relates a state description of a later scheme version to the state of an earlier version that it is a finer part of, such as a severe stage split from a single progressed stage."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000064 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000082 a owl:ObjectProperty,
+        owl:SymmetricProperty ;
+    rdfs:label "same state as"@en ;
+    obo:IAO_0000115 "Relates a state description to a state description of another scheme version with the same meaning under a different name or identifier."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000064 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000083 a owl:ObjectProperty ;
+    rdfs:label "has from state"@en ;
+    obo:IAO_0000115 "Relates a clinical event type specification to the state the event starts from."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000005 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000084 a owl:ObjectProperty ;
+    rdfs:label "has to state"@en ;
+    obo:IAO_0000115 "Relates a clinical event type specification to the state the event leads to."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000005 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000085 a owl:ObjectProperty ;
+    rdfs:label "defined by state"@en ;
+    obo:IAO_0000115 "Relates a member group to the state description its members are in."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000118 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000086 a owl:ObjectProperty ;
+    rdfs:label "assigned to group"@en ;
+    obo:IAO_0000115 "Relates a case-mix group assignment to the case-mix group (a kind of care process) assigned."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000114 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000122 .
+
+rheo:1000087 a owl:ObjectProperty ;
+    rdfs:label "merges states"@en ;
+    obo:IAO_0000115 "Relates a state description of a later scheme version to a state of an earlier version that it absorbs together with at least one other, such as a single progressed stage replacing separate mild and severe stages."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000064 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000088 a owl:ObjectProperty ;
+    rdfs:label "records governing agreement"@en ;
+    obo:IAO_0000115 "Relates a payment record to the price agreement, such as an outcomes-based agreement, under which the recorded payment was made."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000077 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000078 ;
+    rdfs:subPropertyOf obo:IAO_0000136 .
+
+rheo:1000089 a owl:ObjectProperty ;
+    rdfs:label "references area"@en ;
+    obo:IAO_0000115 "Relates an international reference pricing rule to a country or other area whose prices it references."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000120 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000116 .
+
+rheo:1000090 a owl:ObjectProperty ;
+    rdfs:label "model state represents"@en ;
+    obo:IAO_0000115 "Relates a model state to the clinical or classification state description that it approximates, such as the model state 'stable disease' of a cohort model to the state 'stable disease' of a disease staging classification."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000034 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000021 .
+
+rheo:1000091 a owl:ObjectProperty ;
+    rdfs:label "records opened state"@en ;
+    obo:IAO_0000115 "Relates a possibility change record to the state description of the state that became open."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000128 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 ;
+    rdfs:subPropertyOf obo:IAO_0000136 .
+
+rheo:1000092 a owl:ObjectProperty ;
+    rdfs:label "revises scheme version"@en ;
+    obo:IAO_0000115 "Relates a classification revision record to the classification scheme version that was revised."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000129 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000065 .
+
+rheo:1000093 a owl:ObjectProperty ;
+    rdfs:label "results in scheme version"@en ;
+    obo:IAO_0000115 "Relates a classification revision record to the classification scheme version the revision produced."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000129 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000065 .
+
+rheo:1000094 a owl:ObjectProperty ;
+    rdfs:label "introduces state"@en ;
+    obo:IAO_0000115 "Relates a classification revision record to a state description that the revision added and that neither refines, renames nor merges a state of the revised version."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000129 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000095 a owl:ObjectProperty ;
+    rdfs:label "concerns observation"@en ;
+    obo:IAO_0000115 "Relates a knowledge change record to the state observation whose difference from the earlier observation reflects a change in knowledge, not in the entity."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000130 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000066 .
+
+rheo:1000096 a owl:ObjectProperty ;
+    rdfs:label "specifies transitions for"@en ;
+    obo:IAO_0000115 "Relates a transition specification to the economic model version, or the classification scheme version, whose transitions it governs."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000134 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( rheo:0000028 rheo:0000065 ) ] .
+
+rheo:1000099 a owl:ObjectProperty ;
+    rdfs:label "reviewed by"@en ;
+    obo:IAO_0000115 "Relates a record to the person or organization that reviewed or approved it."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:1000100 a owl:ObjectProperty ;
+    rdfs:label "sums cost record"@en ;
+    obo:IAO_0000115 "Relates a cost record that is a total to a cost record it adds in."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000074 .
+
+rheo:1000101 a owl:ObjectProperty ;
+    rdfs:label "adjusts cost record"@en ;
+    obo:IAO_0000115 "Relates an adjusted cost record to the cost record it converts, inflates, deflates or discounts."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000074 .
+
+rheo:1000102 a owl:ObjectProperty ;
+    rdfs:label "uses adjustment factor"@en ;
+    obo:IAO_0000115 "Relates an adjusted cost record to the estimate it applies, such as an exchange rate, a price index ratio or a discount factor."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000011 .
+
+rheo:1000103 a owl:ObjectProperty ;
+    rdfs:label "cost of alternative"@en ;
+    obo:IAO_0000115 "Relates a cost record to the option whose cost it records, or, for an incremental cost record, the option whose cost is compared."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000104 a owl:ObjectProperty ;
+    rdfs:label "compared with alternative"@en ;
+    obo:IAO_0000115 "Relates an incremental cost record to the comparator against which the difference is taken."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000026 .
+
+rheo:1000105 a owl:ObjectProperty ;
+    rdfs:label "compares cost record"@en ;
+    obo:IAO_0000115 "Relates an incremental cost record to one of the two cost records whose difference it records."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000074 .
+
+rheo:1000106 a owl:ObjectProperty ;
+    rdfs:label "valuation rests on assumption"@en ;
+    obo:IAO_0000115 "Relates a costing process or a cost record to a modelling assumption its valuation depends on, such as the choice of a replacement cost for informal care."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000020 .
+
+rheo:1000110 a owl:ObjectProperty ;
+    rdfs:label "has state maintenance resource use"@en ;
+    obo:IAO_0000115 "Relates a transition record to a record of a process, intervention or resource use that maintained the entity's state between the two observations, such as the resource use record of a maintenance treatment: the analogue of the state costs of a Markov model."@en ;
+    obo:IAO_0000116 "In the core since 0.3.0 (review B): state costs are not RNI theory. The RNI module uses this link for actively reproduced replacement. A maintenance record counts when its date, or its period, overlaps the interval between the two observations."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000067 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:1000116 a owl:ObjectProperty ;
+    rdfs:label "records opened area"@en ;
+    obo:IAO_0000115 "Relates a possibility change record to the geographic area in which the state became open, where the opening was local."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000128 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000116 .
+
+rheo:1000117 a owl:ObjectProperty ;
+    rdfs:label "uses discounting specification"@en ;
+    obo:IAO_0000115 "Relates a discounted cost record to the discounting specification (rates and base year) it applies."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000093 .
+
+rheo:1000119 a owl:ObjectProperty ;
+    rdfs:label "computed from result"@en ;
+    obo:IAO_0000115 "Relates a model result to another result of the same run it was calculated from, such as an ICER from its incremental cost and incremental QALYs."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000032 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000032 .
+
+rheo:1000120 a owl:ObjectProperty ;
+    rdfs:label "borne by"@en ;
+    obo:IAO_0000115 "Relates a cost record to the organization, household or person that bears the cost, such as the commissioner, a local authority or a household paying a co-payment."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( obo:OBI_0000245 obo:OMRSE_00000076 obo:NCBITaxon_9606 ) ] .
+
+rheo:1000121 a owl:ObjectProperty ;
+    rdfs:label "counts costs borne by"@en ;
+    obo:IAO_0000115 "Relates a perspective specification to an organization, household or person whose costs it counts. A perspective with no such list counts every bearer."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000072 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( obo:OBI_0000245 obo:OMRSE_00000076 obo:NCBITaxon_9606 ) ] .
+
+rheo:2000001 a owl:DatatypeProperty ;
+    rdfs:label "has numeric value"@en ;
+    obo:IAO_0000115 "The numeric value of an estimate, an assumed value or a model result."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000002 a owl:DatatypeProperty ;
+    rdfs:label "has unit label"@en ;
+    obo:IAO_0000115 "The unit or scale in which a value is expressed, in words, such as 'utility (0 = dead, 1 = full health)' or 'GBP per admission'."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000003 a owl:DatatypeProperty ;
+    rdfs:label "has currency code"@en ;
+    obo:IAO_0000115 "The ISO 4217 code of the currency of a cost, a model version or a model result, such as GBP."@en ;
+    obo:IAO_0000119 "ISO 4217" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000004 a owl:DatatypeProperty ;
+    rdfs:label "has price year"@en ;
+    obo:IAO_0000115 "The year or financial year whose prices a cost, a model version or a model result is expressed in, such as 2024 or 2023/24."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000003 .
+
+rheo:2000005 a owl:DatatypeProperty ;
+    rdfs:label "has jurisdiction code"@en ;
+    obo:IAO_0000115 "The ISO 3166 code of the country or region that an estimate, price or record applies to, or that a geographic area is, such as GB or GB-ENG, or INT for several countries."@en ;
+    obo:IAO_0000119 "ISO 3166" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000006 a owl:DatatypeProperty ;
+    rdfs:label "has time interval"@en ;
+    obo:IAO_0000115 "The time interval a probability or a resource use estimate refers to, as an ISO 8601 duration such as P1Y."@en ;
+    obo:IAO_0000119 "ISO 8601" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000002 .
+
+rheo:2000007 a owl:DatatypeProperty ;
+    rdfs:label "has value set"@en ;
+    obo:IAO_0000115 "The value set (tariff) used to turn an instrument's health state descriptions into utilities, such as the UK value set, without the instrument or its version, which are given by has instrument and has instrument version."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000008 a owl:DatatypeProperty ;
+    rdfs:label "has source location"@en ;
+    obo:IAO_0000115 "Where in the source document the value was taken from, such as Table 3, or which part a correction notice changes."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000009 a owl:DatatypeProperty ;
+    rdfs:label "has estimation method"@en ;
+    obo:IAO_0000115 "How an estimate was obtained from its source or calculated from other estimates."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000010 a owl:DatatypeProperty ;
+    rdfs:label "has standard error"@en ;
+    obo:IAO_0000115 "The standard error of an estimate."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000019 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000011 a owl:DatatypeProperty ;
+    rdfs:label "has lower limit"@en ;
+    obo:IAO_0000115 "The lower limit of an interval around an estimate or an assumed value."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000019 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000012 a owl:DatatypeProperty ;
+    rdfs:label "has upper limit"@en ;
+    obo:IAO_0000115 "The upper limit of an interval around an estimate or an assumed value."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000019 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000013 a owl:DatatypeProperty ;
+    rdfs:label "has interval level"@en ;
+    obo:IAO_0000115 "The level of an interval as a proportion, such as 0.95 for a 95% confidence interval."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000019 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000014 a owl:DatatypeProperty ;
+    rdfs:label "has distribution family"@en ;
+    obo:IAO_0000115 "The STATO identifier of the probability distribution family describing the uncertainty, such as STATO_0000177 (beta distribution)."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000019 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:anyURI .
+
+rheo:2000015 a owl:DatatypeProperty ;
+    rdfs:label "has distribution parameters"@en ;
+    obo:IAO_0000115 "The parameters of a distribution as text, such as alpha=48; beta=352, kept for people to read."@en ;
+    obo:IAO_0000116 "Where the uncertainty extension module (rheo-uncertainty.ttl) is used, its structured distribution parameters are authoritative and this text is a copy for display."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000019 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000016 a owl:DatatypeProperty ;
+    rdfs:label "has rationale"@en ;
+    obo:IAO_0000115 "The reason for a parameter assignment or the justification of a modelling assumption."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000017 a owl:DatatypeProperty ;
+    rdfs:label "has version label"@en ;
+    obo:IAO_0000115 "The label of an economic model version, such as 2.0."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000028 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000018 a owl:DatatypeProperty ;
+    rdfs:label "has release date"@en ;
+    obo:IAO_0000115 "The date an economic model version was fixed for use, written as an ISO 8601 date (YYYY-MM-DD)."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000028 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000001 .
+
+rheo:2000019 a owl:DatatypeProperty ;
+    rdfs:label "has notice date"@en ;
+    obo:IAO_0000115 "The date a correction notice or a retraction notice was issued (ISO 8601 date)."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000001 .
+
+rheo:2000020 a owl:DatatypeProperty ;
+    rdfs:label "has analysis label"@en ;
+    obo:IAO_0000115 "The analysis that a model run or a parameter assignment belongs to, such as base case or scenario 2. An assignment can belong to several analyses and carries one label for each. An assignment without a label belongs to no stated analysis: missing is kept as missing."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000021 a owl:DatatypeProperty ;
+    rdfs:label "has population criteria"@en ;
+    obo:IAO_0000115 "The criteria that define a population, in words."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000004 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000022 a owl:DatatypeProperty ;
+    rdfs:label "has measured quantity"@en ;
+    obo:IAO_0000115 "What a model result or a record measures, such as incremental cost-effectiveness ratio, incremental QALYs or total household consumption expenditure."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000023 a owl:DatatypeProperty ;
+    rdfs:label "has valuation method"@en ;
+    obo:IAO_0000115 "The method used to value a health state: indirect (an instrument with a value set) or direct, such as time trade-off or standard gamble."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000024 a owl:DatatypeProperty ;
+    rdfs:label "has reference period"@en ;
+    obo:IAO_0000115 "The period the data behind an estimate refer to, such as 2019-2022."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000025 a owl:DatatypeProperty ;
+    rdfs:label "has probability basis"@en ;
+    obo:IAO_0000115 "States that a probability is per event (for example, per procedure) rather than over a time interval."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000026 a owl:DatatypeProperty ;
+    rdfs:label "has code"@en ;
+    obo:IAO_0000115 "A code from a clinical terminology or classification, with the name of the system, such as SNOMED CT 230690007."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000027 a owl:DatatypeProperty ;
+    rdfs:label "has perspective label"@en ;
+    obo:IAO_0000115 "A free-text name of the perspective of a record, such as NHS and personal social services, kept as a label for people to read."@en ;
+    obo:IAO_0000116 "Rule (0.3.0): the perspective specification linked by 'under perspective' (RHEO_1000049) is authoritative. This text is a label only: it is never used in checks or queries, a record that has it must also link a perspective specification, and where the two differ the specification governs."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000028 a owl:DatatypeProperty ;
+    rdfs:label "has time horizon"@en ;
+    obo:IAO_0000115 "The time horizon of a decision problem or a model version, as an ISO 8601 duration such as P40Y, or the word lifetime."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000004 .
+
+rheo:2000029 a owl:DatatypeProperty ;
+    rdfs:label "has cycle length"@en ;
+    obo:IAO_0000115 "The cycle length of a cohort model version, as an ISO 8601 duration such as P1Y."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000028 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000002 .
+
+rheo:2000030 a owl:DatatypeProperty ;
+    rdfs:label "has cost discount rate"@en ;
+    obo:IAO_0000115 "The annual discount rate applied to costs, as a proportion such as 0.035."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000031 a owl:DatatypeProperty ;
+    rdfs:label "has outcome discount rate"@en ;
+    obo:IAO_0000115 "The annual discount rate applied to health outcomes, as a proportion such as 0.035."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000032 a owl:DatatypeProperty ;
+    rdfs:label "has variable"@en ;
+    obo:IAO_0000115 "The variable or outcome an estimand concerns, such as EQ-5D-3L utility at 12 months."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000010 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000033 a owl:DatatypeProperty ;
+    rdfs:label "has summary measure"@en ;
+    obo:IAO_0000115 "The population-level summary of the variable, such as the mean or a hazard ratio."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000010 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000034 a owl:DatatypeProperty ;
+    rdfs:label "has intercurrent event strategy"@en ;
+    obo:IAO_0000115 "How events after the start of treatment that affect the variable are handled, such as treatment policy."@en ;
+    obo:IAO_0000119 "ICH E9(R1) 2019" ;
+    rdfs:domain rheo:0000010 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000035 a owl:DatatypeProperty ;
+    rdfs:label "has publication date"@en ;
+    obo:IAO_0000115 "The date a source document was published (ISO 8601 date)."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000001 .
+
+rheo:2000036 a owl:DatatypeProperty ;
+    rdfs:label "has missingness reason"@en ;
+    obo:IAO_0000115 "Why a value is absent: not reported, not applicable or not yet extracted. Keeps a missing value distinct from zero."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000037 a owl:DatatypeProperty ;
+    rdfs:label "has record status"@en ;
+    obo:IAO_0000115 "The review status of a record: draft, reviewed or approved. An approved record names who approved it (reviewed by), when (has review date) and for what (has approval scope)."@en ;
+    obo:IAO_0000116 "Operational meaning (0.3.0): the status is a designation that workflow software acts on. The record rules reject 'approved' without a reviewer, a review date and an approval scope, and a status outside draft, reviewed and approved."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000040 a owl:DatatypeProperty ;
+    rdfs:label "has observation date"@en ;
+    obo:IAO_0000115 "The date on which the state, quantity, payment, decision or event that a record describes was observed, took place or took effect, written as an ISO 8601 date (YYYY-MM-DD). It is not the date the record was made, which is given by has recording time."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000001 .
+
+rheo:2000041 a owl:DatatypeProperty ;
+    rdfs:label "has period start"@en ;
+    obo:IAO_0000115 "The first day of the period a record covers (YYYY-MM-DD)."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000001 .
+
+rheo:2000042 a owl:DatatypeProperty ;
+    rdfs:label "has period end"@en ;
+    obo:IAO_0000115 "The last day of the period a record covers (YYYY-MM-DD)."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000001 .
+
+rheo:2000043 a owl:DatatypeProperty ;
+    rdfs:label "has quantity"@en ;
+    obo:IAO_0000115 "The quantity of a resource used, in the units given by the unit label."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000044 a owl:DatatypeProperty ;
+    rdfs:label "has count"@en ;
+    obo:IAO_0000115 "The number of members of a stock or of entities moving in a flow."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000045 a owl:DatatypeProperty ;
+    rdfs:label "has price type"@en ;
+    obo:IAO_0000115 "Whether a price is a list price or a net price after discounts or agreements."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000078 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000046 a owl:DatatypeProperty ;
+    rdfs:label "is confidential"@en ;
+    obo:IAO_0000115 "States that a value, such as a net price, is confidential and may not be published."@en ;
+    obo:IAO_0000116 "Operational meaning (0.3.0): 'true' records a designation; it does not by itself restrict access. Software that publishes or shares records must remove confidential values (the public view query ops/public-view.rq does this and run_demo.py tests it). The record rules flag estimates taken from a confidential source and results computed from a confidential value that are not marked confidential."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:boolean .
+
+rheo:2000047 a owl:DatatypeProperty ;
+    rdfs:label "has target currency code"@en ;
+    obo:IAO_0000115 "The ISO 4217 code of the currency a conversion estimate converts into."@en ;
+    obo:IAO_0000119 "ISO 4217" ;
+    rdfs:domain rheo:0000082 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000048 a owl:DatatypeProperty ;
+    rdfs:label "has measurement basis"@en ;
+    obo:IAO_0000115 "Whether a count records what was observed (stock and flow measurements, observed) or what a model run projects (projected counts, projected)."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000050 a owl:DatatypeProperty ;
+    rdfs:label "has decision"@en ;
+    obo:IAO_0000115 "The decision stated in a recommendation: recommended, recommended with restrictions, recommended with managed access, recommended only in research, not recommended, or terminated appraisal."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000083 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000051 a owl:DatatypeProperty ;
+    rdfs:label "has conversion year"@en ;
+    obo:IAO_0000115 "The year a currency conversion estimate applies to."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000082 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000005 .
+
+rheo:2000060 a owl:DatatypeProperty ;
+    rdfs:label "has time point"@en ;
+    obo:IAO_0000115 "The time of an observation in years from a stated baseline, used to calculate quantities over time such as QALYs."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000062 a owl:DatatypeProperty ;
+    rdfs:label "is discounted"@en ;
+    obo:IAO_0000115 "States whether a QALY or cost record has been discounted."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:boolean .
+
+rheo:2000063 a owl:DatatypeProperty ;
+    rdfs:label "has years of life lost"@en ;
+    obo:IAO_0000115 "The years of life lost to premature death that a DALY record includes."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000094 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000064 a owl:DatatypeProperty ;
+    rdfs:label "has years lived with disability"@en ;
+    obo:IAO_0000115 "The years lived with disability that a DALY record includes."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000094 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000065 a owl:DatatypeProperty ;
+    rdfs:label "has payment condition"@en ;
+    obo:IAO_0000115 "The outcome on which payment under an outcomes-based agreement depends, in words."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000098 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000066 a owl:DatatypeProperty ;
+    rdfs:label "has full-time equivalents"@en ;
+    obo:IAO_0000115 "The size of a workforce or a flow of staff in full-time equivalents."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000067 a owl:DatatypeProperty ;
+    rdfs:label "has household size"@en ;
+    obo:IAO_0000115 "The number of people in a household."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000068 a owl:DatatypeProperty ;
+    rdfs:label "obsolete is absorbing"@en ;
+    obo:IAO_0000115 "OBSOLETE. Stated, on a state description, that once an entity is in the state it cannot leave it."@en ;
+    obo:IAO_0000116 "Made obsolete in 0.3.0. On a state description it read as a universal claim about the world. Use a transition specification for the model version or classification scheme version concerned, with 'treats as absorbing'."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    obo:IAO_0100001 rheo:1000097 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:deprecated true .
+
+rheo:2000069 a owl:DatatypeProperty ;
+    rdfs:label "has flow reason"@en ;
+    obo:IAO_0000115 "Why the entities in a flow left or entered a stock or group, such as administered, wasted, joined or left; used when a flow runs to or from outside the system recorded."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000070 a owl:DatatypeProperty ;
+    rdfs:label "has benchmark rank"@en ;
+    obo:IAO_0000115 "The rank, from the lowest, of the adjusted reference price that sets the benchmark: 1 for the lowest, 2 for the second-lowest."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000120 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:decimal .
+
+rheo:2000071 a owl:DatatypeProperty ;
+    rdfs:label "has effective date"@en ;
+    obo:IAO_0000115 "The date from which a recorded change, such as a state becoming open, takes effect (ISO 8601 date, YYYY-MM-DD)."@en ;
+    obo:IAO_0000119 "ISO 8601" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000001 .
+
+rheo:2000072 a owl:DatatypeProperty ;
+    rdfs:label "has recording time"@en ;
+    obo:IAO_0000115 "The date and time at which a record was made or entered into the system that holds it (xsd:dateTime). It is never earlier than the observation date, and is kept apart from it."@en ;
+    obo:IAO_0000119 "ISO 8601" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:dateTime .
+
+rheo:2000073 a owl:DatatypeProperty ;
+    rdfs:label "has review date"@en ;
+    obo:IAO_0000115 "The date a record was reviewed or approved (ISO 8601 date, YYYY-MM-DD)."@en ;
+    obo:IAO_0000119 "ISO 8601" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:3000001 .
+
+rheo:2000074 a owl:DatatypeProperty ;
+    rdfs:label "has approval scope"@en ;
+    obo:IAO_0000115 "What an approval covers, such as the base case inputs of a stated model version for a stated submission. An approval outside its scope is not an approval."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000076 a owl:DatatypeProperty ;
+    rdfs:label "has instrument"@en ;
+    obo:IAO_0000115 "The instrument used to describe or measure a health state for valuation, such as EQ-5D or SF-6D, without its version or value set."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000077 a owl:DatatypeProperty ;
+    rdfs:label "has instrument version"@en ;
+    obo:IAO_0000115 "The version of the instrument, such as 3L or 5L for EQ-5D."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000088 a owl:DatatypeProperty ;
+    rdfs:label "has observation method"@en ;
+    obo:IAO_0000115 "How a state was observed, such as clinical examination, CT imaging or self-report. A change of method between two observations can change the state recorded without any change in the entity."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000089 a owl:DatatypeProperty ;
+    rdfs:label "has adjustment kind"@en ;
+    obo:IAO_0000115 "The kind of adjustment an adjusted cost record applies: inflation, deflation, currency conversion or discounting."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000074 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:2000092 a owl:DatatypeProperty ;
+    rdfs:label "has unit code"@en ;
+    obo:IAO_0000115 "The unit of a value as a UCUM code, such as 1 for a utility or a proportion, /a for a rate per year, a for years, or /{admission} for a cost per admission (the currency is given separately by its ISO 4217 code)."@en ;
+    obo:IAO_0000119 "UCUM (Unified Code for Units of Measure)" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range xsd:string .
+
+rheo:9000001 a owl:AnnotationProperty ;
+    rdfs:label "obsolete closest HEO concept"@en ;
+    obo:IAO_0000115 "OBSOLETE. Linked a RHEO term to the Health Economics Ontology concept closest in meaning."@en ;
+    obo:IAO_0000116 "Made obsolete in 0.2.2. RHEO to HEO mappings are published only in rheo-heo.sssom.tsv, which states for each mapping whether it is a close match or a related match and what kind of entity the RHEO term is."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:deprecated true .
+
+obo:BFO_0000016 a owl:Class ;
+    rdfs:label "disposition"@en ;
+    obo:IAO_0000115 "A disposition b is a realizable entity such that if b ceases to exist then its bearer is physically changed & b's realization occurs when and because this bearer is in some special physical circumstances & this realization occurs in virtue of the bearer's physical make-up."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000017 .
+
+obo:BFO_0000020 a owl:Class ;
+    rdfs:label "specifically dependent continuant"@en ;
+    obo:IAO_0000115 "b is a specifically dependent continuant =Def b is a continuant & there is some independent continuant c which is not a spatial region & which is such that b specifically depends on c."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000002 ;
+    owl:disjointWith obo:BFO_0000031 .
+
+obo:COB_0000022 a owl:Class ;
+    rdfs:label "organism"@en ;
+    obo:IAO_0000115 "A material entity that is a maximal functionally integrated unit that develops from a program encoded in a genome."@en ;
+    obo:IAO_0000116 "COB places organism under material entity; OBI's import shows it under 'material anatomical entity'."@en ;
+    obo:IAO_0000119 "OBI (http://purl.obolibrary.org/obo/obi.owl)" ;
+    rdfs:isDefinedBy obo:obi.owl ;
+    rdfs:subClassOf obo:BFO_0000040 .
+
+obo:COB_0001300 a owl:Class ;
+    rdfs:label "device"@en ;
+    obo:IAO_0000115 "A processed material entity which is designed to be capable of a process."@en ;
+    obo:IAO_0000116 "COB asserts COB_0000026 (processed material entity), a material entity; abbreviated here to material entity. Reused in place of RHEO_0000045, now obsolete."@en ;
+    obo:IAO_0000119 "OBI (http://purl.obolibrary.org/obo/obi.owl)" ;
+    rdfs:isDefinedBy obo:obi.owl ;
+    rdfs:subClassOf obo:BFO_0000040 .
+
+obo:IAO_0000229 rdfs:label "term split"@en .
+
+obo:OBI_0000066 a owl:Class ;
+    rdfs:label "investigation"@en ;
+    obo:IAO_0000115 "a planned process that consists of parts: planning, study design execution, documentation and which produce conclusion(s)."@en ;
+    obo:IAO_0000119 "OBI (http://purl.obolibrary.org/obo/obi.owl)" ;
+    rdfs:isDefinedBy obo:obi.owl ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+obo:OBI_0600007 a owl:Class ;
+    rdfs:label "administering substance in vivo"@en ;
+    obo:IAO_0000115 "A process by which a substance is intentionally given to an organism resulting in exposure of the organism to that substance."@en ;
+    obo:IAO_0000116 "OBI asserts OBI_0000274 (adding a material entity into a target), itself a planned process; abbreviated here to COB_0000082."@en ;
+    obo:IAO_0000119 "OBI (http://purl.obolibrary.org/obo/obi.owl)" ;
+    rdfs:isDefinedBy obo:obi.owl ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+obo:OGMS_0000097 a owl:Class ;
+    rdfs:label "health care encounter"@en ;
+    obo:IAO_0000115 "A temporally-connected health care process that has as participants an organization or person realizing the health care provider role and a person realizing the patient role. The health care provider role and patient are realized during the health care encounter."@en ;
+    obo:IAO_0000119 "OGMS (http://purl.obolibrary.org/obo/ogms.owl)" ;
+    rdfs:isDefinedBy obo:ogms.owl ;
+    rdfs:subClassOf obo:OGMS_0000096 .
+
+obo:RO_0002351 a owl:ObjectProperty ;
+    rdfs:label "has member"@en ;
+    obo:IAO_0000115 "has member is a mereological relation between a collection and an item."@en ;
+    obo:IAO_0000119 "RO (http://purl.obolibrary.org/obo/ro.owl)" .
+
+obo:STATO_0000039 a owl:Class ;
+    rdfs:label "statistic"@en ;
+    obo:IAO_0000115 "a statistic is a measurement datum to describe a dataset or a variable. It is generated by a calculation on set of observed data."@en ;
+    obo:IAO_0000119 "STATO (http://purl.obolibrary.org/obo/stato.owl)" ;
+    rdfs:isDefinedBy obo:stato.owl ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+obo:STATO_0000471 a owl:Class ;
+    rdfs:label "estimate"@en ;
+    obo:IAO_0000115 "a estimate is a data item which is computed from a dataset to provide an approximated value (an estimator) for a 'statistical parameter' (a 'characteristics/parameter' of the true underlying distribution) of a real population."@en ;
+    obo:IAO_0000119 "STATO (http://purl.obolibrary.org/obo/stato.owl)" ;
+    rdfs:isDefinedBy obo:stato.owl ;
+    rdfs:subClassOf obo:STATO_0000039 .
+
+obo:STATO_0000599 a owl:Class ;
+    rdfs:label "point estimate"@en ;
+    obo:IAO_0000115 "a point estimate is a data item which provides a particular value evaluating a population parameter"@en ;
+    obo:IAO_0000119 "STATO (http://purl.obolibrary.org/obo/stato.owl)" ;
+    rdfs:isDefinedBy obo:stato.owl ;
+    rdfs:subClassOf obo:STATO_0000471 .
+
+prov:used a owl:ObjectProperty ;
+    rdfs:label "used"@en ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o> .
+
+prov:wasGeneratedBy a owl:ObjectProperty ;
+    rdfs:label "was generated by"@en ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o> .
+
+rheo:0000012 a owl:Class ;
+    rdfs:label "utility estimate"@en ;
+    obo:IAO_0000112 "Mean EQ-5D-3L utility of 0.78 for stable disease, UK value set."@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the preference-based value of a health state on a scale on which full health is 1 and dead is 0, obtained by a stated valuation method and, for indirect methods, a stated instrument and value set."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000015 a owl:Class ;
+    rdfs:label "resource use estimate"@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the quantity of a resource or a health care process used per person or per event over a stated period, in natural units."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000023 a owl:Class ;
+    rdfs:label "correction notice"@en ;
+    obo:IAO_0000115 "A document issued by the authors or publisher of a document that corrects part of its content while the rest stands."@en ;
+    obo:IAO_0000116 "A correction notice can itself be the source of a corrected value."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000310 ;
+    owl:disjointWith rheo:0000024 .
+
+rheo:0000098 a owl:Class ;
+    rdfs:label "outcomes-based agreement"@en ;
+    obo:IAO_0000115 "A price agreement under which the payment for a health technology depends on the outcome observed in each patient or in a group, such as paying only for patients who respond at a stated time."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000078 .
+
+rheo:0000105 a owl:Class ;
+    rdfs:label "emission factor estimate"@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the greenhouse gas emissions caused by one unit of a kind of resource or care process, in kilograms of carbon dioxide equivalent."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000110 a owl:Class ;
+    rdfs:label "classification scheme"@en ;
+    obo:IAO_0000115 "An information content entity that is the lineage of successive classification scheme versions used to classify the same kind of entity in the same respect, such as a disease staging system across its revisions."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000126 a owl:Class ;
+    rdfs:label "classification revision process"@en ;
+    obo:IAO_0000112 "A standards body issuing version 2 of a disease staging classification that splits progressed disease into mild and severe."@en ;
+    obo:IAO_0000115 "A planned process in which an organization revises a classification scheme, issuing a new version in which states are added, split, merged, renamed or withdrawn."@en ;
+    obo:IAO_0000116 "A change in the description, not in the entities described. A category added for a condition that existed long before changes no person's state and opens no new possibility."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 ;
+    owl:disjointWith rheo:0000127 .
+
+rheo:0000155 a owl:Class ;
+    rdfs:label "opportunity cost record"@en ;
+    obo:IAO_0000115 "A cost record recording the value of the best alternative use forgone when a resource is used in a stated way, in money or in health (such as QALYs forgone), which names that forgone alternative as an intervention or a kind of care process."@en ;
+    obo:IAO_0000116 "A monetary valuation alone does not establish an opportunity cost: the forgone alternative must be stated, and it is a use of the resource (an intervention or a care process), never the kind of resource itself. A health opportunity cost in QALYs needs no currency."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty rheo:1000107 ;
+            owl:someValuesFrom [ a owl:Class ;
+                    owl:unionOf ( rheo:0000026 rheo:0000122 ) ] ],
+        rheo:0000074 .
+
+rheo:1000019 a owl:ObjectProperty ;
+    rdfs:label "produced by run"@en ;
+    obo:IAO_0000115 "Relates a model result to the model run that produced it."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000032 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000031 ;
+    rdfs:subPropertyOf prov:wasGeneratedBy .
+
+rheo:1000041 a owl:ObjectProperty ;
+    rdfs:label "records process"@en ;
+    obo:IAO_0000115 "Relates a record to the process it describes, such as the care process whose resource use it records."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf obo:IAO_0000136 .
+
+rheo:1000097 a owl:ObjectProperty ;
+    rdfs:label "treats as absorbing"@en ;
+    obo:IAO_0000115 "Relates a transition specification to a state that, under it, no entity leaves once it has entered."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000134 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000064 .
+
+rheo:1000107 a owl:ObjectProperty ;
+    rdfs:label "forgoes alternative"@en ;
+    obo:IAO_0000115 "Relates an opportunity cost record to the alternative use of the resource that was forgone, given as an intervention specification or a care process type specification."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000155 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+rheo:3000003 a rdfs:Datatype ;
+    rdfs:label "price year"@en ;
+    obo:IAO_0000115 "A price year (2024) or a financial year (2023/24), as a plain string."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:equivalentClass [ a rdfs:Datatype ;
+            owl:onDatatype xsd:string ;
+            owl:withRestrictions ( [ xsd:pattern "[0-9]{4}(/[0-9]{2})?" ] ) ] .
+
+rheo:3000004 a rdfs:Datatype ;
+    rdfs:label "time horizon"@en ;
+    obo:IAO_0000115 "A time horizon written as an ISO 8601 duration, such as P40Y, or the word lifetime, as a plain string."@en ;
+    obo:IAO_0000119 "ISO 8601" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:equivalentClass [ a rdfs:Datatype ;
+            owl:onDatatype xsd:string ;
+            owl:withRestrictions ( [ xsd:pattern "(P([0-9]+Y)?([0-9]+M)?([0-9]+W)?([0-9]+D)?|[Ll]ifetime)" ] ) ] .
+
+rheo:3000005 a rdfs:Datatype ;
+    rdfs:label "calendar year"@en ;
+    obo:IAO_0000115 "A calendar year, such as 2025, as a plain string."@en ;
+    obo:IAO_0000119 "ISO 8601" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:equivalentClass [ a rdfs:Datatype ;
+            owl:onDatatype xsd:string ;
+            owl:withRestrictions ( [ xsd:pattern "[0-9]{4}" ] ) ] .
+
+obo:BFO_0000001 a owl:Class ;
+    rdfs:label "entity"@en ;
+    obo:IAO_0000115 "An entity is anything that exists or has existed or will exist."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> .
+
+obo:BFO_0000004 a owl:Class ;
+    rdfs:label "independent continuant"@en ;
+    obo:IAO_0000115 "b is an independent continuant =Def b is a continuant & there is no c such that b specifically depends on c or b generically depends on c."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000002 ;
+    owl:disjointWith obo:BFO_0000031 .
+
+obo:BFO_0000017 a owl:Class ;
+    rdfs:label "realizable entity"@en ;
+    obo:IAO_0000115 "A realizable entity is a specifically dependent continuant that inheres in some independent continuant which is not a spatial region & which is of a type some instances of which are realized in processes of a correlated type."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000020 .
+
+obo:BFO_0000029 a owl:Class ;
+    rdfs:label "site"@en ;
+    obo:IAO_0000115 "A site is a three-dimensional immaterial entity whose boundaries either (partially or wholly) coincide with the boundaries of one or more material entities or have locations determined in relation to some material entity."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000141 .
+
+obo:BFO_0000035 a owl:Class ;
+    rdfs:label "process boundary"@en ;
+    obo:IAO_0000115 "p is a process boundary =Def p is a temporal part of a process & p has no proper temporal parts."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000003 .
+
+obo:BFO_0000141 a owl:Class ;
+    rdfs:label "immaterial entity"@en ;
+    obo:IAO_0000115 "b is an immaterial entity =Def b is an independent continuant which is such that there is no time t when it has a material entity as continuant part."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000004 .
+
+obo:IAO_0000104 a owl:Class ;
+    rdfs:label "plan specification"@en ;
+    obo:IAO_0000115 "A directive information entity with action specifications and objective specifications as parts, and that may be concretized as a realizable entity that, if realized, is realized in a process in which the bearer tries to achieve the objectives by taking the actions specified."@en ;
+    obo:IAO_0000119 "IAO (http://purl.obolibrary.org/obo/iao.owl)" ;
+    rdfs:isDefinedBy obo:iao.owl ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+obo:IAO_0000228 rdfs:label "term imported"@en .
+
+obo:NCBITaxon_9606 a owl:Class ;
+    rdfs:label "Homo sapiens"@en ;
+    obo:IAO_0000115 "The species of human beings; used here for persons as organisms."@en ;
+    obo:IAO_0000116 "NCBI Taxonomy gives no textual definition; the definition here is a RHEO gloss. Its asserted parent is the genus Homo, abbreviated here to organism."@en ;
+    obo:IAO_0000119 "NCBI Taxonomy (http://purl.obolibrary.org/obo/ncbitaxon.owl)" ;
+    rdfs:isDefinedBy obo:ncbitaxon.owl ;
+    rdfs:subClassOf obo:COB_0000022 .
+
+obo:OMRSE_00000010 a owl:Class ;
+    rdfs:label "health care role"@en ;
+    obo:IAO_0000115 "A role in human social processes that is realized by health care processes such as seeking or providing treatment for disease and injury, diagnosing disease and injury, or undergoing diagnosis."@en ;
+    obo:IAO_0000116 "OMRSE places it under 'role in human social processes', a kind of role; abbreviated here to role."@en ;
+    obo:IAO_0000119 "OMRSE (http://purl.obolibrary.org/obo/omrse.owl)" ;
+    rdfs:isDefinedBy obo:omrse.owl ;
+    rdfs:subClassOf obo:BFO_0000023 .
+
+obo:OMRSE_00000076 a owl:Class ;
+    rdfs:label "household"@en ;
+    obo:IAO_0000115 "A human or collection of humans that occupies a housing unit by storing their possessions there and habitually sleeping there thereby participating in the realization of that housing unit's residence function."@en ;
+    obo:IAO_0000119 "OMRSE (http://purl.obolibrary.org/obo/omrse.owl)" ;
+    rdfs:isDefinedBy obo:omrse.owl ;
+    rdfs:subClassOf obo:BFO_0000040 .
+
+prov:wasDerivedFrom a owl:ObjectProperty ;
+    rdfs:label "was derived from"@en ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o> .
+
+prov:wasRevisionOf a owl:ObjectProperty ;
+    rdfs:label "was revision of"@en ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o> .
+
+rheo:0000013 a owl:Class ;
+    rdfs:label "cost estimate"@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the monetary value of resources consumed, valued from a stated perspective, in a stated currency and price year."@en ;
+    obo:IAO_0000116 "May be negative, for example an incremental cost or a cost offset."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000024 a owl:Class ;
+    rdfs:label "retraction notice"@en ;
+    obo:IAO_0000115 "A document issued by the authors or publisher of a document that withdraws it, so that its findings are no longer to be relied on."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000310 .
+
+rheo:0000027 a owl:Class ;
+    rdfs:label "economic model"@en ;
+    obo:IAO_0000115 "An information content entity that represents a decision problem mathematically and combines evidence and assumptions to estimate the costs and outcomes of the options compared."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:disjointWith rheo:0000028 .
+
+rheo:0000034 a owl:Class ;
+    rdfs:label "model state"@en ;
+    obo:IAO_0000115 "A health state description used as a state of an economic model, such as stable disease or progressed disease in a cohort model, that stands for the clinical or classification state descriptions it approximates."@en ;
+    obo:IAO_0000116 "A model state is a component of an economic model. It is not a stage of disease, and no person is ever in it. Utilities measured in people value clinical or classification state descriptions; a model state points to the state it approximates with 'model state represents'."@en,
+        "Tunnel states, which count time spent since an event, are model states: record them as model states that represent a clinical state (model state represents), not as states of a classification used for observation."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000021 .
+
+rheo:0000042 a owl:Class ;
+    rdfs:label "care setting"@en ;
+    obo:IAO_0000115 "A site in which health or social care is delivered or received, such as a hospital ward, an emergency department, a general practice or a person's home."@en ;
+    obo:IAO_0000116 "Decision (0.3.0): a care setting stays a RHEO site (BFO site), not the OMRSE health care facility (OMRSE_00000102). A setting is the place where care is delivered, which includes a person's home and a remote consultation, and many settings lie within one facility (a ward and an emergency department in one hospital). A facility is a material entity; a setting is the site it, or a home, provides. Where a record needs the building or estate, reuse OMRSE health care facility and relate the setting to it with RO located in, rather than define a RHEO duplicate."@en,
+        "Patient movements and flows run from one care setting to another."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000029 .
+
+rheo:0000043 a owl:Class ;
+    rdfs:label "resource stock"@en ;
+    obo:IAO_0000115 "An object aggregate of objects of one kind that are available to bear a health care resource role at a time, such as the beds of a ward or the vaccine doses held by a programme."@en ;
+    obo:IAO_0000116 "A stock is measured at a point in time; flows are measured over a period."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000027 .
+
+rheo:0000054 a owl:Class ;
+    rdfs:label "social care process"@en ;
+    obo:IAO_0000115 "A planned process in which support with daily living is provided to a person because of illness, disability or age, such as home care or a care home stay."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000082 a owl:Class ;
+    rdfs:label "currency conversion estimate"@en ;
+    obo:IAO_0000115 "An economic evaluation estimate of the rate at which amounts in one currency or price year convert to another, such as an exchange rate or a purchasing power parity conversion factor."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000011 .
+
+rheo:0000093 a owl:Class ;
+    rdfs:label "discounting specification"@en ;
+    obo:IAO_0000115 "A directive information entity stating the annual discount rates for costs and for health outcomes and the base year to which future values are discounted."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000072,
+        rheo:0000075,
+        rheo:0000076,
+        rheo:0000078,
+        rheo:0000083,
+        rheo:0000103,
+        rheo:0000108,
+        rheo:0000109,
+        rheo:0000117 .
+
+rheo:0000097 a owl:Class ;
+    rdfs:label "workforce"@en ;
+    obo:IAO_0000115 "An object aggregate of persons who bear a health care provider role in a stated organization or care setting at a time, such as the registered nurses of a ward."@en ;
+    obo:IAO_0000116 "Its size is recorded by stock measurements (for example in full-time equivalents) and its changes by flow measurements of joiners and leavers."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000027 .
+
+rheo:0000099 a owl:Class ;
+    rdfs:label "trial arm specification"@en ;
+    obo:IAO_0000115 "A plan specification describing one of the groups to which participants in a randomised trial are allocated, and the intervention that group receives."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000104 .
+
+rheo:0000116 a owl:Class ;
+    rdfs:label "geographic area"@en ;
+    obo:IAO_0000115 "A site whose boundaries are fiat boundaries drawn on the earth's surface by a jurisdiction or a statistical authority, such as a country, a district or a small area used for deprivation statistics."@en ;
+    obo:IAO_0000116 "Deprivation is a property of an area, recorded by observations about the area; a person is related to an area by where they live."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000029 .
+
+rheo:0000123 a owl:Class ;
+    rdfs:label "resource type specification"@en ;
+    obo:IAO_0000115 "A costed item type specification that identifies a kind of resource unit that is consumed, occupied or used in care, such as a hospital bed day, a 28-day pack of a medicine, a vaccine dose or an hour of staff or carer time, optionally with a code from a classification."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000121 .
+
+rheo:0000125 a owl:Class ;
+    rdfs:label "entity change process"@en ;
+    obo:IAO_0000115 "A process in which an entity changes, or in which the range of states open to it changes, such as a person progressing from stable to progressed disease, or a new medicine becoming available to the patients of a health service."@en ;
+    obo:IAO_0000116 "RHEO keeps three kinds of change apart: a change in the entity or in the states open to it (entity change process); a change in the classification used to describe it (classification revision process); and a change in what observers know about it (knowledge change process). A difference between two recorded states can come from any of the three. The RNI module classifies only the first kind."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 ;
+    owl:disjointWith rheo:0000126,
+        rheo:0000127 .
+
+rheo:0000127 a owl:Class ;
+    rdfs:label "knowledge change process"@en ;
+    obo:IAO_0000112 "A radiologist re-reading a 2024 scan and finding that the disease had already progressed at that visit."@en ;
+    obo:IAO_0000115 "A process in which what an observer knows about an entity changes while the entity itself does not change in the respect concerned, such as a diagnosis that detects a condition the person already had, or a re-reading of a test that corrects an earlier observation."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000128 a owl:Class ;
+    rdfs:label "possibility change record"@en ;
+    obo:IAO_0000115 "A data entity recording that a stated state became open to entities of a stated kind or population from a stated date, because of a possibility change process such as the start of a vaccine programme or the availability of a new medicine."@en ;
+    obo:IAO_0000116 "Name the population (applies to population) or the area (records opened area) in which the state became open: an authorisation in another country does not open a state for patients here. Where an area is given, the RNI rule counts the opening only for entities located in that area."@en,
+        "The evidence the RNI rule needs before it counts a transition as an innovation."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000090,
+        rheo:0000092,
+        rheo:0000094,
+        rheo:0000100,
+        rheo:0000104,
+        rheo:0000106,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114,
+        rheo:0000119,
+        rheo:0000129,
+        rheo:0000130 .
+
+rheo:0000134 a owl:Class ;
+    rdfs:label "transition specification"@en ;
+    obo:IAO_0000115 "A directive information entity, part of an economic model version or adopted for recording under a classification scheme version, stating which transitions between states are allowed, such as that no transition leaves the state dead, or that treatment cannot restart after it has stopped."@en ;
+    obo:IAO_0000116 "Absorption is a property of a state's use in a model or a recording scheme, not of the state description: one model may treat stopping treatment as absorbing because its structure excludes restarting, while another allows it."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000072,
+        rheo:0000075,
+        rheo:0000076,
+        rheo:0000078,
+        rheo:0000083,
+        rheo:0000093,
+        rheo:0000103,
+        rheo:0000108,
+        rheo:0000109,
+        rheo:0000117,
+        rheo:0000120 .
+
+rheo:1000012 a owl:ObjectProperty ;
+    rdfs:label "assigns parameter"@en ;
+    obo:IAO_0000115 "Relates a parameter assignment to the model parameter it sets."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000029 .
+
+rheo:1000013 a owl:ObjectProperty ;
+    rdfs:label "for model version"@en ;
+    obo:IAO_0000115 "Relates a parameter assignment to the economic model version in which it applies."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000028 .
+
+rheo:1000017 a owl:ObjectProperty ;
+    rdfs:label "executes model version"@en ;
+    obo:IAO_0000115 "Relates a model run to the economic model version it executes."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000031 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:range rheo:0000028 .
+
+rheo:3000002 a rdfs:Datatype ;
+    rdfs:label "ISO 8601 duration"@en ;
+    obo:IAO_0000115 "A duration written in the ISO 8601 form PnYnMnWnDTnHnMnS, such as P1Y or P28D, as a plain string."@en ;
+    obo:IAO_0000119 "ISO 8601" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:equivalentClass [ a rdfs:Datatype ;
+            owl:onDatatype xsd:string ;
+            owl:withRestrictions ( [ xsd:pattern "P([0-9]+Y)?([0-9]+M)?([0-9]+W)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?" ] ) ] .
+
+obo:BFO_0000002 a owl:Class ;
+    rdfs:label "continuant"@en ;
+    obo:IAO_0000115 "A continuant is an entity that persists, endures, or continues to exist through time while maintaining its identity."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000001 ;
+    owl:disjointWith obo:BFO_0000003 .
+
+obo:BFO_0000003 a owl:Class ;
+    rdfs:label "occurrent"@en ;
+    obo:IAO_0000115 "An occurrent is an entity that unfolds itself in time or it is the start or end of such an entity or it is a temporal or spatiotemporal region."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000001 .
+
+obo:BFO_0000027 a owl:Class ;
+    rdfs:label "object aggregate"@en ;
+    obo:IAO_0000115 "An object aggregate is a material entity consisting exactly of a plurality (≥1) of objects as member parts which together form a unit."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000040 .
+
+obo:BFO_0000031 a owl:Class ;
+    rdfs:label "generically dependent continuant"@en ;
+    obo:IAO_0000115 "A generically dependent continuant is an entity that exists in virtue of the fact that there is at least one of what may be multiple copies which is the content or the pattern that multiple copies would share."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000002 .
+
+rheo:0000005 a owl:Class ;
+    rdfs:label "clinical event type specification"@en ;
+    obo:IAO_0000115 "An information content entity that identifies a kind of clinical event that estimates refer to, such as disease progression or stroke, optionally with a code from a clinical terminology."@en ;
+    obo:IAO_0000116 "Estimates are about kinds of event, not one particular occurrence, so they point to this specification rather than to an individual clinical event."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000029 a owl:Class ;
+    rdfs:label "model parameter"@en ;
+    obo:IAO_0000115 "An information content entity that is a named input quantity of an economic model version, such as the utility of a health state or a transition probability."@en ;
+    obo:IAO_0000116 "The parameter is the input slot, not its value. Close to STATO model parameter (STATO_0000034), which is defined for statistical models."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:disjointWith rheo:0000030 .
+
+rheo:0000031 a owl:Class ;
+    rdfs:label "model run"@en ;
+    obo:IAO_0000115 "A planned process in which an economic model version is executed with a set of parameter assignments to produce results for a stated analysis, such as the base case or a scenario."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty rheo:1000017 ],
+        [ a owl:Restriction ;
+            owl:onProperty rheo:1000017 ;
+            owl:someValuesFrom rheo:0000028 ],
+        obo:COB_0000082 .
+
+rheo:0000090 a owl:Class ;
+    rdfs:label "utility measurement record"@en ;
+    obo:IAO_0000115 "A measurement datum recording a person's preference-based health state value at a stated time, obtained with a stated instrument and value set."@en ;
+    obo:IAO_0000116 "Records of individual people over time; a utility estimate (RHEO_0000012) is a summary across people."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000109 ;
+    owl:disjointWith rheo:0000012,
+        rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000092,
+        rheo:0000094,
+        rheo:0000100,
+        rheo:0000104,
+        rheo:0000106,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000103 a owl:Class ;
+    rdfs:label "benefit package specification"@en ;
+    obo:IAO_0000115 "A directive information entity, issued by a payer, listing the kinds of care that are covered for its members and on what terms."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000072,
+        rheo:0000075,
+        rheo:0000076,
+        rheo:0000078,
+        rheo:0000083,
+        rheo:0000108,
+        rheo:0000109,
+        rheo:0000117 .
+
+rheo:0000118 a owl:Class ;
+    rdfs:label "member group"@en ;
+    obo:IAO_0000115 "An object aggregate whose members are the persons, organizations or objects that are in a stated state at a time, such as the people on a waiting list or the hospital trusts prescribing a medicine."@en ;
+    obo:IAO_0000116 "What stock measurements count and what flows run between, together with resource stocks, workforces and care settings. The members of an object aggregate must be objects, so organizations count as members only when they are treated as objects. Otherwise model adopting hospitals by their facilities (OMRSE_00000102 health care facility), or as an aggregate of organizations under a separate class."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:BFO_0000027 .
+
+rheo:0000119 a owl:Class ;
+    rdfs:label "economic indicator record"@en ;
+    obo:IAO_0000115 "A data entity recording the value of an economic indicator for a country or other geographic area over a stated period, such as GDP per capita at purchasing power parity."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+rheo:0000120 a owl:Class ;
+    rdfs:label "international reference pricing rule"@en ;
+    obo:IAO_0000115 "A directive information entity stating the countries whose prices are referenced, how those prices are adjusted and which of them sets the price benchmark for a health technology, such as the second-lowest GDP-adjusted net price in a basket of countries."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+rheo:0000130 a owl:Class ;
+    rdfs:label "knowledge change record"@en ;
+    obo:IAO_0000115 "A data entity recording that a state observation reflects a change in what is known about an entity rather than a change in the entity, such as the detection of a condition already present at an earlier observation, or the correction of an earlier observation."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000090,
+        rheo:0000092,
+        rheo:0000094,
+        rheo:0000100,
+        rheo:0000104,
+        rheo:0000106,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114,
+        rheo:0000119 .
+
+rheo:1000040 a owl:ObjectProperty ;
+    rdfs:label "records entity"@en ;
+    obo:IAO_0000115 "Relates a record to the person, household, organization, stock or other independent continuant it describes."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subPropertyOf obo:IAO_0000136 .
+
+obo:BFO_0000023 a owl:Class ;
+    rdfs:label "role"@en ;
+    obo:IAO_0000115 "A role b is a realizable entity such that b exists because there is some single bearer that is in some special physical, social, or institutional set of circumstances in which this bearer does not have to be & b is not such that, if it ceases to exist, then the physical make-up of the bearer is thereby changed."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000017 .
+
+obo:OBI_0000245 a owl:Class ;
+    rdfs:label "organization"@en ;
+    obo:IAO_0000115 "An entity that can bear roles, has members, and has a set of organization rules. Members of organizations are either organizations themselves or individual people."@en ;
+    obo:IAO_0000119 "OBI (http://purl.obolibrary.org/obo/obi.owl)" ;
+    rdfs:isDefinedBy obo:obi.owl ;
+    rdfs:subClassOf obo:BFO_0000040 .
+
+rheo:0000021 a owl:Class ;
+    rdfs:label "health state description"@en ;
+    obo:IAO_0000115 "A state description that describes a health state of a person, such as stable disease or the EQ-5D profile 21121, that is observed, valued or modelled."@en ;
+    obo:IAO_0000116 "A description, not the state of a person: a utility estimate values the state as described."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Brazier et al. 2017" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000064 .
+
+rheo:0000025 a owl:Class ;
+    rdfs:label "decision problem specification"@en ;
+    obo:IAO_0000115 "An information content entity that states the decision an economic evaluation is to inform: the population, the options compared, the outcomes, the perspective, the setting and the time horizon."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000092 a owl:Class ;
+    rdfs:label "QALY record"@en ;
+    obo:IAO_0000115 "A data entity recording the quality-adjusted life years accrued by a person or a group over a stated period, undiscounted or discounted at a stated annual rate."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000094,
+        rheo:0000100,
+        rheo:0000104,
+        rheo:0000106,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000108 a owl:Class ;
+    rdfs:label "marketing authorisation"@en ;
+    obo:IAO_0000115 "A directive information entity issued by a regulatory body that permits a health technology to be marketed for a stated indication from a stated date."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000072,
+        rheo:0000075,
+        rheo:0000076,
+        rheo:0000078,
+        rheo:0000083,
+        rheo:0000109,
+        rheo:0000117 .
+
+rheo:0000122 a owl:Class ;
+    rdfs:label "care process type specification"@en ;
+    obo:IAO_0000115 "A costed item type specification that identifies a kind of health care, social care or other care process that is counted, priced or valued as a whole, such as an emergency admission, an outpatient visit or an ambulance journey, optionally with a code from a classification."@en ;
+    obo:IAO_0000116 "Case-mix groups, such as a healthcare resource group, are care process type specifications."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf rheo:0000121 ;
+    owl:disjointWith rheo:0000123 .
+
+rheo:0000129 a owl:Class ;
+    rdfs:label "classification revision record"@en ;
+    obo:IAO_0000115 "A data entity recording a revision of a classification scheme: the version revised, the version that resulted and the states the revision introduced."@en ;
+    obo:IAO_0000116 "Records a change in the classification only. It is not evidence that any entity changed or that any new possibility opened."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000090,
+        rheo:0000092,
+        rheo:0000094,
+        rheo:0000100,
+        rheo:0000104,
+        rheo:0000106,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114,
+        rheo:0000119,
+        rheo:0000130 .
+
+rheo:1000098 a owl:ObjectProperty ;
+    rdfs:label "has basis"@en ;
+    obo:IAO_0000115 "Relates a parameter assignment to the estimate it selects or the assumption it adopts. The parent of 'selects estimate' and 'adopts assumption'."@en ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:domain rheo:0000030 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> .
+
+obo:IAO_0000136 a owl:ObjectProperty ;
+    rdfs:label "is about"@en ;
+    obo:IAO_0000115 "A (currently) primitive relation that relates an information artifact to an entity."@en ;
+    obo:IAO_0000119 "IAO (http://purl.obolibrary.org/obo/iao.owl)" .
+
+rheo:0000004 a owl:Class ;
+    rdfs:label "population specification"@en ;
+    obo:IAO_0000115 "An information content entity that states the criteria, such as condition, severity, age range and care setting, defining the persons to whom an estimate, a study or a decision applies."@en ;
+    obo:IAO_0000116 "A specification, not the group of persons itself: criteria-defined populations include future patients. The actual persons in a study can be added later as an OBI population (OBI_0000181)."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000020 a owl:Class ;
+    rdfs:label "modelling assumption"@en ;
+    obo:IAO_0000115 "An information content entity that states a value or a condition adopted in an analysis without direct estimation from data, together with its justification."@en ;
+    obo:IAO_0000116 "An assumption is not an estimate. Recording it separately lets an analyst list every result that depends on a judgement rather than on data. An assumed value may still carry a range for sensitivity analysis."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:disjointWith rheo:0000030 .
+
+rheo:0000073 a owl:Class ;
+    rdfs:label "costing process"@en ;
+    obo:IAO_0000115 "A planned process in which a monetary value is attached to recorded resource use, to care processes, to absences from work or to other cost records, from a stated perspective, producing cost records."@en ;
+    obo:IAO_0000116 "A general class. Its kinds are unit cost valuation (a quantity multiplied by a unit cost), cost aggregation, cost adjustment, cost comparison and cost estimation. RHEO records the valuation as a real process done by an analyst or a system, and the cost records it produces as information, with the perspective and the assumptions of the valuation recorded with them."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000109 a owl:Class ;
+    rdfs:label "funding rule"@en ;
+    obo:IAO_0000115 "A directive information entity, issued by an organization, stating the conditions a health technology or service must meet to be funded, such as holding a marketing authorisation and a positive recommendation."@en ;
+    obo:IAO_0000116 "Rules of this kind shape which options are open to a decision maker; the competency question on available options applies them to the records."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000072,
+        rheo:0000075,
+        rheo:0000076,
+        rheo:0000078,
+        rheo:0000083,
+        rheo:0000117 .
+
+obo:IAO_0000109 a owl:Class ;
+    rdfs:label "measurement datum"@en ;
+    obo:IAO_0000115 "A measurement datum is an information content entity that is a recording of the output of a measurement such as produced by a device."@en ;
+    obo:IAO_0000119 "IAO (http://purl.obolibrary.org/obo/iao.owl)" ;
+    rdfs:isDefinedBy obo:iao.owl ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+obo:IAO_0000310 a owl:Class ;
+    rdfs:label "document"@en ;
+    obo:IAO_0000115 "A collection of information content entities intended to be understood together as a whole"@en ;
+    obo:IAO_0000119 "IAO (http://purl.obolibrary.org/obo/iao.owl)" ;
+    rdfs:isDefinedBy obo:iao.owl ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000010 a owl:Class ;
+    rdfs:label "estimand"@en ;
+    obo:IAO_0000115 "An information content entity that specifies the quantity an analysis aims to estimate by stating the population, the variable or outcome, the summary measure and, where relevant, the conditions compared and the handling of intercurrent events."@en ;
+    obo:IAO_0000116 "ICH E9(R1) defines estimands for treatment effects in trials. RHEO extends the idea to descriptive quantities such as a mean utility, for which conditions compared and intercurrent events may not apply."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "adapted from ICH E9(R1) 2019" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    owl:disjointWith rheo:0000011,
+        rheo:0000020 .
+
+rheo:0000065 a owl:Class ;
+    rdfs:label "classification scheme version"@en ;
+    obo:IAO_0000115 "An information content entity that is a fixed, identified set of mutually exclusive and jointly exhaustive state descriptions used to classify persons or other entities at a time."@en ;
+    obo:IAO_0000116 "When a scheme changes (a state is added, split, merged or renamed), a new version is issued, and the revision can be recorded with a classification revision record. A revision changes the description, not the entities described: a difference between states recorded under two versions is not by itself evidence that an entity changed or that a new possibility opened."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000121 a owl:Class ;
+    rdfs:label "costed item type specification"@en ;
+    obo:IAO_0000115 "An information content entity that identifies a kind of item that resource use and cost records count or value, optionally with a code from a classification."@en ;
+    obo:IAO_0000116 "Use one of its two subclasses: care process type specification for a kind of care process, resource type specification for a kind of resource unit. Replaces RHEO_0000006, which covered both."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+obo:BFO_0000040 a owl:Class ;
+    rdfs:label "material entity"@en ;
+    obo:IAO_0000115 "A material entity is an independent continuant that at all times at which it exists has some portion of matter as continuant part."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000004 ;
+    owl:disjointWith obo:BFO_0000141 .
+
+rheo:0000019 a owl:Class ;
+    rdfs:label "uncertainty specification"@en ;
+    obo:IAO_0000115 "An information content entity that describes the uncertainty about an estimate or an assumed value, as a standard error, as an interval with its level, or as a probability distribution with its parameters."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Briggs et al. 2006" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000094 a owl:Class ;
+    rdfs:label "DALY record"@en ;
+    obo:IAO_0000115 "A data entity recording the disability-adjusted life years of a person or a group over a stated period, as the sum of years of life lost to premature death and years lived with disability."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Murray 1994" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000100,
+        rheo:0000104,
+        rheo:0000106,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000100 a owl:Class ;
+    rdfs:label "allocation record"@en ;
+    obo:IAO_0000115 "A data entity recording the trial arm to which a participant was allocated and the date of allocation."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000104,
+        rheo:0000106,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+obo:OGMS_0000096 a owl:Class ;
+    rdfs:label "health care process"@en ;
+    obo:IAO_0000115 "A planned process with the objective to improve the health status of a patient that directly involves the treatment, diagnosis, or prevention of disease or injury of a patient."@en ;
+    obo:IAO_0000116 "OGMS asserts OBI_0000011, now obsolete and replaced by COB_0000035 (completely executed planned process), a subclass of COB_0000082; abbreviated here to COB_0000082. Reused in place of RHEO_0000001, which is now obsolete. An emergency admission is included: the event is unplanned, but the care given is a planned process."@en ;
+    obo:IAO_0000119 "OGMS (http://purl.obolibrary.org/obo/ogms.owl)" ;
+    rdfs:isDefinedBy obo:ogms.owl ;
+    rdfs:subClassOf obo:COB_0000082 .
+
+rheo:0000072 a owl:Class ;
+    rdfs:label "perspective specification"@en ;
+    obo:IAO_0000115 "A directive information entity stating whose resources and outcomes an economic evaluation counts, such as the health and personal social services system or society as a whole, by listing the kinds of resource included."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000075,
+        rheo:0000076,
+        rheo:0000078,
+        rheo:0000083,
+        rheo:0000117 .
+
+rheo:0000075 a owl:Class ;
+    rdfs:label "tariff"@en ;
+    obo:IAO_0000115 "A directive information entity, issued by an organization, that sets the amount to be paid for a stated kind of care process in a stated period, such as a national price for an emergency admission."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000076,
+        rheo:0000078,
+        rheo:0000083,
+        rheo:0000117 .
+
+rheo:0000076 a owl:Class ;
+    rdfs:label "payment mechanism specification"@en ;
+    obo:IAO_0000115 "A directive information entity stating how a payer pays for care, such as fee for service, case-based payment, capitation, a block contract or payment out of pocket."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000078,
+        rheo:0000083,
+        rheo:0000117 .
+
+rheo:0000104 a owl:Class ;
+    rdfs:label "insurance enrolment record"@en ;
+    obo:IAO_0000115 "A data entity recording that a person or a household was a member of a stated health insurance scheme or coverage programme during a stated period."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000106,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:3000001 a rdfs:Datatype ;
+    rdfs:label "ISO 8601 calendar date"@en ;
+    obo:IAO_0000115 "A date written as an ISO 8601 calendar date, YYYY-MM-DD, as a plain string. The record rules also check that the date exists in the calendar."@en ;
+    obo:IAO_0000119 "ISO 8601" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    owl:equivalentClass [ a rdfs:Datatype ;
+            owl:onDatatype xsd:string ;
+            owl:withRestrictions ( [ xsd:pattern "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])" ] ) ] .
+
+obo:BFO_0000015 a owl:Class ;
+    rdfs:label "process"@en ;
+    obo:IAO_0000115 "p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant."@en ;
+    obo:IAO_0000119 "BFO 2020 (ISO/IEC 21838-2:2021) (elucidation)" ;
+    obo:IAO_0000412 <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:isDefinedBy <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+    rdfs:subClassOf obo:BFO_0000003 ;
+    owl:disjointWith obo:BFO_0000035 .
+
+rheo:0000026 a owl:Class ;
+    rdfs:label "intervention specification"@en ;
+    obo:IAO_0000115 "A plan specification describing a health care intervention or programme that is one of the options compared in an economic evaluation."@en ;
+    obo:IAO_0000116 "Being the comparator is not a kind of intervention: it is the place an intervention specification takes in a particular decision problem (see has comparator)."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000104 .
+
+rheo:0000030 a owl:Class ;
+    rdfs:label "parameter assignment"@en ;
+    obo:IAO_0000115 "An information content entity recording that, in a stated economic model version, a stated model parameter takes the value of one stated economic evaluation estimate or one stated modelling assumption, with the reason for the choice."@en ;
+    obo:IAO_0000116 "OWL axioms (0.3.0): at most one basis, one parameter and one model version, and at least one of each. Under open-world semantics a missing basis is not an error for a reasoner, and two bases of the same kind are read as the same thing; an estimate and an assumption as two bases contradict, because estimates and assumptions are disjoint. Completeness (exactly one basis, units, population, time interval, justification, analysis) is checked by the record rules in rheo-shapes.ttl."@en,
+        "The assignment separates the evidence (the estimate) from the modelling decision to use it. A value computed from several inputs (a treatment-arm probability, an inflated cost) is recorded as a derived estimate, and the assignment selects that."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty rheo:1000098 ],
+        [ a owl:Restriction ;
+            owl:onProperty rheo:1000098 ;
+            owl:someValuesFrom [ a owl:Class ;
+                    owl:unionOf ( rheo:0000011 rheo:0000020 ) ] ],
+        [ a owl:Restriction ;
+            owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty rheo:1000012 ],
+        [ a owl:Restriction ;
+            owl:onProperty rheo:1000012 ;
+            owl:someValuesFrom rheo:0000029 ],
+        [ a owl:Restriction ;
+            owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty rheo:1000013 ],
+        [ a owl:Restriction ;
+            owl:onProperty rheo:1000013 ;
+            owl:someValuesFrom rheo:0000028 ],
+        obo:IAO_0000030 .
+
+rheo:0000106 a owl:Class ;
+    rdfs:label "emissions record"@en ;
+    obo:IAO_0000115 "A data entity recording the greenhouse gas emissions attributed to one recorded resource use, calculated as its quantity multiplied by a stated emission factor."@en ;
+    obo:IAO_0000116 "The carbon counterpart of a cost record: the same recorded resource use valued in carbon instead of money."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000032,
+        rheo:0000066,
+        rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000117 a owl:Class ;
+    rdfs:label "decision threshold specification"@en ;
+    obo:IAO_0000115 "A directive information entity stating a value against which a decision maker compares the results of an economic evaluation, such as a cost-effectiveness threshold per QALY gained."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "Drummond et al. 2015" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+rheo:0000078 a owl:Class ;
+    rdfs:label "price agreement"@en ;
+    obo:IAO_0000115 "A directive information entity recording the price a payer pays for a health technology, such as a list price, a confidential discount or a managed access agreement, and the period it applies to."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000083,
+        rheo:0000117 .
+
+rheo:0000083 a owl:Class ;
+    rdfs:label "health technology assessment recommendation"@en ;
+    obo:IAO_0000115 "A directive information entity issued by a decision-making body after a health technology assessment decision process, stating whether and on what terms a technology is to be funded."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000033 ;
+    owl:disjointWith rheo:0000117 .
+
+rheo:0000071 a owl:Class ;
+    rdfs:label "resource use record"@en ;
+    obo:IAO_0000115 "A measurement datum recording the quantity of a kind of resource used in a stated health care, social care or informal care process, in stated units."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000109 ;
+    owl:disjointWith rheo:0000015,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+obo:IAO_0000033 a owl:Class ;
+    rdfs:label "directive information entity"@en ;
+    obo:IAO_0000115 "An information content entity whose concretizations indicate to their bearer how to realize them in a process."@en ;
+    obo:IAO_0000119 "IAO (http://purl.obolibrary.org/obo/iao.owl)" ;
+    rdfs:isDefinedBy obo:iao.owl ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000028 a owl:Class ;
+    rdfs:label "economic model version"@en ;
+    obo:IAO_0000115 "An information content entity that is a fixed, identified state of an economic model, with a defined structure and set of parameters, that can be run to produce results."@en ;
+    obo:IAO_0000116 "The spreadsheet or program file is the bearer that concretises a version; it is not part of the version's definition."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000067 a owl:Class ;
+    rdfs:label "transition record"@en ;
+    obo:IAO_0000115 "A data entity linking two consecutive state observations of the same person or entity, recording the passage from the earlier state to the later one."@en ;
+    obo:IAO_0000116 "Whether a recorded difference reflects a change in the entity, a revision of the classification or a change in what observers know is recorded separately, with possibility change, classification revision and knowledge change records. The RNI types of transition records are defined in the RNI module (rheo-rni.ttl), not in the core."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+obo:COB_0000082 a owl:Class ;
+    rdfs:label "planned process"@en ;
+    obo:IAO_0000115 "A process that is initiated by an agent who intends to carry out a plan to achieve an objective through one or more actions as described in a plan specification."@en ;
+    obo:IAO_0000119 "OBI (http://purl.obolibrary.org/obo/obi.owl)" ;
+    rdfs:isDefinedBy obo:obi.owl ;
+    rdfs:subClassOf obo:BFO_0000015 .
+
+rheo:0000032 a owl:Class ;
+    rdfs:label "model result"@en ;
+    obo:IAO_0000115 "A data entity produced by a model run, such as a total cost, total quality-adjusted life years or an incremental cost-effectiveness ratio, for a stated option or comparison."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty rheo:1000019 ],
+        obo:IAO_0000027 ;
+    owl:disjointWith obo:IAO_0000109,
+        rheo:0000112 .
+
+rheo:0000066 a owl:Class ;
+    rdfs:label "state observation"@en ;
+    obo:IAO_0000115 "A measurement datum recording which state description of a stated classification scheme version applied to a stated person or other entity at a stated time."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000109 ;
+    owl:disjointWith rheo:0000067,
+        rheo:0000071,
+        rheo:0000074,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000079 a owl:Class ;
+    rdfs:label "stock measurement"@en ;
+    obo:IAO_0000115 "A measurement datum recording how many members a stock or a group had at a stated time, such as people waiting for treatment at the end of a month or beds available."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000109 ;
+    owl:disjointWith rheo:0000080,
+        rheo:0000081,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000011 a owl:Class ;
+    rdfs:label "economic evaluation estimate"@en ;
+    obo:IAO_0000115 "A point estimate of a quantity used in an economic evaluation, such as a utility, a cost, a probability or a relative effect."@en ;
+    obo:IAO_0000116 "Which estimate a model uses is recorded separately, in a parameter assignment, so that one estimate can serve several models and a model can change its choice without changing the estimate. The context a usable estimate must carry is set by the record rules."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:STATO_0000599 ;
+    owl:disjointWith rheo:0000020,
+        rheo:0000030 .
+
+rheo:0000064 a owl:Class ;
+    rdfs:label "state description"@en ;
+    obo:IAO_0000115 "An information content entity that describes one of the states into which persons or other entities can be classified at a time, such as stable disease, infected, vaccinated, current smoker, waiting for treatment or a deprivation quintile."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000081 a owl:Class ;
+    rdfs:label "household economic record"@en ;
+    obo:IAO_0000115 "A data entity recording a household's total consumption expenditure or income over a stated period, in a stated currency."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000080 a owl:Class ;
+    rdfs:label "flow measurement"@en ;
+    obo:IAO_0000115 "A measurement datum recording how many entities moved out of a stated origin, into a stated destination, or from one to the other, during a stated period, such as referrals added to a waiting list in a month or vaccine doses administered from a stock."@en ;
+    obo:IAO_0000116 "Stocks and flows obey a balance: the stock at the end of a period equals the stock at the start plus inflows minus outflows. The record rules check it."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000109 ;
+    owl:disjointWith rheo:0000081,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+obo:IAO_0000030 a owl:Class ;
+    rdfs:label "information content entity"@en ;
+    obo:IAO_0000115 "A generically dependent continuant that is about some thing."@en ;
+    obo:IAO_0000119 "IAO (http://purl.obolibrary.org/obo/iao.owl)" ;
+    rdfs:isDefinedBy obo:iao.owl ;
+    rdfs:subClassOf obo:BFO_0000031 .
+
+rheo:0000077 a owl:Class ;
+    rdfs:label "payment record"@en ;
+    obo:IAO_0000115 "A data entity recording a payment: the amount, currency, date, payer, payee and, where relevant, the care process, tariff and payment mechanism it relates to."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000113 a owl:Class ;
+    rdfs:label "work absence record"@en ;
+    obo:IAO_0000115 "A data entity recording the time a person was absent from paid work because of ill health over a stated period."@en ;
+    obo:IAO_0000116 "Valued by the human capital or friction cost method as a productivity loss in a societal perspective."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000114 .
+
+obo:IAO_0000027 a owl:Class ;
+    rdfs:label "data entity"@en ;
+    obo:IAO_0000115 "An information content entity that is intended to be one or more truthful statement(s) about something (modulo, e.g., measurement precision or other systematic errors) and is constructed/acquired by a method which reliably tends to produce (approximately) truthful statements."@en ;
+    obo:IAO_0000119 "IAO (http://purl.obolibrary.org/obo/iao.owl)" ;
+    rdfs:isDefinedBy obo:iao.owl ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+rheo:0000112 a owl:Class ;
+    rdfs:label "projected count"@en ;
+    obo:IAO_0000115 "A data entity produced by a model run that gives the projected number of members of a group or stock at a time, or the projected number moving between two groups or stocks in a period."@en ;
+    obo:IAO_0000116 "Projections are not measurements, so they are kept apart from stock and flow measurements, which record observed counts."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000113,
+        rheo:0000114 .
+
+rheo:0000114 a owl:Class ;
+    rdfs:label "case-mix group assignment"@en ;
+    obo:IAO_0000115 "A data entity recording the case-mix group, such as a healthcare resource group or a diagnosis-related group, to which a care episode or spell has been assigned for payment."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+rheo:0000074 a owl:Class ;
+    rdfs:label "cost record"@en ;
+    obo:IAO_0000115 "A data entity recording a value produced by a costing process, from a stated perspective: in money, in a stated currency and price year, such as the cost of one recorded resource use, an episode total, an adjusted or discounted cost, an incremental cost or an estimated cost; or, for a health opportunity cost, in health units such as QALYs."@en ;
+    obo:IAO_0000116 "A cost record is not a cost estimate (RHEO_0000013): the record says what a valuation produced, the estimate is an input of a model. When an estimated cost record is used as a model input, record a cost estimate that is derived from it (taken from the dataset or derived from the record) and assign that estimate."@en,
+        "The record of a valuation, not a property of the resources. Which kind of costing produced it is shown by its links: 'values resource use' and 'uses unit cost' for a unit cost valuation; 'sums cost record' for a total; 'adjusts cost record' and 'uses adjustment factor' for an adjustment; 'compares cost record' with 'cost of alternative' and 'compared with alternative' for an incremental cost; has estimation method for an estimate. The record rules check each kind."@en,
+        "Who bears the cost is stated with 'borne by'. A perspective that lists the bearers it counts ('counts costs borne by') rejects a cost record borne by anyone else; a perspective without such a list counts every bearer (as a societal perspective does)."@en ;
+    obo:IAO_0000117 <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    obo:IAO_0000119 "HealthEconomics.wiki editorial" ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/rheo> ;
+    rdfs:subClassOf obo:IAO_0000027 ;
+    owl:disjointWith rheo:0000013,
+        rheo:0000077,
+        rheo:0000079,
+        rheo:0000080,
+        rheo:0000081,
+        rheo:0000112,
+        rheo:0000113,
+        rheo:0000114 .
+
+<https://orcid.org/0000-0001-9502-4678> rdfs:label "Darrin Baines" .
+
+<https://orcid.org/0009-0006-0231-3731> rdfs:label "Michelle Ashley" .
+
+<https://healtheconomics.wiki/ontologies/rheo> a owl:Ontology ;
+    dcterms:bibliographicCitation "Baines D, Ashley M. Real Health Economics Ontology (RHEO), version 0.3.0. Intelligent Parameters Ltd; 2026. https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl. Licence CC BY 4.0." ;
+    dcterms:created "2026-10-07" ;
+    dcterms:creator <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    dcterms:description "An ontology of health economic reality and of the evidence built from it. It describes the persons, organizations, households, resources and care settings involved in health care; what happens to and between them (care processes, resource use, patient movements, payments, behaviours, clinical events and changes of state); the records that describe these things (state observations and transitions, classification revisions, resource use, costs under a perspective, tariffs, payments, stocks and flows); and the population specifications, estimands, estimates, uncertainty, assumptions, sources, model parameters, parameter assignments, model versions and results built from them. It allows a model result to be traced to the estimates and assumptions it used and to the documents those estimates came from. RHEO is aligned to BFO 2020 (ISO/IEC 21838-2) and reuses IAO, OBI, COB, STATO, OGMS, OMRSE, RO and PROV-O terms. Its links to the Health Economics Ontology (HEO) are published as an SSSOM mapping file. Policy: HEO identifies concepts and organises their meanings with SKOS; RHEO defines types, each classified within BFO, with its own IRI, name, definition and relationships. A HEO concept and a RHEO type have different identities even when their names are alike, and a RHEO type never uses a HEO concept URI as its identifier. The RNI typology of changes of state is kept in a separate module (the reading adopted for 0.3.0) (rheo-rni.ttl), and the dependence between uncertain quantities in an extension module (rheo-uncertainty.ttl); the core does not depend on either."@en ;
+    dcterms:issued "2026-10-16" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:modified "2026-10-16" ;
+    dcterms:publisher "Intelligent Parameters Ltd" ;
+    dcterms:title "Real Health Economics Ontology (RHEO)"@en ;
+    vann:preferredNamespacePrefix "rheo" ;
+    vann:preferredNamespaceUri "https://healtheconomics.wiki/ontologies/rheo/RHEO_" ;
+    rdfs:comment "Pre-1.0 release (status alpha) for review by its creators and invited reviewers; terms, definitions and mappings may still change before version 1.0. BFO 2020 is imported; the BFO terms RHEO uses are also declared here with their BFO 2020 labels and definitions. Other external terms from IAO, OBI and COB, STATO, OGMS, OMRSE, VO, NCBI Taxonomy, RO and PROV-O are referenced by their original identifiers with label, official definition and asserted parent; consult the source ontologies for their full axioms."@en ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/heo> ;
+    owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl> ;
+
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/rheo/0.4.0/rheo.owl> ;
+    owl:versionInfo "0.4.0 (alpha)" .
+
+
+<https://healtheconomics.wiki/ontologies/rheo> <http://www.w3.org/2002/07/owl#priorVersion> <https://healtheconomics.wiki/ontology/rheo/0.3.0/rheo.owl> ;
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Version 0.4.0 moves every RHEO address from https://healtheconomics.wiki/ontology/rheo to https://healtheconomics.wiki/ontologies/rheo, so the ontology identifier, its version identifier and its terms match the ontology page on the site. Every class, property, definition and axiom is the same as in 0.3.0, and the imports now point to the family releases made at the same time (HEO 2.0.0, RHEO 0.4.0, OHEO 0.3.0, HETO 0.3.0, HEAO 0.2.0, HEMO 0.2.0, HELO 0.2.0, HEIRO 0.2.0). The old /ontology/ addresses are retired and are not redirected."@en .

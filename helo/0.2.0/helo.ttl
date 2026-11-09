@@ -1,0 +1,1117 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix heao: <https://healtheconomics.wiki/ontologies/heao/HEAO_> .
+@prefix helo: <https://healtheconomics.wiki/ontologies/helo/HELO_> .
+@prefix heo: <https://healtheconomics.wiki/ontologies/heo#> .
+@prefix heto: <https://healtheconomics.wiki/ontologies/heto/HETO_> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+obo:IAO_0000114 a owl:AnnotationProperty .
+
+obo:IAO_0000115 a owl:AnnotationProperty .
+
+obo:IAO_0000116 a owl:AnnotationProperty .
+
+obo:IAO_0000117 a owl:AnnotationProperty .
+
+obo:IAO_0000118 a owl:AnnotationProperty .
+
+obo:IAO_0000119 a owl:AnnotationProperty .
+
+dcterms:contributor a owl:AnnotationProperty .
+
+dcterms:created a owl:AnnotationProperty .
+
+dcterms:creator a owl:AnnotationProperty .
+
+dcterms:date a owl:AnnotationProperty .
+
+dcterms:description a owl:AnnotationProperty .
+
+dcterms:issued a owl:AnnotationProperty .
+
+dcterms:license a owl:AnnotationProperty .
+
+dcterms:modified a owl:AnnotationProperty .
+
+dcterms:publisher a owl:AnnotationProperty .
+
+dcterms:source a owl:AnnotationProperty .
+
+dcterms:title a owl:AnnotationProperty .
+
+vann:preferredNamespacePrefix a owl:AnnotationProperty .
+
+vann:preferredNamespaceUri a owl:AnnotationProperty .
+
+helo:1000003 a owl:AsymmetricProperty,
+        owl:FunctionalProperty,
+        owl:InverseFunctionalProperty,
+        owl:IrreflexiveProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has next learning step"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning step to the learning step that comes straight after it in the same learning pathway."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000002 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000002 ;
+    owl:inverseOf helo:1000004 .
+
+helo:1000005 a owl:ObjectProperty ;
+    rdfs:label "has learning topic"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning step or a course module to a learning topic it is about."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000003 .
+
+helo:1000006 a owl:ObjectProperty ;
+    rdfs:label "has core concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning step to a HEO concept that a learner is to understand at that step, a must-learn concept of its pathway framework."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000002 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000007 a owl:ObjectProperty ;
+    rdfs:label "has optional concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning step to a HEO concept that goes further than the core of that step and that a learner may choose to study."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000002 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000008 a owl:ObjectProperty ;
+    rdfs:label "builds on concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway to a HEO concept from another part of the Knowledge Tree that the pathway builds on, so that it is best understood before the pathway is started."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000009 a owl:ObjectProperty ;
+    rdfs:label "has onward concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway to a HEO concept that takes the pathway's concepts further, to be explored after the pathway is finished."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000010 a owl:ObjectProperty ;
+    rdfs:label "leads into step"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway to a learning step of another learning pathway that it leads into on the Knowledge Map, so that a learner who finishes the first pathway can join the second at that step."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000002 .
+
+helo:1000011 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "is framework of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a pathway framework to the one learning pathway it lays out."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000004 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000001 .
+
+helo:1000013 a owl:ObjectProperty ;
+    rdfs:label "concerns concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a concept understanding goal to a HEO concept or a learning topic that a learner is intended to understand."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000007 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000014 a owl:ObjectProperty ;
+    rdfs:label "is intended for"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway or a curriculum to an intended learner profile that its own source states it is for."@en ;
+    obo:IAO_0000116 "Used only where the source of the pathway or curriculum states the learners. Profiles proposed by the HELO build are held in the annotation property proposed intended learner until a curator accepts them."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; Christou et al. 2025" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000005 .
+
+helo:1000015 a owl:ObjectProperty ;
+    rdfs:label "prepares for task"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway to a HETO task specification whose concepts the pathway builds understanding of, so that a learner is ready to be trained in the task elsewhere. The pathway does not train the learner to carry out the task."@en ;
+    obo:IAO_0000116 "Not used in HELO 0.2.0. Proposed relationships are held in the annotation property proposed to prepare for task, with their basis, until a curator accepts them. No HELO property says that a pathway trains a task, and none should be added."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000016 a owl:ObjectProperty ;
+    rdfs:label "has prerequisite concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a prerequisite relationship to the HEO concept that is to be understood first."@en ;
+    obo:IAO_0000116 "Not functional in OWL, so that a faulty record never makes two HEO concepts the same. The SHACL rules allow one value."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000017 a owl:ObjectProperty ;
+    rdfs:label "has dependent concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a prerequisite relationship to the HEO concept that is understood after its prerequisite concept and with its help."@en ;
+    obo:IAO_0000116 "Not functional in OWL, so that a faulty record never makes two HEO concepts the same. The SHACL rules allow one value."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000018 a owl:ObjectProperty ;
+    rdfs:label "follows derivation rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a prerequisite relationship to a prerequisite derivation rule by which it was derived."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000010 .
+
+helo:1000019 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has prerequisite status"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a prerequisite relationship to its prerequisite status."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000014 .
+
+helo:1000020 a owl:ObjectProperty ;
+    rdfs:label "agrees with order of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a prerequisite relationship to a learning pathway that places its prerequisite concept in an earlier step than its dependent concept, or among the concepts the pathway builds on."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000001 .
+
+helo:1000021 a owl:ObjectProperty ;
+    rdfs:label "conflicts with order of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a prerequisite relationship to a learning pathway that places its prerequisite concept in a later step than its dependent concept, or that builds on the dependent concept while teaching the prerequisite concept in one of its steps."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000001 .
+
+helo:1000022 a owl:ObjectProperty ;
+    rdfs:label "is within one step of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a prerequisite relationship to a learning pathway that places both of its concepts in the same learning step."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000001 .
+
+helo:1000023 a owl:ObjectProperty ;
+    rdfs:label "has course module"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a curriculum to one of its course modules."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Christou et al. 2025" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000011 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000012 ;
+    owl:inverseOf helo:1000024 .
+
+helo:1000025 a owl:AsymmetricProperty,
+        owl:FunctionalProperty,
+        owl:InverseFunctionalProperty,
+        owl:IrreflexiveProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has next course module"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a course module to the course module that comes straight after it in the same curriculum."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Christou et al. 2025" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000012 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000012 .
+
+helo:1000026 a owl:ObjectProperty ;
+    rdfs:label "uses concept"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a course module to a HEO concept that its material uses."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000012 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:1000027 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has publication status"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway, a curriculum or a course module to its publication status."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000013 .
+
+helo:1000028 a owl:ObjectProperty ;
+    rdfs:label "covers subdomain"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway to the HEO concept naming the subdomain of the Knowledge Tree whose topics the pathway follows."@en ;
+    obo:IAO_0000116 "Not functional in OWL, so that a faulty record never makes two HEO concepts the same. The SHACL rules allow one subdomain."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:2000001 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has step position"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The place of a learning step in its learning pathway, counted from 1 at the first step."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000002 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range xsd:integer .
+
+helo:2000002 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has display order"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The place of a learning pathway in the one order in which the site shows its pathways, counted from 1."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range xsd:integer .
+
+helo:2000003 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has module position"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The place of a course module in its curriculum, counted from 1 at the first module."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000012 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range xsd:integer .
+
+helo:2000004 a owl:DatatypeProperty ;
+    rdfs:label "has HEO link identifier"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The permanent identifier of a HEO relationship from which a prerequisite relationship was derived, of the form HEO-L- followed by twelve hexadecimal digits."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000009 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range xsd:string .
+
+helo:2000005 a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "has outcome position"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The place of a learning goal in the list of learning outcomes of its curriculum, counted from 1. Two goals split from one outcome share its place."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000006 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range xsd:integer .
+
+helo:4000001 a owl:NamedIndividual,
+        helo:0000005 ;
+    rdfs:label "student"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An intended learner profile of a person studying health economics or a related subject, who may not yet have done the work in practice."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000002,
+        helo:4000003,
+        helo:4000004,
+        helo:4000005,
+        helo:4000006 .
+
+helo:4000010 a owl:NamedIndividual,
+        helo:0000013 ;
+    rdfs:label "published"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A publication status of a learning pathway, curriculum or course module that is shown on the site."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000011 .
+
+helo:4000020 a owl:NamedIndividual,
+        helo:0000014 ;
+    rdfs:label "proposed from HEO"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite status of a prerequisite relationship that the HELO build derived from HEO relationships and that no curator has yet reviewed."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000021,
+        helo:4000022,
+        helo:4000023 .
+
+helo:9000001 a owl:AnnotationProperty ;
+    rdfs:label "has learner disclaimer"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A short statement for learners about what a kind of learning resource does and does not do."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000002 a owl:AnnotationProperty ;
+    rdfs:label "has one line"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The one-line summary of a learning pathway as the site shows it, kept word for word."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000003 a owl:AnnotationProperty ;
+    rdfs:label "has introduction"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The introduction of a learning pathway as its framework page shows it, kept word for word."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000004 a owl:AnnotationProperty ;
+    rdfs:label "has step summary"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The one-sentence summary of what a learning step covers, as the site shows it, kept word for word."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000005 a owl:AnnotationProperty ;
+    rdfs:label "has step rationale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The one-sentence reason why a learning step comes at its point in the pathway, as the site shows it, kept word for word."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000006 a owl:AnnotationProperty ;
+    rdfs:label "proposed to prepare for task"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway to a HETO task specification that the HELO build proposes the pathway prepares for, not yet reviewed. The basis, the share and the counts of the task's HEO concepts that the pathway covers are recorded on the axiom."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HETO 0.3.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:9000007 a owl:AnnotationProperty ;
+    rdfs:label "proposed intended learner"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway to an intended learner profile that the HELO build proposes it is for, not yet reviewed, with the basis recorded on the axiom."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000009 a owl:AnnotationProperty ;
+    rdfs:label "has task concept coverage"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "On a proposed to prepare for task axiom, the share of the HEO concepts that HETO relates to the task which are core concepts of the pathway, between 0 and 1."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000010 a owl:AnnotationProperty ;
+    rdfs:label "has proposal basis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "On a proposed relationship, the reason the HELO build proposes it, in plain words."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000011 a owl:AnnotationProperty ;
+    rdfs:label "has interactive piece"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The interactive piece of a course module as its course outline describes it, kept word for word."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000012 a owl:AnnotationProperty ;
+    rdfs:label "has real material"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The real material a course module uses as its course outline names it, kept word for word."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000013 a owl:AnnotationProperty ;
+    rdfs:label "uses ontology"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a course module to an ontology of the healtheconomics.wiki family whose terms or data its material uses."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:9000015 a owl:AnnotationProperty ;
+    rdfs:label "proposed to cover topic"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a course module to a learning topic that the HELO build proposes it covers, not yet reviewed, with the basis recorded on the axiom."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000016 a owl:AnnotationProperty ;
+    rdfs:label "has HEO link review status"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The review status that HEO 2.0.0 records on a HEO relationship from which a prerequisite relationship was derived, kept word for word."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000017 a owl:AnnotationProperty ;
+    rdfs:label "has HEO link rationale"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The rationale that HEO 2.0.0 records on a HEO relationship from which a prerequisite relationship was derived, kept word for word."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000018 a owl:AnnotationProperty ;
+    rdfs:label "has order placement"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "On a prerequisite relationship, where each of its two concepts sits in a pathway whose order it conflicts with, as core, optional or builds-on concepts with their step numbers."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000019 a owl:AnnotationProperty ;
+    rdfs:label "has review recommendation"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A recommendation from an independent review of HELO on what to do with a record, kept for the curators, not a decision."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 review B (learning design and content), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000020 a owl:AnnotationProperty ;
+    rdfs:label "has proposal emphasis"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "On a proposed intended learner axiom, whether the pathway is proposed primarily for the profile or also for it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 review B (learning design and content), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000021 a owl:AnnotationProperty ;
+    rdfs:label "has covered concept count"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "On a proposed to prepare for task axiom, how many of the HEO concepts that HETO relates to the task are core concepts of the pathway."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000022 a owl:AnnotationProperty ;
+    rdfs:label "has task concept count"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "On a proposed to prepare for task axiom, how many HEO concepts HETO relates to the task."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000023 a owl:AnnotationProperty ;
+    rdfs:label "proposed to follow topic"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning topic to a learning topic that the HELO build proposes is understood before it, not yet reviewed, with the basis recorded on the axiom."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; NISO 2005" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:9000024 a owl:AnnotationProperty ;
+    rdfs:label "has outline wording"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "The words of a course outline from which a HELO record was made, kept word for word where the record splits or shortens them."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:0000008 a owl:Class ;
+    rdfs:label "task capability goal"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A learning goal that states what a learner is intended to be able to do, and that is met by applying or creating, carrying out or using a procedure in a given situation or producing something new, such as querying a knowledge graph or publishing a vocabulary. A curriculum or a course module may have one, and a learning pathway may not."@en ;
+    obo:IAO_0000116 "Apply and Create in the revised Bloom taxonomy (Krathwohl 2002)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief; The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026; Krathwohl 2002" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf helo:0000006 .
+
+helo:1000001 a owl:ObjectProperty ;
+    rdfs:label "has learning step"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway to one of its learning steps."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000001 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000002 ;
+    owl:inverseOf helo:1000002 .
+
+helo:1000004 a owl:ObjectProperty ;
+    rdfs:label "has previous learning step"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning step to the learning step that comes straight before it in the same learning pathway."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000002 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000002 .
+
+helo:4000011 a owl:NamedIndividual,
+        helo:0000013 ;
+    rdfs:label "draft"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A publication status of a learning pathway, curriculum or course module that is still being written and is not shown on the site."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:4000021 a owl:NamedIndividual,
+        helo:0000014 ;
+    rdfs:label "accepted by curator"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite status of a prerequisite relationship that a named curator has reviewed and accepted, on a recorded date."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000022,
+        helo:4000023 .
+
+helo:4000030 a owl:NamedIndividual,
+        helo:0000010 ;
+    rdfs:label "prerequisite from HEO prerequisite for"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite derivation rule by which a HEO prerequisite for relationship from one concept to another gives the proposal that the first concept is understood before the second."@en ;
+    obo:IAO_0000116 "HEO defines prerequisite for as a learning dependency and marks it for learning."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000031,
+        helo:4000032,
+        helo:4000033,
+        helo:4000034 ;
+    helo:9000014 heo:prerequisiteFor .
+
+helo:0000003 a owl:Class ;
+    rdfs:label "learning topic"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity naming a subject area that a learning step or a course module is about, such as a topic page of HealthEconomics.wiki or one of the building blocks of the semantic layer."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026; Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+helo:0000004 a owl:Class ;
+    rdfs:label "pathway framework"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity that lays out one learning pathway step by step, with the core and optional concepts of each step, the concepts the pathway builds on and the concepts to explore next, as a pathway framework page of HealthEconomics.wiki shows it."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026; HealthEconomics.wiki Learning Layer, /api/pathways and the pathway framework pages, read 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+helo:1000002 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "is learning step of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning step to the one learning pathway it is part of."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000002 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000001 .
+
+helo:1000012 a owl:ObjectProperty ;
+    rdfs:label "has learning goal"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a learning pathway, a curriculum or a course module to a learning goal it is intended to reach."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000006 .
+
+helo:1000024 a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "is course module of"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a course module to the one curriculum it is part of."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Christou et al. 2025" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:domain helo:0000012 ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:range helo:0000011 .
+
+helo:4000002 a owl:NamedIndividual,
+        helo:0000005 ;
+    rdfs:label "health economist"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An intended learner profile of a person who works in health economics, in research, in practice or in government."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000003,
+        helo:4000004,
+        helo:4000005,
+        helo:4000006 ;
+    helo:9000008 heto:0000040 .
+
+helo:4000003 a owl:NamedIndividual,
+        helo:0000005 ;
+    rdfs:label "health technology assessment analyst"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An intended learner profile of a person who prepares or reviews evidence, including economic evidence, for a health technology assessment body."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "HTA analyst"@en ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000004,
+        helo:4000005,
+        helo:4000006 .
+
+helo:4000022 a owl:NamedIndividual,
+        helo:0000014 ;
+    rdfs:label "rejected by curator"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite status of a prerequisite relationship that a named curator has reviewed and rejected, on a recorded date."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000023 .
+
+helo:4000031 a owl:NamedIndividual,
+        helo:0000010 ;
+    rdfs:label "prerequisite from HEO is foundation for"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite derivation rule by which a HEO is foundation for relationship from one concept to another gives the proposal that the first concept is understood before the second."@en ;
+    obo:IAO_0000116 "HEO defines is foundation for as a basic idea on which another is built and marks it for learning."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000032,
+        helo:4000033,
+        helo:4000034 ;
+    helo:9000014 heo:isFoundationFor .
+
+helo:9000008 a owl:AnnotationProperty ;
+    rdfs:label "has corresponding HETO role"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates an intended learner profile to the HETO practitioner role class whose bearers the profile describes."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HETO 0.3.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:0000007 a owl:Class ;
+    rdfs:label "concept understanding goal"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A learning goal that states which concepts, health economics concepts or learning topics, a learner is intended to understand, and that is met by remembering and understanding them, including how methods work (interpreting, exemplifying, classifying, summarising, inferring, comparing and explaining), not by carrying out a procedure. It is the only kind of learning goal a learning pathway has."@en ;
+    obo:IAO_0000116 "Remember and Understand in the revised Bloom taxonomy (Krathwohl 2002). Explaining can be harder than executing, so understanding goals are a different kind of goal, not a lower tier. A goal at the Analyse or Evaluate level is typed by how it is met, by understanding concepts or by carrying out a procedure on a case."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief; Krathwohl 2002" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf helo:0000006 ;
+    owl:disjointWith helo:0000008 .
+
+helo:4000004 a owl:NamedIndividual,
+        helo:0000005 ;
+    rdfs:label "outcomes researcher"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An intended learner profile of a person who measures or values the health outcomes of care, such as survival and quality of life, for research or for appraisal."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000005,
+        helo:4000006 .
+
+helo:4000023 a owl:NamedIndividual,
+        helo:0000014 ;
+    rdfs:label "proposed from an unreviewed HEO relationship"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite status of a prerequisite relationship derived only from HEO relationships that HEO 2.0.0 still records as unreviewed, held apart from the other proposals until HEO reviews them."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HELO 0.2.0 review B (learning design and content), 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:4000032 a owl:NamedIndividual,
+        helo:0000010 ;
+    rdfs:label "prerequisite from HEO depends on"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite derivation rule by which a HEO depends on relationship from one concept to another gives the proposal that the second concept is understood before the first."@en ;
+    obo:IAO_0000116 "HEO marks depends on for learning. It holds one relationship in HEO 2.0.0."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000033,
+        helo:4000034 ;
+    helo:9000014 heo:dependsOn .
+
+helo:0000011 a owl:Class ;
+    rdfs:label "curriculum"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity that groups ordered course modules into one course of study, with its intended learners and its learning outcomes, such as a course on the semantic layer for health economics."@en ;
+    obo:IAO_0000116 "Unlike a learning pathway, a curriculum may have task capability goals, because a course can train learners to carry out tasks. A curriculum usually holds goals of both kinds."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Christou et al. 2025; The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+helo:0000013 a owl:Class ;
+    rdfs:label "publication status"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity stating whether a learning pathway, a curriculum or a course module is published or is still a draft."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+helo:4000033 a owl:NamedIndividual,
+        helo:0000010 ;
+    rdfs:label "prerequisite from HEO assumes"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite derivation rule by which a HEO assumes relationship from a method or model to an assumption gives the proposal that the assumption is understood no later than the method or model, so that the two may be taught in one step."@en ;
+    obo:IAO_0000116 "HEO marks assumes for learning. Assumptions are usually taught with their method, so a pair in one step agrees with the pathway and only an assumption taught later conflicts (curator decision, 19 October 2026, after review B S2)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000034 ;
+    helo:9000014 heo:assumes .
+
+helo:0000006 a owl:Class ;
+    rdfs:label "learning goal"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An objective specification that states what a learner is intended to reach by following a learning pathway, a curriculum or a course module."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000005 .
+
+helo:4000005 a owl:NamedIndividual,
+        helo:0000005 ;
+    rdfs:label "economic modeller"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An intended learner profile of a person who designs, builds, runs or checks economic models."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "modeller"@en ;
+    obo:IAO_0000119 "Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief; HETO 0.3.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    owl:differentFrom helo:4000006 ;
+    helo:9000008 heto:0000041 .
+
+helo:4000006 a owl:NamedIndividual,
+        helo:0000005 ;
+    rdfs:label "policy maker"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An intended learner profile of a person who takes or advises on decisions about health policy, funding or access, and who uses health economic evidence rather than producing it."@en ;
+    obo:IAO_0000116 "No pathway or curriculum is stated to be for policy makers yet. Open question for Darrin Baines."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> .
+
+helo:4000034 a owl:NamedIndividual,
+        helo:0000010 ;
+    rdfs:label "prerequisite from HEO used to calculate"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A prerequisite derivation rule by which a HEO used to calculate relationship from an input to a result gives the weaker proposal that the input is understood before the result, only where the input is part of what the result means, read as the HEO definition of the result naming the input."@en ;
+    obo:IAO_0000116 "HEO marks used to calculate for formal inference and navigation, not for learning, so HELO keeps these proposals as a separate weaker tier (curator decision, 19 October 2026). An input that is only one way of computing the result, such as cumulative hazard for a transition probability, gives no proposal (review B S1)."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    helo:9000014 heo:usedToCalculate .
+
+helo:9000014 a owl:AnnotationProperty ;
+    rdfs:label "is derived from HEO property"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "Relates a prerequisite derivation rule to the HEO relationship type it reads."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    heao:9000001 heao:4000002 .
+
+helo:0000014 a owl:Class ;
+    rdfs:label "prerequisite status"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity stating how far a prerequisite relationship has been reviewed, as proposed from HEO, proposed from an unreviewed HEO relationship, accepted by a curator or rejected by a curator."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+helo:0000010 a owl:Class ;
+    rdfs:label "prerequisite derivation rule"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity stating from which kind of HEO relationship a prerequisite relationship is derived, and which of the two related concepts is to be understood first."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000033 .
+
+helo:0000012 a owl:Class ;
+    rdfs:label "course module"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity that is one ordered unit of exactly one curriculum, with the learning topics, HEO concepts and material it uses."@en ;
+    obo:IAO_0000116 "A directive information entity like the curriculum it is part of."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "module"@en ;
+    obo:IAO_0000119 "Christou et al. 2025; The Semantic Layer for Health Economics, course outline draft for Michelle Ashley and Darrin Baines, 18 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty helo:1000024 ;
+            owl:someValuesFrom helo:0000011 ],
+        obo:IAO_0000033 .
+
+helo:0000005 a owl:Class ;
+    rdfs:label "intended learner profile"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "An information content entity that describes a kind of learner for whom a learning pathway or a curriculum is intended, by role or background, such as a student or a health technology assessment analyst. It describes an audience, not a person or a role that a person bears."@en ;
+    obo:IAO_0000116 "Profiles may overlap, an economic modeller is usually also a health economist, and student is a stage rather than a role, so a pathway may be for several profiles. A profile may name the HETO role whose bearers it describes, through has corresponding HETO role. The profile is information about an audience and the HETO role is a role in reality, so the two are related by an annotation and neither is a kind of the other."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "intended learner"@en,
+        "persona"@en ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; Christou et al. 2025" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000030 .
+
+helo:0000009 a owl:Class ;
+    rdfs:label "prerequisite relationship"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A data entity recording that understanding one HEO concept is needed, or proposed to be needed, before another HEO concept can be understood, with the HEO relationships it was derived from, its status and whether the learning pathways order the two concepts the same way."@en ;
+    obo:IAO_0000116 "A record, so a data entity, as the family puts its records. In HELO 0.2.0 every prerequisite relationship is a proposal derived from HEO relationships and none is asserted as fact. Proposals are not transitive for learning beyond one step, so a long chain is not a required route. A learning pathway itself asserts only the order of its steps and the concepts it builds on. Each record names the pathways whose order agrees with it, the pathways whose order conflicts with it and the pathways that put both concepts in one step."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "prerequisite record"@en ;
+    obo:IAO_0000119 "HELO 0.2.0 design (best practice), Michelle Ashley with Claude, 19 October 2026; HEO 2.0.0" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf obo:IAO_0000027 .
+
+helo:0000002 a owl:Class ;
+    rdfs:label "learning step"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity that is one ordered part of exactly one learning pathway, naming the topic studied at that point and the HEO concepts it covers, as core concepts to learn and optional concepts that go further."@en ;
+    obo:IAO_0000116 "A step directs what to study at one point of its pathway, so it is a directive information entity like the pathway it is part of. A step is identified by its pathway and its topic, not by its position, so a step keeps its identifier when the steps of a pathway are reordered. Its position is the datatype value has step position."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000119 "Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026; HealthEconomics.wiki Learning Layer, /api/pathways and the pathway framework pages, read 19 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom helo:0000007 ;
+            owl:onProperty helo:1000012 ],
+        [ a owl:Restriction ;
+            owl:onProperty helo:1000002 ;
+            owl:someValuesFrom helo:0000001 ],
+        obo:IAO_0000033 .
+
+helo:0000001 a owl:Class ;
+    rdfs:label "learning pathway"@en ;
+    obo:IAO_0000114 obo:IAO_0000125 ;
+    obo:IAO_0000115 "A directive information entity that sets out an ordered series of learning steps through which a learner builds understanding of related health economics concepts, from foundational concepts to more advanced ones. A learning pathway prepares a learner for health economics tasks but does not train the learner to carry them out."@en ;
+    obo:IAO_0000116 "Darrin Baines's scope of 18 October 2026. Pathways help people understand concepts in a logical order from core to advanced, and they do not teach how to carry out tasks. The line follows the revised Bloom taxonomy (Krathwohl 2002). A pathway may aim at remembering and understanding, including explaining how a method works, which is understanding of procedural knowledge, and it may not train the carrying out of a procedure. A pathway is a plan of study, not a HETO task. HELO keeps the two apart in three ways. A learning pathway has only concept understanding goals (an OWL restriction and a SHACL rule), its relationship to a HETO task is prepares for task and never one of training, and a learning pathway may not also be typed as a HETO task specification (a SHACL rule). The Curriculum KG learning path is close in meaning and is mapped in SSSOM, not used as a parent, because its axioms require every learning step to have exactly one next step and one previous step, which a last step does not have."@en ;
+    obo:IAO_0000117 "Michelle Ashley (drafted with Claude)" ;
+    obo:IAO_0000118 "pathway"@en ;
+    obo:IAO_0000119 "Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief; Ashley M. How the knowledge map works, notes for the site developer, 12 October 2026" ;
+    dcterms:contributor <https://orcid.org/0009-0006-0231-3731> ;
+    rdfs:isDefinedBy <https://healtheconomics.wiki/ontologies/helo> ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom helo:0000007 ;
+            owl:onProperty helo:1000012 ],
+        [ a owl:Restriction ;
+            owl:onProperty helo:1000001 ;
+            owl:someValuesFrom helo:0000002 ],
+        obo:IAO_0000033 ;
+    helo:9000001 "Learning pathways build understanding, not hands-on skills."@en .
+
+<https://healtheconomics.wiki/ontologies/helo> a owl:Ontology ;
+    dcterms:created "2026-10-19"^^xsd:date ;
+    dcterms:creator <https://orcid.org/0000-0001-9502-4678>,
+        <https://orcid.org/0009-0006-0231-3731> ;
+    dcterms:description "The Health Economics Learning Ontology (HELO) states the learning pathways of HealthEconomics.wiki as an ontology, ordered learning steps that build understanding of HEO concepts from foundational to advanced, with their pathway frameworks, intended learner profiles, learning goals and the prerequisite relationships proposed from HEO, and gives courses such as the semantic layer course a shared structure of curricula and course modules. Learning pathways build understanding, not hands-on skills. They prepare a learner for the tasks of the Health Economics Task Ontology (HETO) and do not train them. Classes are information entities of IAO under BFO 2020, and the Curriculum KG Ontology and schema.org are mapped in SSSOM, not imported. HELO here is the Health Economics Learning Ontology of HealthEconomics.wiki. It is not the HypothEsis and Law Ontology, also called HELO (Soldatova et al. 2013), and is unrelated to it."@en ;
+    dcterms:issued "2026-10-19"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:modified "2026-10-19"^^xsd:date ;
+    dcterms:publisher "Intelligent Parameters Ltd" ;
+    dcterms:source "Baines D. Scope of the learning pathways ontology, 18 October 2026, passed on by Michelle Ashley in the HELO 0.2.0 brief" ;
+    dcterms:title "Health Economics Learning Ontology (HELO)"@en ;
+    vann:preferredNamespacePrefix "helo" ;
+    vann:preferredNamespaceUri "https://healtheconomics.wiki/ontologies/helo/HELO_" ;
+    rdfs:comment "Version 0.1.0 alpha, fixed in place after three independent reviews of 19 October 2026. Not uploaded. Every term has the curation status pending final vetting, and every proposal requires discussion. HELO here is the Health Economics Learning Ontology of HealthEconomics.wiki. It is not the HypothEsis and Law Ontology, also called HELO (Soldatova et al. 2013), and is unrelated to it."@en ;
+    rdfs:seeAlso <https://healtheconomics.wiki/knowledge-map> ;
+    owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.owl>,
+        <https://healtheconomics.wiki/ontologies/helo/0.2.0/imports/heao-linking-kinds.owl>,
+        <https://healtheconomics.wiki/ontologies/helo/0.2.0/imports/iao-extract.owl> ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/helo/0.2.0/helo.owl> ;
+    owl:versionInfo "0.2.0" .
+
+[] a owl:Axiom ;
+    rdfs:comment "The HELO profile health economist describes people who bear this HETO role. HELO defines health economist as \"An intended learner profile of a person who works in health economics, in research, in practice or in government.\" and HETO defines health economics practitioner role as \"A role borne by a person that is realised when that person carries out health economics work, such as framing, costing, modelling, analysing or reporting an economic evaluation.\". The profile is information about an audience and the role is borne by people, so the profile describes the role's bearers, a representational relationship."@en ;
+    owl:annotatedProperty helo:9000008 ;
+    owl:annotatedSource helo:4000002 ;
+    owl:annotatedTarget heto:0000040 ;
+    heao:9000001 heao:4000002 .
+
+[] a owl:Axiom ;
+    rdfs:comment "The rule reads the HEO relationship type Assumes and records a proposed order of learning, so it represents HEO relationships and does not change them. HEO marks assumes for learning. Assumptions are usually taught with their method, so a pair in one step agrees with the pathway and only an assumption taught later conflicts (curator decision, 19 October 2026, after review B S2)."@en ;
+    owl:annotatedProperty helo:9000014 ;
+    owl:annotatedSource helo:4000033 ;
+    owl:annotatedTarget heo:assumes ;
+    heao:9000001 heao:4000002 .
+
+[] a owl:Axiom ;
+    rdfs:comment "The rule reads the HEO relationship type Used to calculate and records a proposed order of learning, so it represents HEO relationships and does not change them. HEO marks used to calculate for formal inference and navigation, not for learning, so HELO keeps these proposals as a separate weaker tier (curator decision, 19 October 2026). An input that is only one way of computing the result, such as cumulative hazard for a transition probability, gives no proposal (review B S1)."@en ;
+    owl:annotatedProperty helo:9000014 ;
+    owl:annotatedSource helo:4000034 ;
+    owl:annotatedTarget heo:usedToCalculate ;
+    heao:9000001 heao:4000002 .
+
+[] a owl:Axiom ;
+    rdfs:comment "The rule reads the HEO relationship type Prerequisite for and records a proposed order of learning, so it represents HEO relationships and does not change them. HEO defines prerequisite for as a learning dependency and marks it for learning."@en ;
+    owl:annotatedProperty helo:9000014 ;
+    owl:annotatedSource helo:4000030 ;
+    owl:annotatedTarget heo:prerequisiteFor ;
+    heao:9000001 heao:4000002 .
+
+[] a owl:Axiom ;
+    rdfs:comment "The rule reads the HEO relationship type Depends on and records a proposed order of learning, so it represents HEO relationships and does not change them. HEO marks depends on for learning. It holds one relationship in HEO 2.0.0."@en ;
+    owl:annotatedProperty helo:9000014 ;
+    owl:annotatedSource helo:4000032 ;
+    owl:annotatedTarget heo:dependsOn ;
+    heao:9000001 heao:4000002 .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( helo:0000001 helo:0000002 helo:0000003 helo:0000004 helo:0000005 helo:0000006 helo:0000009 helo:0000010 helo:0000011 helo:0000012 helo:0000013 helo:0000014 ) .
+
+[] a owl:Axiom ;
+    rdfs:comment "The HELO profile economic modeller describes people who bear this HETO role. HELO defines economic modeller as \"An intended learner profile of a person who designs, builds, runs or checks economic models.\" and HETO defines economic modeller role as \"A health economics practitioner role that is realised when its bearer designs, builds, runs or checks an economic model.\". The profile is information about an audience and the role is borne by people, so the profile describes the role's bearers, a representational relationship."@en ;
+    owl:annotatedProperty helo:9000008 ;
+    owl:annotatedSource helo:4000005 ;
+    owl:annotatedTarget heto:0000041 ;
+    heao:9000001 heao:4000002 .
+
+[] a owl:Axiom ;
+    rdfs:comment "The rule reads the HEO relationship type Is foundation for and records a proposed order of learning, so it represents HEO relationships and does not change them. HEO defines is foundation for as a basic idea on which another is built and marks it for learning."@en ;
+    owl:annotatedProperty helo:9000014 ;
+    owl:annotatedSource helo:4000031 ;
+    owl:annotatedTarget heo:isFoundationFor ;
+    heao:9000001 heao:4000002 .
+
+
+<https://healtheconomics.wiki/ontologies/helo> <http://www.w3.org/2002/07/owl#priorVersion> <https://healtheconomics.wiki/ontology/helo/0.1.0/helo.owl> ;
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Version 0.2.0 moves every HELO address from https://healtheconomics.wiki/ontology/helo to https://healtheconomics.wiki/ontologies/helo, so the ontology identifier, its version identifier and its terms match the ontology page on the site. Every class, property, definition and axiom is the same as in 0.1.0, and the imports now point to the family releases made at the same time (HEO 2.0.0, RHEO 0.4.0, OHEO 0.3.0, HETO 0.3.0, HEAO 0.2.0, HEMO 0.2.0, HELO 0.2.0, HEIRO 0.2.0). The old /ontology/ addresses are retired and are not redirected."@en .

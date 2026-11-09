@@ -1,0 +1,423 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix oheo:    <https://healtheconomics.wiki/ontologies/oheo/OHEO_> .
+@prefix rheo:    <https://healtheconomics.wiki/ontologies/rheo/RHEO_> .
+@prefix obo:     <http://purl.obolibrary.org/obo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rc:      <https://healtheconomics.wiki/ontologies/oheo/reference-case-shapes#> .
+
+# OHEO reference case rules (SHACL), version 0.2.0. Written by src/reference_case_shapes.py from
+# src/reference_case_profiles.json; do not edit by hand. Each profile is a named individual in oheo.ttl. Only the health
+# outcome side of each reference case is checked: costs, their perspective and their discounting belong to RHEO.
+# Rules checked against the body's own text are Violations; the others are Warnings until someone checks them.
+
+<https://healtheconomics.wiki/ontologies/oheo/reference-case-shapes> a owl:Ontology ;
+    owl:versionIRI <https://healtheconomics.wiki/ontologies/oheo/0.3.0/oheo-reference-case-shapes.ttl> ;
+    owl:versionInfo "0.3.0" ;
+    dcterms:title "OHEO reference case rules"@en ;
+    dcterms:issued "2026-10-16" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    rdfs:seeAlso <https://healtheconomics.wiki/ontologies/oheo/0.3.0/oheo.owl> ;
+    rdfs:comment "First release of the reference case rules. In OHEO 0.1.0 the requirements were OWL classes with 'some' restrictions, which no reasoner can use to reject an analysis."@en .
+
+rc:ConformanceClaimShape a sh:NodeShape ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:property [ sh:path oheo:1000036 ; sh:class oheo:0000327 ;
+        sh:message "An analysis can claim conformance only to a reference case profile (an individual of OHEO_0000327)." ] .
+
+rc:NICE_PMG51_2026 a sh:NodeShape ;
+    rdfs:label "Rules of the NICE reference case for health effects (PMG36 as amended by PMG51, 2026)"@en ;
+    dcterms:source "NICE 2026 (PMG51, Interim methods statement: implementing the EQ-5D-5L value set, 27 August 2026); NICE 2022 (PMG36)" ;
+    rdfs:isDefinedBy oheo:0000390 ;
+    sh:severity sh:Violation ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): health effects are expressed in QALYs, and the analysis reports no QALY record." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000390 . } FILTER NOT EXISTS { $this obo:OBI_0000299 ?q . ?q a rheo:0000092 } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): discounted QALYs use an annual rate of 0.035 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000390 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.035) > 0.0000001) }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): applies to topics started on or after 2026-08-27, so the analysis must state its topic start date (OHEO_2000035)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000390 . } FILTER NOT EXISTS { $this oheo:2000035 ?d } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): applies only to topics started on or after 2026-08-27; this topic started on {?value}, so it follows the PMG36 rules (PMG51 1.17, 1.18)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE { { $this oheo:1000036 oheo:0000390 . } { $this oheo:2000035 ?value . } FILTER (STR(?value) < "2026-08-27") }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): adult utilities in the reference case come from the EQ-5D-5L UK value set (Rowen 2026) (PMG51 1.6, Appendix A 4.3.6); {?u} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u ?value WHERE { { $this oheo:1000036 oheo:0000390 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } { ?u oheo:1000014 ?value . } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } FILTER NOT EXISTS { ?value a/rdfs:subClassOf* oheo:0000297 } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): EQ-5D-3L value set utilities are not used, including in sensitivity and scenario analyses (PMG51 1.13); {?u} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u ?value WHERE { { $this oheo:1000036 oheo:0000390 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000014 ?value . } FILTER EXISTS { ?value a/rdfs:subClassOf* oheo:0000174 } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): the severity weight {?value} does not match the QALY shortfall (proportional {?p}, absolute {?a}); the weight is 1.7 if proportional shortfall is at least 0.95 or absolute shortfall at least 18, 1.2 if at least 0.85 or 12, and 1 otherwise (PMG36 table 6.1)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value ?p ?a WHERE { { $this oheo:1000036 oheo:0000390 . } { $this oheo:2000025 ?value ; oheo:1000030 ?ps , ?as . } { ?ps a oheo:0000271 ; rheo:2000001 ?p . } { ?as a oheo:0000270 ; rheo:2000001 ?a . } BIND (IF(?p >= 0.95 || ?a >= 18, 1.7, IF(?p >= 0.85 || ?a >= 12, 1.2, 1.0)) AS ?w) FILTER (ABS(?value - ?w) > 0.0000001) }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): a severity weight needs the proportional and absolute QALY shortfall estimates it rests on." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000390 . } { $this oheo:2000025 ?w . } FILTER (NOT EXISTS { $this oheo:1000030 ?ps . ?ps a oheo:0000271 } || NOT EXISTS { $this oheo:1000030 ?as . ?as a oheo:0000270 }) }""" ] .
+
+rc:NICE_PMG51_2026_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the NICE reference case for health effects (PMG36 as amended by PMG51, 2026)"@en ;
+    dcterms:source "NICE 2026 (PMG51, Interim methods statement: implementing the EQ-5D-5L value set, 27 August 2026); NICE 2022 (PMG36)" ;
+    rdfs:isDefinedBy oheo:0000390 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): {?u} is a mapped utility (EQ-5D-3L or a non-EQ-5D measure mapped to the EQ-5D-5L value set), a departure from the reference case that must be justified (PMG51 Appendix A 4.3.8)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000036 oheo:0000390 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000038 ?f . } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36 as amended by PMG51, 2026): the preferred instrument in adults is the EQ-5D-5L; {?u} comes from another instrument, which needs evidence that the preferred one is not appropriate (content validity, construct validity, responsiveness)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000036 oheo:0000390 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* oheo:0000124 } FILTER NOT EXISTS { ?u oheo:1000038 ?f } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } }""" ] .
+
+rc:NICE_PMG36_2022 a sh:NodeShape ;
+    rdfs:label "Rules of the NICE reference case for health effects (PMG36, 2022)"@en ;
+    dcterms:source "NICE 2022 (PMG36)" ;
+    rdfs:isDefinedBy oheo:0000391 ;
+    sh:severity sh:Violation ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): health effects are expressed in QALYs, and the analysis reports no QALY record." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000391 . } FILTER NOT EXISTS { $this obo:OBI_0000299 ?q . ?q a rheo:0000092 } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): discounted QALYs use an annual rate of 0.035 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000391 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.035) > 0.0000001) }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): topics started on or after 2026-08-27 follow PMG51; this topic started on {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value WHERE { { $this oheo:1000036 oheo:0000391 . } { $this oheo:2000035 ?value . } FILTER (STR(?value) >= "2026-08-27") }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): adult EQ-5D utilities in the reference case use the EQ-5D-3L UK value set (Dolan 1997); {?u} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u ?value WHERE { { $this oheo:1000036 oheo:0000391 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } { ?u oheo:1000014 ?value . } FILTER EXISTS { ?v a/rdfs:subClassOf* oheo:0000122 } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } FILTER NOT EXISTS { ?value a/rdfs:subClassOf* ?ok . FILTER (?ok IN (oheo:0000176)) } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): the EQ-5D-5L England value set (Devlin 2018) is not used in reference-case analyses; {?u} uses it." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000036 oheo:0000391 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000014 ?vs . } FILTER EXISTS { ?vs a/rdfs:subClassOf* oheo:0000178 } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): EQ-5D-5L responses are mapped to the EQ-5D-3L value set with the EQ-5D-5L to EQ-5D-3L mapping (NICE DSU, Hernandez Alava 2017); {?u} does not name that mapping." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000036 oheo:0000391 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } FILTER EXISTS { ?v a/rdfs:subClassOf* oheo:0000124 } FILTER NOT EXISTS { ?u oheo:1000038 ?f . ?f a/rdfs:subClassOf* oheo:0000186 } }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): the severity weight {?value} does not match the QALY shortfall (proportional {?p}, absolute {?a}); the weight is 1.7 if proportional shortfall is at least 0.95 or absolute shortfall at least 18, 1.2 if at least 0.85 or 12, and 1 otherwise (PMG36 table 6.1)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?value ?p ?a WHERE { { $this oheo:1000036 oheo:0000391 . } { $this oheo:2000025 ?value ; oheo:1000030 ?ps , ?as . } { ?ps a oheo:0000271 ; rheo:2000001 ?p . } { ?as a oheo:0000270 ; rheo:2000001 ?a . } BIND (IF(?p >= 0.95 || ?a >= 18, 1.7, IF(?p >= 0.85 || ?a >= 12, 1.2, 1.0)) AS ?w) FILTER (ABS(?value - ?w) > 0.0000001) }""" ] ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): a severity weight needs the proportional and absolute QALY shortfall estimates it rests on." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000391 . } { $this oheo:2000025 ?w . } FILTER (NOT EXISTS { $this oheo:1000030 ?ps . ?ps a oheo:0000271 } || NOT EXISTS { $this oheo:1000030 ?as . ?as a oheo:0000270 }) }""" ] .
+
+rc:NICE_PMG36_2022_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the NICE reference case for health effects (PMG36, 2022)"@en ;
+    dcterms:source "NICE 2022 (PMG36)" ;
+    rdfs:isDefinedBy oheo:0000391 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "NICE reference case for health effects (PMG36, 2022): the preferred instrument in adults is the EQ-5D; {?u} comes from another instrument, which needs evidence that the preferred one is not appropriate (content validity, construct validity, responsiveness)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000036 oheo:0000391 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* oheo:0000122 } FILTER NOT EXISTS { ?u oheo:1000038 ?f } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } }""" ] .
+
+rc:SecondPanel_2016_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the Second Panel reference case for health effects"@en ;
+    dcterms:source "Sanders et al. 2016" ;
+    rdfs:isDefinedBy oheo:0000392 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "Second Panel reference case for health effects: health effects are expressed in QALYs, and the analysis reports no QALY record." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000392 . } FILTER NOT EXISTS { $this obo:OBI_0000299 ?q . ?q a rheo:0000092 } }""" ] ;
+    sh:sparql [
+        sh:message "Second Panel reference case for health effects: discounted QALYs use an annual rate of 0.03 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000392 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.03) > 0.0000001) }""" ] .
+
+rc:CDA_AMC_2017_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the CDA-AMC reference case for health effects"@en ;
+    dcterms:source "CADTH 2017 (Guidelines for the Economic Evaluation of Health Technologies: Canada, 4th edition)" ;
+    rdfs:isDefinedBy oheo:0000393 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "CDA-AMC reference case for health effects: health effects are expressed in QALYs, and the analysis reports no QALY record." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000393 . } FILTER NOT EXISTS { $this obo:OBI_0000299 ?q . ?q a rheo:0000092 } }""" ] ;
+    sh:sparql [
+        sh:message "CDA-AMC reference case for health effects: discounted QALYs use an annual rate of 0.015 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000393 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.015) > 0.0000001) }""" ] .
+
+rc:PBAC_2016_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the PBAC base case for health effects"@en ;
+    dcterms:source "PBAC 2016 (Guidelines for preparing submissions to the PBAC, version 5.0); PBAC reviewed its base discount rate in July 2022, so the current rate needs checking" ;
+    rdfs:isDefinedBy oheo:0000394 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "PBAC base case for health effects: discounted QALYs use an annual rate of 0.05 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000394 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.05) > 0.0000001) }""" ] .
+
+rc:IQWiG_2022_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the IQWiG approach to health effects in economic evaluation"@en ;
+    dcterms:source "IQWiG General Methods (the 0.1.0 draft cited version 6.1, 2022; version 7.0, 2023, is current and has not been checked)" ;
+    rdfs:isDefinedBy oheo:0000395 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "IQWiG approach to health effects in economic evaluation: discounted QALYs use an annual rate of 0.03 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000395 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.03) > 0.0000001) }""" ] .
+
+rc:ICER_2025 a sh:NodeShape ;
+    rdfs:label "Rules of the ICER reference case for health effects"@en ;
+    dcterms:source "ICER's Reference Case for Economic Evaluations: Elements and Rationale (current as of 23 October 2025)" ;
+    rdfs:isDefinedBy oheo:0000396 ;
+    sh:severity sh:Violation ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "ICER reference case for health effects: health effects are expressed in QALYs, and the analysis reports no QALY record." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000396 . } FILTER NOT EXISTS { $this obo:OBI_0000299 ?q . ?q a rheo:0000092 } }""" ] ;
+    sh:sparql [
+        sh:message "ICER reference case for health effects: discounted QALYs use an annual rate of 0.03 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000396 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.03) > 0.0000001) }""" ] .
+
+rc:ICER_2025_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the ICER reference case for health effects"@en ;
+    dcterms:source "ICER's Reference Case for Economic Evaluations: Elements and Rationale (current as of 23 October 2025)" ;
+    rdfs:isDefinedBy oheo:0000396 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "ICER reference case for health effects: the preferred instrument in adults is the EQ-5D-5L; {?u} comes from another instrument, which needs evidence that the preferred one is not appropriate (content validity, construct validity, responsiveness)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000036 oheo:0000396 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* oheo:0000124 } FILTER NOT EXISTS { ?u oheo:1000038 ?f } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } }""" ] .
+
+rc:HAS_2020_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the HAS reference case for health effects"@en ;
+    dcterms:source "HAS 2020 (Choix méthodologiques pour l'évaluation économique à la HAS); the guide page shows an update of 8 July 2026 that has not been checked" ;
+    rdfs:isDefinedBy oheo:0000397 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "HAS reference case for health effects: health effects are expressed in QALYs, and the analysis reports no QALY record." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000397 . } FILTER NOT EXISTS { $this obo:OBI_0000299 ?q . ?q a rheo:0000092 } }""" ] ;
+    sh:sparql [
+        sh:message "HAS reference case for health effects: discounted QALYs use an annual rate of 2.5% for the first 30 years, then 1.5% (as recorded in 0.1.0; not rechecked) for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000397 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.025) > 0.0000001 && ABS(?value - 0.015) > 0.0000001) }""" ] ;
+    sh:sparql [
+        sh:message "HAS reference case for health effects: adult EQ-5D utilities in the reference case use the EQ-5D-5L France value set (Andrade 2020); {?u} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u ?value WHERE { { $this oheo:1000036 oheo:0000397 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } { ?u oheo:1000014 ?value . } FILTER EXISTS { ?v a/rdfs:subClassOf* oheo:0000122 } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } FILTER NOT EXISTS { ?value a/rdfs:subClassOf* ?ok . FILTER (?ok IN (oheo:0000300)) } }""" ] ;
+    sh:sparql [
+        sh:message "HAS reference case for health effects: the preferred instrument in adults is the EQ-5D-5L; {?u} comes from another instrument, which needs evidence that the preferred one is not appropriate (content validity, construct validity, responsiveness)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000036 oheo:0000397 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* oheo:0000124 } FILTER NOT EXISTS { ?u oheo:1000038 ?f } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } }""" ] .
+
+rc:ZIN_2024_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the ZIN reference case for health effects"@en ;
+    dcterms:source "ZIN 2024 (Richtlijn voor het uitvoeren van economische evaluaties in de gezondheidszorg, versie 2024)" ;
+    rdfs:isDefinedBy oheo:0000398 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "ZIN reference case for health effects: health effects are expressed in QALYs, and the analysis reports no QALY record." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000398 . } FILTER NOT EXISTS { $this obo:OBI_0000299 ?q . ?q a rheo:0000092 } }""" ] ;
+    sh:sparql [
+        sh:message "ZIN reference case for health effects: discounted QALYs use an annual rate of 0.015 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000398 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.015) > 0.0000001) }""" ] ;
+    sh:sparql [
+        sh:message "ZIN reference case for health effects: adult EQ-5D utilities in the reference case use the EQ-5D-5L Netherlands value set (Versteegh 2016); {?u} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u ?value WHERE { { $this oheo:1000036 oheo:0000398 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } { ?u oheo:1000014 ?value . } FILTER EXISTS { ?v a/rdfs:subClassOf* oheo:0000122 } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } FILTER NOT EXISTS { ?value a/rdfs:subClassOf* ?ok . FILTER (?ok IN (oheo:0000299)) } }""" ] ;
+    sh:sparql [
+        sh:message "ZIN reference case for health effects: the preferred instrument in adults is the EQ-5D-5L; {?u} comes from another instrument, which needs evidence that the preferred one is not appropriate (content validity, construct validity, responsiveness)." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?u WHERE { { $this oheo:1000036 oheo:0000398 . } { $this obo:OBI_0000293 ?u . } { ?u oheo:1000013 ?v . } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* oheo:0000124 } FILTER NOT EXISTS { ?u oheo:1000038 ?f } FILTER NOT EXISTS { ?v a/rdfs:subClassOf* ?y . FILTER (?y IN (oheo:0000125, oheo:0000324)) } }""" ] .
+
+rc:TLV_2017_advice a sh:NodeShape ;
+    rdfs:label "Advice and unchecked rules of the TLV reference case for health effects"@en ;
+    dcterms:source "TLV 2017" ;
+    rdfs:isDefinedBy oheo:0000399 ;
+    sh:severity sh:Warning ;
+    sh:targetSubjectsOf oheo:1000036 ;
+    sh:sparql [
+        sh:message "TLV reference case for health effects: health effects are expressed in QALYs, and the analysis reports no QALY record." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this WHERE { { $this oheo:1000036 oheo:0000399 . } FILTER NOT EXISTS { $this obo:OBI_0000299 ?q . ?q a rheo:0000092 } }""" ] ;
+    sh:sparql [
+        sh:message "TLV reference case for health effects: discounted QALYs use an annual rate of 0.03 for health effects; {?q} uses {?value}." ;
+        sh:select """
+            PREFIX oheo: <https://healtheconomics.wiki/ontologies/oheo/OHEO_>
+            PREFIX rheo: <https://healtheconomics.wiki/ontologies/rheo/RHEO_>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT $this ?q ?value WHERE { { $this oheo:1000036 oheo:0000399 . } { $this obo:OBI_0000299 ?q . } { ?q a rheo:0000092 ; rheo:2000062 true ; rheo:2000031 ?value . } FILTER (ABS(?value - 0.03) > 0.0000001) }""" ] .
