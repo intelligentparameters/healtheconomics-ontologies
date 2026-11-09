@@ -1,0 +1,41 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HEIRO 0.2.0, severity weighting rule</title><meta name="description" content="Part of the documentation for the Health Economics Institutions and Rules Ontology (HEIRO), version 0.2.0 (alpha)."><style>
+:root{--bg:#fbf8f2;--card:#fffdf8;--fg:#24211c;--muted:#6b6458;--line:#e4dccd;--gold:#a87b1e;--accent:#1f4e79;--chip:#f1ead9;--warn:#b3261e;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171512;--card:#1f1c18;--fg:#ece6da;--muted:#b0a796;--line:#3a352d;--gold:#d6a94a;--accent:#8db8e0;--chip:#2b2721;--warn:#f28b82;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171512;--card:#1f1c18;--fg:#ece6da;--muted:#b0a796;--line:#3a352d;--gold:#d6a94a;--accent:#8db8e0;--chip:#2b2721;--warn:#f28b82;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)} a:hover{text-decoration:none}
+.kicker{color:var(--gold);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;text-wrap:balance}
+h1{font-size:2.1rem;margin:.3rem 0 .8rem} h2{font-size:1.45rem;margin:2.2rem 0 .8rem} h3{font-size:1.08rem;margin:0 0 .3rem}
+.lede{max-width:70ch} .muted{color:var(--muted)} .small{font-size:.9rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:8px;padding:14px 16px;min-width:0}
+.card p{margin:.3rem 0 0;font-size:.93rem}
+.meta{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.meta dt{color:var(--muted)} .meta dd{margin:0;min-width:0;overflow-wrap:anywhere}
+@media (max-width:560px){.meta{grid-template-columns:1fr}.meta dt{margin-top:6px}}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:.6rem 0}
+.chip{background:var(--chip);border-radius:999px;padding:3px 11px;font-size:.85rem}
+.search{width:100%;max-width:520px;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--fg);font-size:1rem}
+.term{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin:10px 0;min-width:0}
+.term h3 a{color:inherit;text-decoration:none}
+.iri{font-family:ui-monospace,Consolas,monospace;font-size:.8rem;color:var(--muted);overflow-wrap:anywhere}
+.def{margin:.45rem 0}
+.rel{font-size:.9rem;margin:.2rem 0;overflow-wrap:anywhere} .rel b{font-weight:600;color:var(--muted)}
+.dep{color:var(--warn);font-weight:600;font-size:.88rem}
+.st{font-size:.78rem;color:var(--muted)}
+.ext{font-size:.72rem;color:var(--muted);margin-left:2px}
+details>summary{cursor:pointer;font-weight:600;padding:6px 0}
+.cite{background:var(--card);border-left:3px solid var(--gold);padding:10px 14px;border-radius:4px;overflow-wrap:anywhere}
+.tablewrap{overflow-x:auto} table{border-collapse:collapse;width:100%;font-size:.92rem} th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top} th{color:var(--muted);font-weight:600}
+nav.pages{display:flex;flex-wrap:wrap;gap:6px;margin:.6rem 0} nav.pages a{background:var(--chip);border-radius:6px;padding:3px 9px;text-decoration:none;font-size:.9rem}
+footer{margin-top:3rem;color:var(--muted);font-size:.88rem;border-top:1px solid var(--line);padding-top:1rem}
+</style></head><body><div class="wrap"><p class="kicker"><a href="../">Health Economics Ontologies</a> · <a href="index.html">HEIRO 0.2.0</a></p><h1>Health Economics Institutions and Rules Ontology (HEIRO)</h1><p class="muted">1 records on this page.</p><label for="q" class="muted">Filter this page</label><br><input id="q" class="search" type="search" autocomplete="off"> <span id="n" class="muted"></span><div class="term" id="HEIRO_5000194" data-s="nice severity modifier, qaly weights of 1, 1.2 and 1.7 by qaly shortfall heiro_5000194   "><h3><a href="#HEIRO_5000194">NICE severity modifier, QALY weights of 1, 1.2 and 1.7 by QALY shortfall</a></h3><div class="iri"><a href="https://healtheconomics.wiki/ontologies/heiro/HEIRO_5000194">https://healtheconomics.wiki/ontologies/heiro/HEIRO_5000194</a></div><div class="rel"><b>Type</b> <a href="index.html#HEIRO_0000011">stated decision rule</a>, <a href="../heao/index.html#HEAO_0000018">severity weighting rule</a></div><div class="rel"><b>comment</b> Stated in PMG36, in the versions of 13 October 2026.</div><div class="rel"><b>has applicability condition</b> Technology appraisals. Section 6.2.20 applies no severity weighting to highly specialised technologies</div><div class="rel"><b>has first-read version date</b> 2026-10-13</div><div class="rel"><b>is issued by</b> <a href="records-obi_0000245.html#HEIRO_5000001">National Institute for Health and Care Excellence</a></div><div class="rel"><b>is stated in provision</b> <a href="records-heiro_0000010.html#HEIRO_5000195">PMG36 section 6.2.18, version of 13 October 2026</a>, <a href="records-heiro_0000010.html#HEIRO_5000196">PMG36 table 6.1, version of 13 October 2026</a></div><div class="rel"><b>isDefinedBy</b> <a href="https://healtheconomics.wiki/ontologies/heiro/heiro-register.owl">heiro-register.owl</a><span class="ext">external</span></div><div class="rel"><b>states value of type</b> <a href="../heao/index.html#HEAO_0000050">severity weight</a></div><div class="rel"><b>supplies policy input to</b> <a href="../hemo/records-hemo_0000010.html#HEMO_5000240">Severity QALY weight from the shortfall bands</a></div></div><footer>Generated from the release files in <a href="https://github.com/intelligentparameters/healtheconomics-ontologies">intelligentparameters/healtheconomics-ontologies</a> by tools/build_docs.py. Content CC BY 4.0, HealthEconomics.wiki.</footer></div><script>
+(function(){var q=document.getElementById('q');if(!q)return;var items=[].slice.call(document.querySelectorAll('[data-s]'));
+var n=document.getElementById('n');q.addEventListener('input',function(){var v=q.value.trim().toLowerCase(),c=0;
+items.forEach(function(e){var hit=!v||e.getAttribute('data-s').indexOf(v)>-1;e.hidden=!hit;if(hit)c++;});
+document.querySelectorAll('details.grp').forEach(function(d){if(v)d.open=true;});if(n)n.textContent=v?c+' matching on this page':'';});
+if(location.hash){var t=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(t){var d=t.closest('details');if(d)d.open=true;t.scrollIntoView();}}})();
+</script></body></html>
