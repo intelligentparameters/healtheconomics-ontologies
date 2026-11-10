@@ -19,7 +19,7 @@ Each ontology is identified by its address on the wiki, for example `https://hea
 
 ## Documentation
 
-The documentation pages list every term in each ontology with its definition and links, at https://intelligentparameters.github.io/healtheconomics-ontologies/ once GitHub Pages is switched on.
+The documentation pages list every term in each ontology with its definition and links, at https://intelligentparameters.github.io/healtheconomics-ontologies/
 
 ## What is in each release folder
 
