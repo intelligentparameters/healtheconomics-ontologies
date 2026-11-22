@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Health Economics Ontology (HEO)"
+version: "2.0.1"
+date-released: "2026-11-22"
+license: CC-BY-4.0
+url: "https://healtheconomics.wiki/ontologies/heo"
+repository: "https://bioportal.bioontology.org/ontologies/HEO"
+abstract: "The Health Economics Ontology (HEO) is a vocabulary of health economics concepts taken from HealthEconomics.wiki, each with a permanent web address, a name and a definition. It is written in the Simple Knowledge Organization System (SKOS) and the Web Ontology Language (OWL), with typed relationships between concepts such as part of, measures and used to calculate. Concepts sit under one top concept, Health Economics, and the subdomains of the wiki. HEO describes meanings, not real things, and its companion the Real Health Economics Ontology (RHEO) describes the real world. Version 2.0.1 adds 22 concepts published on the wiki between 14 and 21 November 2026, which the RHEO 0.5.1 mappings point to, with their links to concepts already in HEO. Nothing in version 2.0.0 is changed or removed."
+keywords:
+  - "health economics"
+  - "ontology"
+  - "SKOS"
+  - "controlled vocabulary"
+  - "thesaurus"
+  - "economic evaluation"
+  - "health technology assessment"
+  - "linked data"
+authors:
+  - family-names: "Baines"
+    given-names: "Darrin"
+    orcid: "https://orcid.org/0000-0001-9502-4678"
+  - family-names: "Ashley"
+    given-names: "Michelle"
+    orcid: "https://orcid.org/0009-0006-0231-3731"
+doi: 10.5281/zenodo.24445399

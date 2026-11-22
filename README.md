@@ -6,7 +6,7 @@ Each ontology has its own folder, with one subfolder per release. The ontology f
 
 | Ontology | What it covers | Release | DOI | BioPortal |
 |---|---|---|---|---|
-| [HEO](heo/2.0.0), Health Economics Ontology | The concepts of health economics, with definitions and typed links between them, taken from the wiki | 2.0.0 | [10.5281/zenodo.24057055](https://doi.org/10.5281/zenodo.24057055) | [HEO](https://bioportal.bioontology.org/ontologies/HEO) |
+| [HEO](heo/2.0.1), Health Economics Ontology | The concepts of health economics, with definitions and typed links between them, taken from the wiki | 2.0.1 | [10.5281/zenodo.24445399](https://doi.org/10.5281/zenodo.24445399) | [HEO](https://bioportal.bioontology.org/ontologies/HEO) |
 | [RHEO](rheo/0.4.0), Real Health Economics Ontology | The real things health economics works with, such as patients, resources, care processes and payments, and the records made about them | 0.4.0 (alpha) | [10.5281/zenodo.24057151](https://doi.org/10.5281/zenodo.24057151) | [RHEO](https://bioportal.bioontology.org/ontologies/RHEO) |
 | [OHEO](oheo/0.3.0), Outcomes Health Economics Ontology | Health outcomes as they are specified, measured, valued and summarised | 0.3.0 (alpha) | [10.5281/zenodo.24057194](https://doi.org/10.5281/zenodo.24057194) | [OHEO](https://bioportal.bioontology.org/ontologies/OHEO) |
 | [HETO](heto/0.3.0), Health Economics Task Ontology | Units of health economics work, such as adding discounting to a model, and the inputs and outputs of each | 0.3.0 (alpha) | [10.5281/zenodo.24057218](https://doi.org/10.5281/zenodo.24057218) | [HETO](https://bioportal.bioontology.org/ontologies/HETO) |
