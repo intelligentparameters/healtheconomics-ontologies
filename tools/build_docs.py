@@ -25,7 +25,7 @@ OIO = Namespace("http://www.geneontology.org/formats/oboInOwl#")
 VANN = Namespace("http://purl.org/vocab/vann/")
 BASE = "https://healtheconomics.wiki/ontologies/"
 CONCEPT = "https://healtheconomics.wiki/concept/"
-FAM = [("heo", "2.0.0", "24057055", "The concepts of health economics, with definitions and typed links between them, taken from the wiki"),
+FAM = [("heo", "2.0.1", "24445399", "The concepts of health economics, with definitions and typed links between them, taken from the wiki"),
        ("rheo", "0.4.0", "24057151", "The real things health economics works with, such as patients, resources, care processes and payments, and the records made about them"),
        ("oheo", "0.3.0", "24057194", "Health outcomes as they are specified, measured, valued and summarised"),
        ("heto", "0.3.0", "24057218", "Units of health economics work, such as adding discounting to a model, and the inputs and outputs of each"),
